@@ -57,10 +57,10 @@ public final class Constants
   //Arm does not include shooter it only the beam and the gearboxes attached to super structure
   public static final class Arm {
     //Creates the CAN id's for the 2 motor arm gearboxes on the super structure
-    public static final int rightMotorOneCANID = 0;
-    public static final int leftMotorOneCANID = 0;
-    public static final int rightMotorTwoCANDID = 0;
-    public static final int leftMotorTwoCANDID = 0;
+    public static final int rightMotorOne = 0;
+    public static final int leftMotorOne = 0;
+    public static final int rightMotorTwo = 0;
+    public static final int leftMotorTwo = 0;
 
     public static final boolean rightMotorOneCANIDInverted = true; //IDK if it needs to be inverted
     public static final boolean leftMotorOneCANIDInverted = true;
@@ -71,6 +71,28 @@ public final class Constants
 
     public static final double kSoftLimitReverse = 0;
     public static final double kSoftLimitForward = 0.0;
+
+
+    public static final class Shooter{
+
+      //CAN ID's for the shooter motors
+      public static final int topFlywheelMotor = 0;
+      public static final int bottomFlywheelMotor = 0;
+      public static final int topIndexingMotor = 0;
+      public static final int bottomIndexingMotor = 0;
+
+      public static final boolean topFlywheelMotorInverted = true;
+      public static final boolean topIndexingMotorInverted = true;
+
+      public static final PIDFConfig topFlywheelPID = new PIDFConfig(0,0,0 );
+      public static final PIDFConfig bottomFlywheelPID = new PIDFConfig(0,0,0);
+
+
+    }
+
+
+
+
 
     //IDK the gear ratios so these are place holders
     public static final double kArmGearRatio = (1.0 / 25.0) * (28.0 / 50.0) * (16.0 / 64.0); 

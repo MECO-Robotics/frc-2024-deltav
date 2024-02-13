@@ -18,7 +18,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     //idle flywheels
     public void idleFlywheels() {
-
+        
     }
 
     //aim speaker/rev flywheels
