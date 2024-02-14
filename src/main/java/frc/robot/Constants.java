@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.CAN;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
@@ -73,27 +76,6 @@ public final class Constants
     public static final double kSoftLimitForward = 0.0;
 
 
-    public static final class Shooter{
-
-      //CAN ID's for the shooter motors
-      public static final int topFlywheelMotor = 0;
-      public static final int bottomFlywheelMotor = 0;
-      public static final int topIndexingMotor = 0;
-      public static final int bottomIndexingMotor = 0;
-
-      public static final boolean topFlywheelMotorInverted = true;
-      public static final boolean topIndexingMotorInverted = true;
-
-      public static final PIDFConfig topFlywheelPID = new PIDFConfig(0,0,0 );
-      public static final PIDFConfig bottomFlywheelPID = new PIDFConfig(0,0,0);
-
-
-    }
-
-
-
-
-
     //IDK the gear ratios so these are place holders
     public static final double kArmGearRatio = (1.0 / 25.0) * (28.0 / 50.0) * (16.0 / 64.0); 
     public static final double kPositionFactor =
@@ -107,24 +89,30 @@ public final class Constants
     // ~76.9deg angle)
     public static final ArmFeedforward kArmFeedforward =
         new ArmFeedforward(0.0, 3.0, 12.0 / kArmFreeSpeed, 0.0);
-//    public static final PIDGains kArmPositionGains = new PIDGains();
+    //public static final PIDGains kArmPositionGains = new PIDGains();
     public static final TrapezoidProfile.Constraints kArmMotionConstraint =
         new TrapezoidProfile.Constraints(1.0, 2.0);
 
-    public static final double kHomePosition = 0.0;
-    public static final double kScoringPosition = 0.0;
-    public static final double kIntakePosition = 0;
+    //Differnt arm positions
+    public static final double kIntakePosition = 0.0;
+    public static final double kClimbingPosition = 0;
+    public static final double kAmpPosition = 0;
+    public static final double kStowPosition = 0;
+
+    //THe ops are lurking so be aware
+  public static final PIDFConfig armPID = new PIDFConfig(0,0,0);    
 
     //
     
-  
   }
 
   public static final class Intake {
     //public static final int kCanId = 0;
     public static final int intakeMotorCANID = 0;
+
     public static final boolean intakeMotorCANIDInverted = false;
-    public static final int kCurrentLimit = 0;
+
+    public static final int kIntakeCurrentLimit = 0;
 
 //    public static final PIDGains kPositionGains = new PIDGains();
     public static final double kPositionTolerance = 0;
@@ -132,13 +120,47 @@ public final class Constants
     public static final double kIntakePower = 0;
 
     public static final double kShotFeedTime = 0;
-  }
-
-
-
-  public static final class Shooter{
     
   }
+
+  public static final class Shooter{
+
+      //CAN ID's for the shooter motors
+      public static final int topFlywheelMotorLeft = 0;
+      public static final int topFlywheelMotorRight = 0;
+      public static final int bottomFlywheelMotorLeft = 0;
+      public static final int bottomFlywheelMotorRight = 0;
+      public static final int topIndexingMotor = 0;
+      public static final int bottomIndexingMotor = 0;
+
+    CANSparkMax topShooter = new CANSparkMax(topFlywheelMotorLeft, CANSparkMax.MotorType.kBrushless);
+    CANSparkMax followermode = new CANSparkMax(topFlywheelMotorRight, CANSparkMax.MotorType.kBrushless); 
+    
+
+    
+    
+    
+
+
+
+
+
+
+      public static final boolean topFlywheelMotorInverted = true;
+      public static final boolean topIndexingMotorInverted = true;
+
+      public static final int kShooterCurrentLimit = 0;
+
+      //Only needs 1 PID constant for flywheels 
+      //Top and bottom in follower mode
+      public static final PIDFConfig flywheelPID = new PIDFConfig(0,0,0 );
+     
+      public static final double IDLEMode = 0;
+
+
+      
+    }
+
 
 
 }

@@ -24,16 +24,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // intake initial command
     public void startIntaking(boolean shooterEmpty, boolean armDown) {
+        //start wheels at ___ speed
     }
 
     // handoff to shooter command
     public void handoffNote() {
+        //set wheels to ___ speed (slower than intaking?)
 
     }
 
     // emergency outtake command
     public void ejectIntake(boolean ejectOn) {
-
+        //set wheels to negative of intaking speed
     }
 
 }
