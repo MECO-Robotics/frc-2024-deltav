@@ -57,6 +57,9 @@ public final class Constants
     public static final double TURN_CONSTANT = 0.75;
   }
 
+  /* ------------------------------------------------------- *\
+  |                           A R M                           |
+  \* ------------------------------------------------------- */
   //Arm does not include shooter it only the beam and the gearboxes attached to super structure
   public static final class Arm {
     //Creates the CAN id's for the 2 motor arm gearboxes on the super structure
@@ -106,7 +109,12 @@ public final class Constants
     
   }
 
+  
+  /* ------------------------------------------------------- *\
+  |                        I N T A K E                        |
+  \* ------------------------------------------------------- */
   public static final class Intake {
+
     //public static final int kCanId = 0;
     public static final int intakeMotorCANID = 0;
 
@@ -114,15 +122,23 @@ public final class Constants
 
     public static final int kIntakeCurrentLimit = 0;
 
-//    public static final PIDGains kPositionGains = new PIDGains();
+    //public static final PIDGains kPositionGains = new PIDGains();
     public static final double kPositionTolerance = 0;
 
     public static final double kIntakePower = 0;
 
     public static final double kShotFeedTime = 0;
+
+    public static final double kIntakingSpeed = 0;
+    public static final double kHandoffSpeed = 0; //(slower than intaking?)
+
     
   }
 
+
+  /* ------------------------------------------------------- *\
+  |                       S H O O T E R                       |
+  \* ------------------------------------------------------- */
   public static final class Shooter{
 
       //CAN ID's for the shooter motors

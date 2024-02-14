@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -11,6 +12,8 @@ public class IntakeSubsystem extends SubsystemBase {
     // TODO Declare the motors used on the intake. Something like:
     // private CANSparkMax someMotor = new CANSparkMax(Constants.kSomeCanIDConstant,
     // MotorType.kBrushless);
+
+    private CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.intakeMotorCANID, MotorType.kBrushless);
 
     // TODO Declare a constructor like this:
     // public IntakeSubsystem() {
@@ -22,20 +25,28 @@ public class IntakeSubsystem extends SubsystemBase {
     //
     // }
 
-    // intake initial command
+    public IntakeSubsystem() {
+
+        // intakeMotorLeft.follow(intakemotorRight, true)
+        // should only need one motor for intake but have capabilities for two
+        
+    }
+
+    // intake start command
     public void startIntaking(boolean shooterEmpty, boolean armDown) {
-        //start wheels at ___ speed
+        //start wheels at kIntakingSpeed
+        
     }
 
     // handoff to shooter command
     public void handoffNote() {
-        //set wheels to ___ speed (slower than intaking?)
+        //set wheels to kHandoffSpeed (slower than intaking?)
 
     }
 
     // emergency outtake command
-    public void ejectIntake(boolean ejectOn) {
-        //set wheels to negative of intaking speed
+    public void ejectIntake() {
+        //set wheels to -(kIntakingSpeed)
     }
 
 }
