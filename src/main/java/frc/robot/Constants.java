@@ -63,10 +63,10 @@ public final class Constants
   //Arm does not include shooter it only the beam and the gearboxes attached to super structure
   public static final class Arm {
     //Creates the CAN id's for the 2 motor arm gearboxes on the super structure
-    public static final int rightMotorOne = 0;
-    public static final int leftMotorOne = 0;
-    public static final int rightMotorTwo = 0;
-    public static final int leftMotorTwo = 0;
+    public static final int rightMotorOneID = 0;
+    public static final int leftMotorOneID = 0;
+    public static final int rightMotorTwoID = 0;
+    public static final int leftMotorTwoID = 0;
 
     public static final boolean rightMotorOneCANIDInverted = true; //IDK if it needs to be inverted
     public static final boolean leftMotorOneCANIDInverted = true;
@@ -77,7 +77,7 @@ public final class Constants
 
     public static final double kSoftLimitReverse = 0;
     public static final double kSoftLimitForward = 0.0;
-
+    
 
     //IDK the gear ratios so these are place holders
     public static final double kArmGearRatio = (1.0 / 25.0) * (28.0 / 50.0) * (16.0 / 64.0); 
@@ -142,28 +142,14 @@ public final class Constants
   public static final class Shooter{
 
       //CAN ID's for the shooter motors
-      public static final int topFlywheelMotorLeft = 0;
-      public static final int topFlywheelMotorRight = 0;
-      public static final int bottomFlywheelMotorLeft = 0;
-      public static final int bottomFlywheelMotorRight = 0;
-      public static final int topIndexingMotor = 0;
-      public static final int bottomIndexingMotor = 0;
-
-    CANSparkMax topShooter = new CANSparkMax(topFlywheelMotorLeft, CANSparkMax.MotorType.kBrushless);
-    CANSparkMax followermode = new CANSparkMax(topFlywheelMotorRight, CANSparkMax.MotorType.kBrushless); 
+      public static final int leftLeaderFlywheelMotor = 0;
+      public static final int rightFollowerFlywheelMotor = 0;
+      public static final int indexingMotor = 0;
     
 
-    
-    
-    
-
-
-
-
-
-
-      public static final boolean topFlywheelMotorInverted = true;
-      public static final boolean topIndexingMotorInverted = true;
+      public static final boolean leftLeaderFlywheelMotorInverted = true;
+      public static final boolean rightFollowerFlywheelMotorInverted = false;
+      public static final boolean indexingMotorInverted = false;
 
       public static final int kShooterCurrentLimit = 0;
 

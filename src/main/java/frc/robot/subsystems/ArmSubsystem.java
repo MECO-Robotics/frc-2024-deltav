@@ -2,23 +2,43 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import frc.robot.Constants;
+
 public class ArmSubsystem extends SubsystemBase {
     
-    public void setArmPosition(float armPosition) {
+
+   /* ------------------------------------------------------- *\
+   |                       S H O O T E R                       |
+   \* ------------------------------------------------------- */
+
+    private CANSparkMax leftLeaderFlywheelMotor = new CANSparkMax(Constants.Shooter.leftLeaderFlywheelMotor, MotorType.kBrushless);
+    private CANSparkMax rightFollowerFlywheelMotor = new CANSparkMax(Constants.Shooter.rightFollowerFlywheelMotor, MotorType.kBrushless);
+    private CANSparkMax indexingMotor = new CANSparkMax(Constants.Shooter.indexingMotor, MotorType.kBrushless);
+
+
+
+    public ArmSubsystem() {
+
+        leftLeaderFlywheelMotor.setInverted(Constants.Shooter.leftLeaderFlywheelMotorInverted);
+        indexingMotor.setInverted(Constants.Shooter.indexingMotorInverted);
+
+        rightFollowerFlywheelMotor.follow(leftLeaderFlywheelMotor, true); 
+        
+    }
+
+
+    // Hey Brian don't worry about this code, sure it's jank but this is what we know how to do from previous years so let us cook b(￣▽￣)d
+
+    public  boolean setArmPosition(float armPosition) {
         //will be passed in with constants from xbox buttons
+        //possible positions: kStowPosition, kIntakePosition, kAmpPosition, kClimbingPosition, and the speaker aim position calculated from vision
+        return true;
     }
 
     //-----------------AIM/SHOOT-----------------
-    /*
-    //stow
-    public void stowArm() {
-        //set arm to kStowPosition
-    }
-
-    public void intakePositionArm() {
-        //set arm to kIntakePosition so that startIntaking() can start
-        //armDown = true;
-    }
+    
 
     //recieve
     public void recieveNote() {
@@ -28,27 +48,34 @@ public class ArmSubsystem extends SubsystemBase {
 
     //idle flywheels
     public void idleFlywheels() {
-        //set flywheels to ___
+        double idleSpeed = 0;
+        leftLeaderFlywheelMotor.set(idleSpeed);
     }
 
     //aim speaker/rev flywheels
     //angle starts at zero, can only increase
     public boolean aimSpeaker(float angle) {
-        //set arm to angle with vision whatever
-        return true;
+
+        boolean radarLock = setArmPosition(angle);
+
+        double flywheelShootSpeed = 0;
+        leftLeaderFlywheelMotor.set(flywheelShootSpeed);
+        double flywheelSpeed = leftLeaderFlywheelMotor.get(); //gets RPMs?
+
+        double difference = Math.abs(flywheelShootSpeed - flywheelSpeed);
+        boolean flywheelRevved = difference < 10.0;
+
+        return (radarLock && flywheelRevved);
     }
 
     //shoot speaker
     public void shootSpeaker() {
-        //rev flywheels to ___
-        //roll note into flywheels
+        double loadingSpeed = 0;
+        indexingMotor.set(loadingSpeed);
+        
     }
 
-    //aim amp
-    public boolean aimAmp() {
-        // set arm to kAmpPosition
-        return true;
-    }
+   
 
     //shoot amp
     public void shootAmp() {
@@ -57,15 +84,11 @@ public class ArmSubsystem extends SubsystemBase {
 
     //--------------CLIMB--------------
     
-    //prepare for climb
-    public void armUp() {
-        //set arm to kClimbingPosition
-    }
 
     //switch to manual climb
     public void manualClimb(float climbRate) {
         //get climb rate from controller
     }
-    */
+    
 
 }
