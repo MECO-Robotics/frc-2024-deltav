@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -54,6 +55,15 @@ public class ArmSubsystem extends SubsystemBase {
     //        https://github.com/REVrobotics/SPARK-MAX-Examples/blob/master/Java/Smart%20Motion%20Example/src/main/java/frc/robot/Robot.java
     //
     // ------------------------------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------------------------
+    //
+    // Next thing to do is code the sensor interface object. This type of object works for limit switches and Hall effect sensors:
+    //        DigitalInput someDigitalIOPortInput = new DigitalInput( <dio-port-number> );
+    //
+    // ------------------------------------------------------------------------------------
+    
 
     public ArmSubsystem() {
 
