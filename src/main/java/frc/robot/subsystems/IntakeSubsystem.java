@@ -1,4 +1,6 @@
- package frc.robot.subsystems;
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -6,10 +8,10 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-// TODO Add a class comment. What does this class do?
+// Controls the Intake motors and sensors, and contains all intake-related commands
 public class IntakeSubsystem extends SubsystemBase {
 
-    
+  
 
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.intakeMotorCANID, MotorType.kBrushless);
 
@@ -18,6 +20,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
         
 
+
+        DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
 
         // intakeMotorLeft.follow(intakemotorRight, true)
         // should only need one motor for intake but have capabilities for two

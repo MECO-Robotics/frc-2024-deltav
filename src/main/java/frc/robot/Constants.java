@@ -103,10 +103,24 @@ public final class Constants
     public static final double kStowPosition = 0;
 
     //THe ops are lurking so be aware
-  public static final PIDFConfig armPID = new PIDFConfig(0,0,0);    
+  public static final PIDFConfig armPID = new PIDFConfig(0,0,0);   
+  
+  
+    //PID values for arm
+     public static final int armkP = 0;
+     public static final int armkI = 0;
+     public static final int armkD = 0;
 
-    //
+    //Values for FeedForward
+    public static final int armFeedkI = 0;
+    public static final int armFeedkFF = 0;
+    public static final int armFeedforwardOutputRangeMin = 0;
+    public static final int armFeedforwardOutputRangeMax = 0;
     
+    //Arm Encoder Port
+    public static final int armEncoderPort = 0;
+   
+
   }
 
   
@@ -132,6 +146,9 @@ public final class Constants
     public static final double kIntakingSpeed = 0;
     public static final double kHandoffSpeed = 0; //(slower than intaking?)
 
+    //BeamBreak sensor DIO port for shooter
+    public static final int intakeBeamBreakDIOPort = 0;
+    
     
   }
 
@@ -159,8 +176,28 @@ public final class Constants
      
       public static final double IDLEMode = 0;
 
+       //PID values for shooter
+      public static final int shooterkP = 0;
+      public static final int shooterkI = 0;
+      public static final int shooterkD = 0;
 
+      //Feedforward values for shooter
+      public static final int shooterFeedkS = 0;
+      public static final int shooterFeedkV = 0;
+      public static final int shooterFeedkA = 0;
       
+      
+
+      //BeamBreak sensor DIO port for shooter
+      public static final int shooterBeamBreakDIOPort = 0;
+
+      //Even more goofy variables
+      public static final double CONVERSION_FACTOR = 0;
+      public static final double BUSY_TOLERANCE = 0;
+      
+
+
+
     }
 
 
