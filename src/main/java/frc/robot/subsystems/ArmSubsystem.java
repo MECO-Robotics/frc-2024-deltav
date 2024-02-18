@@ -61,6 +61,11 @@ public class ArmSubsystem extends SubsystemBase {
 
     // Hey Brian don't worry about this code, sure it's jank but this is what we know how to do from previous years so let us cook b(￣▽￣)d
 
+    // TODO(from Paul): Question for Brennan/Nate/Brian - Do these methods need to have "Arm" 
+    //                  in the name so we can distinguish them from similar functions we'll 
+    //                  have for the shooter flywheel (assuming we have functions like setVelocity())?
+
+
     public  boolean setArmPosition(float armPosition) {
         // will be passed in with constants from xbox buttons
         // possible positions: kStowPosition, kIntakePosition, kAmpPosition, kClimbingPosition, and the speaker aim position calculated from vision
