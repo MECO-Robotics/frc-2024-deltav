@@ -23,7 +23,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-
+import frc.robot.subsystems.ControllerSubsystem;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 /**
@@ -33,6 +33,11 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
  */
 public class RobotContainer
 {
+
+  
+
+  //creates variable for controllerSubsystem
+  private final ControllerSubsystem controllerSubsystem = new ControllerSubsystem();
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -109,12 +114,35 @@ public class RobotContainer
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
+    //Old YAGSL Controls
+    //new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+   
     //Driver controls
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    //new JoystickButton(driverXbox, 0).onTrue(new InstantCommand(armSubsystem:: stowArm));
+    
 
-    //Control Controls
+      //Pilot Controller
+      XboxController pilot = controllerSubsystem.getPilotController();
+      JoystickButton pilotAButton = new JoystickButton(pilot, XboxController.Button.kA.value);
+      JoystickButton pilotBButton = new JoystickButton(pilot, XboxController.Button.kB.value);
+      JoystickButton pilotXButton = new JoystickButton(pilot, XboxController.Button.kX.value);
+      JoystickButton pilotYButton = new JoystickButton(pilot, XboxController.Button.kY.value);
+      JoystickButton pilotStartButton = new JoystickButton(pilot, XboxController.Button.kStart.value);
+
+      //CoPilot Controller
+      XboxController coPilot = controllerSubsystem.getCopilotController();
+      JoystickButton coPilotAButton = new JoystickButton(coPilot, XboxController.Button.kA.value);
+      JoystickButton coPilotBButton = new JoystickButton(coPilot, XboxController.Button.kB.value);
+      JoystickButton coPilotXButton = new JoystickButton(coPilot, XboxController.Button.kX.value);
+      JoystickButton coPilotYButton = new JoystickButton(coPilot, XboxController.Button.kY.value);
+      JoystickButton coPilotRightBumper = new JoystickButton(coPilot, XboxController.Button.kRightBumper.value);
+      JoystickButton coPilotStartButton = new JoystickButton(coPilot, XboxController.Button.kStart.value);
+      JoystickButton coPilotLeftBumper = new JoystickButton(coPilot, XboxController.Button.kLeftBumper.value);
+
+      JoystickButton triggerJoystickButton = new JoystickButton(pilot, XboxController.Button.kY.value);
+      
+
+  
     
 
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
