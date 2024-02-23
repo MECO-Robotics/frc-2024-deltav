@@ -29,6 +29,8 @@ public class ArmSubsystem extends SubsystemBase {
     private CANSparkMax rightFollowerFlywheelMotor = new CANSparkMax(Constants.Shooter.rightFollowerFlywheelMotor, MotorType.kBrushless);
     private CANSparkMax indexingMotor = new CANSparkMax(Constants.Shooter.indexingMotor, MotorType.kBrushless);
     private DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
+    private CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.intakeMotorCANID, MotorType.kBrushless);
+
 
     // Constructor
     public ArmSubsystem() {
@@ -108,7 +110,9 @@ public class ArmSubsystem extends SubsystemBase {
     public boolean isBusy() {
         return getPosition() < finalState.position + Constants.Shooter.BUSY_TOLERANCE && getPosition() > finalState.position - Constants.Shooter.BUSY_TOLERANCE; // Check if the motor is within the tolerance of the setpoint
     }
-
+    public DigitalInput isNoteAquired(){
+        return shooterBeamBreak;
+    }
 
 
     /* ------------------------------------------------------- *\
