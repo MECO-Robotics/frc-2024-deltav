@@ -5,20 +5,20 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class StartIntakingCommand extends Command {
+public class StopIntakingCommand extends Command {
     
     private final ArmSubsystem shooter ;
     private final IntakeSubsystem intake  ;
 
-    public StartIntakingCommand(ArmSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem){
+    public StopIntakingCommand(ArmSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem){
         shooter = shooterSubsystem;
         intake = intakeSubsystem;
     }
     public void execute() {
-        // TODO See if the shooter has a note
-        intake.startIntaking(true);
+        // TODO stop intaking
     }
     public boolean isFinished() {
+        // TODO determine if this should return true or false
         return true;
     }
 
