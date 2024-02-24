@@ -51,7 +51,7 @@ public class RobotContainer {
 
   // creates variable for controllerSubsystem
   private final ControllerSubsystem controllerSubsystem = new ControllerSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // The robot's subsystems and commands are defined here...
@@ -170,8 +170,8 @@ public class RobotContainer {
     JoystickButton triggerJoystickButton = new JoystickButton(pilot, XboxController.Button.kY.value);
 
 
-    pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
-    pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
+    //pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
+    //pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
     pilotXButton.whileTrue(new ShooterCommand(armSubsystem)); 
     
     

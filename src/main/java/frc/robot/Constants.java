@@ -64,6 +64,7 @@ public final class Constants
   //Arm does not include shooter it only the beam and the gearboxes attached to super structure
   public static final class Arm {
     //Creates the CAN id's for the 2 motor arm gearboxes on the super structure
+    
     public static final int rightMotorOneID = 0;
     public static final int leftMotorOneID = 0;
     public static final int rightMotorTwoID = 0;
@@ -161,7 +162,7 @@ public final class Constants
 
       //CAN ID's for the shooter motors
       public static final int leftLeaderFlywheelMotor = 14;
-      public static final int rightFollowerFlywheelMotor = 15;
+      public static final int rightLeaderFlywheelMotor = 15;
       public static final int indexingMotor = 16;
     
 

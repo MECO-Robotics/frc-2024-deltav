@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
         
 
 
-        DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
+        //DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
         
 
 
