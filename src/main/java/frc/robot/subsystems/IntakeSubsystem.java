@@ -22,6 +22,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
         DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
+        
+
+
 
         // intakeMotorLeft.follow(intakemotorRight, true)
         // should only need one motor for intake but have capabilities for two
@@ -30,18 +33,25 @@ public class IntakeSubsystem extends SubsystemBase {
     // intake start command
     public void startIntaking(boolean shooterEmpty) {
         //start wheels at kIntakingSpeed
+        intakeMotor.setVoltage(6);
         
+    }
+
+    public void stopIntaking(boolean shooterEmpty){
+        intakeMotor.setVoltage(0);
     }
 
     // handoff to shooter command
     public void handoffNote() {
         //set wheels to kHandoffSpeed (slower than intaking?)
+        intakeMotor.setVoltage(4);
 
     }
 
     // emergency outtake command
     public void ejectIntake() {
         //set wheels to -(kIntakingSpeed)
+        intakeMotor.setVoltage(-6);
     }
 
 }
