@@ -25,12 +25,18 @@ public class ArmSubsystem extends SubsystemBase {
    |                       D E C L A R E                       |
    \* ------------------------------------------------------- */
 
+   //Shooter Motors
     private CANSparkMax leftLeaderFlywheelMotor = new CANSparkMax(Constants.Shooter.leftLeaderFlywheelMotor, MotorType.kBrushless);
     private CANSparkMax rightFollowerFlywheelMotor = new CANSparkMax(Constants.Shooter.rightFollowerFlywheelMotor, MotorType.kBrushless);
     private CANSparkMax indexingMotor = new CANSparkMax(Constants.Shooter.indexingMotor, MotorType.kBrushless);
     private DigitalInput shooterBeamBreak = new DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
+    //Intake Motor
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.intakeMotorCANID, MotorType.kBrushless);
-
+    //Arm Motors
+    private CANSparkMax leftLeaderArmMotor = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
+    private CANSparkMax leftFollowerArmMotor = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
+    private CANSparkMax rightLeaderArmMotor = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
+    private CANSparkMax rightFollowerArmMotor = new CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
 
     // Constructor
     public ArmSubsystem() {
@@ -39,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
         indexingMotor.setInverted(Constants.Shooter.indexingMotorInverted);
 
         rightFollowerFlywheelMotor.follow(leftLeaderFlywheelMotor, true); 
-
+        idleFlywheels();
         
 
     }
@@ -110,8 +116,9 @@ public class ArmSubsystem extends SubsystemBase {
     public boolean isBusy() {
         return getPosition() < finalState.position + Constants.Shooter.BUSY_TOLERANCE && getPosition() > finalState.position - Constants.Shooter.BUSY_TOLERANCE; // Check if the motor is within the tolerance of the setpoint
     }
-    public DigitalInput isNoteAquired(){
-        return shooterBeamBreak;
+
+    public boolean isNoteAquired(){
+        return shooterBeamBreak.get();
     }
 
 
@@ -127,7 +134,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     //idle flywheels
     public void idleFlywheels() {
-        double idleSpeed = 0;
+        double idleSpeed = .5;
         leftLeaderFlywheelMotor.set(idleSpeed);
     }
 
@@ -152,7 +159,10 @@ public class ArmSubsystem extends SubsystemBase {
     //shoot speaker
     public void shootSpeaker() {
         double loadingSpeed = 0;
+        leftLeaderArmMotor.setVoltage(11);
+        rightLeaderArmMotor.setVoltage(11);
         indexingMotor.set(loadingSpeed);
+       
         
     }
 
@@ -161,8 +171,14 @@ public class ArmSubsystem extends SubsystemBase {
     //shoot amp
     public void shootAmp() {
         //set flywheels to ___ (between idle and shooting speed)
+    
     }
 
+    public void stopMotors(){
+        leftLeaderArmMotor.setIdleMode(null);
+        rightLeaderArmMotor.setIdleMode(null);
+        indexingMotor.stopMotor();
+    }
     
     /* ------------------------------------------------------- *\
     |                       C L I M B E R                       |
@@ -172,6 +188,7 @@ public class ArmSubsystem extends SubsystemBase {
     //switch to manual climb
     public void manualClimb(float climbRate) {
         //get climb rate from controller
+
     }
     
 

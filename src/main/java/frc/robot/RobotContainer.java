@@ -13,11 +13,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.intake.NoAutomationIntakieCommand;
+import frc.robot.commands.intake.StartIntakingCommand;
+import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.swervedrive.auto.Test;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -28,8 +32,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ControllerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -43,6 +51,8 @@ public class RobotContainer {
 
   // creates variable for controllerSubsystem
   private final ControllerSubsystem controllerSubsystem = new ControllerSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -158,6 +168,13 @@ public class RobotContainer {
     JoystickButton coPilotLeftBumper = new JoystickButton(coPilot, XboxController.Button.kLeftBumper.value);
 
     JoystickButton triggerJoystickButton = new JoystickButton(pilot, XboxController.Button.kY.value);
+
+
+    pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
+    pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
+    pilotXButton.whileTrue(new ShooterCommand(armSubsystem)); 
+    
+    
 
     // new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new
     // InstantCommand(drivebase::lock, drivebase)));

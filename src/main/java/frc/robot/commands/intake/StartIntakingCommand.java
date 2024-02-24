@@ -10,13 +10,20 @@ public class StartIntakingCommand extends Command {
     private final ArmSubsystem shooter ;
     private final IntakeSubsystem intake  ;
 
-    public StartIntakingCommand(ArmSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem){
-        shooter = shooterSubsystem;
+    public StartIntakingCommand(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem){
+        shooter = armSubsystem;
         intake = intakeSubsystem;
     }
     public void execute() {
-        // TODO See if the shooter has a note
+       
+        
+        if(shooter.isNoteAquired()){
+        intake.stopIntaking(isScheduled());
+        }
+        else{
         intake.startIntaking(true);
+        }
+        
     }
     public boolean isFinished() {
         return true;

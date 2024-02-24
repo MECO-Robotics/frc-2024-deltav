@@ -5,20 +5,19 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class StopIntakingCommand extends Command {
+public class NoAutomationIntakieCommand extends Command {
     
-    private final ArmSubsystem shooter ;
+   
     private final IntakeSubsystem intake  ;
 
-    public StopIntakingCommand(ArmSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem){
-        shooter = shooterSubsystem;
+    public NoAutomationIntakieCommand( IntakeSubsystem intakeSubsystem){
         intake = intakeSubsystem;
     }
     public void execute() {
-        // TODO stop intaking
+        intake.startIntaking(true);
     }
     public boolean isFinished() {
-        // TODO determine if this should return true or false
+        
         return true;
     }
 

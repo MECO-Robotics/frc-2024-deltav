@@ -55,6 +55,7 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND = 0.01;
     public static final double RIGHT_X_DEADBAND = 0.01;
     public static final double TURN_CONSTANT = 0.75;
+    
   }
 
   /* ------------------------------------------------------- *\
@@ -159,9 +160,9 @@ public final class Constants
   public static final class Shooter{
 
       //CAN ID's for the shooter motors
-      public static final int leftLeaderFlywheelMotor = 0;
-      public static final int rightFollowerFlywheelMotor = 0;
-      public static final int indexingMotor = 0;
+      public static final int leftLeaderFlywheelMotor = 14;
+      public static final int rightFollowerFlywheelMotor = 15;
+      public static final int indexingMotor = 16;
     
 
       public static final boolean leftLeaderFlywheelMotorInverted = true;
