@@ -13,13 +13,12 @@ public class VisionSubsystem extends SubsystemBase {
 
     // Step 2: write a function that gets the rotation to the aim at the speaker.
     // Should provide both pitch and yaw.
-    Rotation3d getRotationToSpeaker() {
-        Rotation3d rotation = new Rotation3d();
-        return rotation;
+    float getRotationToSpeaker() {
+        return 10.0f;
     }
 
     // Step
     float getRangeToSpeaker() {
-        return 0.0f;
+        return .5f;
     }
 }
