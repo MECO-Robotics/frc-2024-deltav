@@ -34,12 +34,10 @@ public class ArmSubsystem extends SubsystemBase {
     // private DigitalInput shooterBeamBreak = new
     // DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
 
-    private CANSparkMax m_motor;
     private SparkPIDController leftPIDController;
     private SparkPIDController rightPIDController;
     private SparkPIDController indexerPIDController;
-    
-    private RelativeEncoder m_encoder;
+
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
     // Constructor
@@ -49,20 +47,20 @@ public class ArmSubsystem extends SubsystemBase {
         indexingMotor.setInverted(Constants.Shooter.indexingMotorInverted);
 
         rightFlywheelMotor.follow(leftFlywheelMotor, true);
-        idleFlywheels();
         leftPIDController = leftFlywheelMotor.getPIDController();
         rightPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
 
-
         setFlywheelPIDController(leftPIDController);
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
-        
+
+        idleFlywheels();
+
 
     }
 
-    private void setFlywheelPIDController(SparkPIDController PID){
+    private void setFlywheelPIDController(SparkPIDController PID) {
         // PID coefficients
         kP = 5e-5;
         kI = 1e-6;
@@ -90,7 +88,6 @@ public class ArmSubsystem extends SubsystemBase {
         PID.setSmartMotionMinOutputVelocity(minVel, smartMotionSlotLeft);
         PID.setSmartMotionMaxAccel(maxAcc, smartMotionSlotLeft);
         PID.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlotLeft);
-
 
     }
     /*
@@ -155,14 +152,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     public double getSpeed() {
         return leftFlywheelMotor.getEncoder().getVelocity() * Constants.Shooter.CONVERSION_FACTOR; // Get the
-                                                                                                         // speed of the
-                                                                                                         // motor
+                                                                                                   // speed of the
+                                                                                                   // motor
     }
 
     public double getPosition() {
         return leftFlywheelMotor.getEncoder().getPosition() * Constants.Shooter.CONVERSION_FACTOR; // Get the
-                                                                                                         // position of
-                                                                                                         // the motor
+                                                                                                   // position of
+                                                                                                   // the motor
     }
 
     public boolean isBusy() {
@@ -191,9 +188,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     // idle flywheels
     public void idleFlywheels() {
-         leftPIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
+        leftPIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
         rightPIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
-        
+
     }
 
     // aim speaker/rev flywheels
@@ -219,7 +216,6 @@ public class ArmSubsystem extends SubsystemBase {
         leftPIDController.setReference(5200, CANSparkMax.ControlType.kVelocity);
         rightPIDController.setReference(5100, CANSparkMax.ControlType.kVelocity);
         indexerPIDController.setReference(600, CANSparkMax.ControlType.kVelocity);
-        
 
     }
 
@@ -231,7 +227,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void stopMotors() {
         // 5200
-         leftPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
+        leftPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
         rightPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
         indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
         ;
