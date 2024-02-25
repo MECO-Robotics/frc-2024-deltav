@@ -158,8 +158,10 @@ public class ArmSubsystem extends SubsystemBase {
     //shoot speaker
     public void shootSpeaker() {
         double loadingSpeed = -.5;
-        leftLeaderFlywheelMotor.setVoltage(11);
-        rightLeaderFlywheelMotor.setVoltage(11);    
+        //leftLeaderFlywheelMotor.setVoltage(11);
+        //rightLeaderFlywheelMotor.setVoltage(11);  
+        leftLeaderFlywheelMotor.set(.5);
+        rightLeaderFlywheelMotor.set(.5);  
         indexingMotor.set(loadingSpeed);
        
         
@@ -174,7 +176,8 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void stopMotors(){
-        leftLeaderFlywheelMotor.setVoltage(6);;
+        //5200
+        leftLeaderFlywheelMotor.setVoltage(6);
         rightLeaderFlywheelMotor.setVoltage(6);
         indexingMotor.setVoltage(0);;
     }
