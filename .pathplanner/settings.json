@@ -3,7 +3,8 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
-    "3 note close paths"
+    "3 note(1 close, 1 far) paths",
+    "4 note(3 close) paths"
   ],
   "autoFolders": [
     "New Folder"

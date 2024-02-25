@@ -36,6 +36,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ControllerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
@@ -51,7 +52,7 @@ public class RobotContainer {
 
   // creates variable for controllerSubsystem
   private final ControllerSubsystem controllerSubsystem = new ControllerSubsystem();
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // The robot's subsystems and commands are defined here...
@@ -73,6 +74,12 @@ public class RobotContainer {
   private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
   public RobotContainer() {
+
+    //Commands for Pathplanner
+    NamedCommands.registerCommand("Shoot", new ShooterCommand(armSubsystem));  
+    NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem)); 
+
+
     //Auto selection choices
     autoCommandChoice.addOption("7 note auto", "7 note auto");
     SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
