@@ -215,7 +215,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void shootSpeaker() {
         leftPIDController.setReference(5200, CANSparkMax.ControlType.kVelocity);
         rightPIDController.setReference(5100, CANSparkMax.ControlType.kVelocity);
-        indexerPIDController.setReference(600, CANSparkMax.ControlType.kVelocity);
+        indexerPIDController.setReference(-600, CANSparkMax.ControlType.kVelocity);
 
     }
 
