@@ -4,8 +4,9 @@
   "holonomicMode": true,
   "pathFolders": [
     "3 note(1 close, 1 far) top paths",
+    "4 note(3 close) bottom paths",
     "4 note(3 close) middle paths",
-    "4 note(3 close) bottom paths"
+    "5 note(4 far) top paths"
   ],
   "autoFolders": [
     "New Folder"

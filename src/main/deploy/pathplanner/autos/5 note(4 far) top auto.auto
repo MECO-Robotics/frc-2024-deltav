@@ -1,0 +1,91 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.6027163853085304,
+      "y": 6.552793041425494
+    },
+    "rotation": 60.207212148535454
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note(4 far) top 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note(4 far) top 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note(4 far) top 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note(4 far) top 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note(4 far) top 5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 note(4 far) top 4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
