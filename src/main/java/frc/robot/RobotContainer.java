@@ -76,7 +76,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     //Commands for Pathplanner
-    NamedCommands.registerCommand("Shoot", new ShooterCommand(armSubsystem));  
+    NamedCommands.registerCommand("Shoot base Amp", new ShooterCommand(armSubsystem));  
     NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem)); 
 
 

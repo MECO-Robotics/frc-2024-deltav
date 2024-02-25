@@ -190,6 +190,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void idleFlywheels() {
         leftPIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
         rightPIDController.setReference(1000, CANSparkMax.ControlType.kVelocity);
+        indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
 
     }
 

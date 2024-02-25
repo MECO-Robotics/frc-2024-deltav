@@ -19,7 +19,7 @@ public class ShooterCommand extends Command{
         arm.shootSpeaker();
     }
     public void end(boolean interrupted) {
-        arm.stopMotors();
+        arm.idleFlywheels();
     }
     public boolean isFinished(){
         return false;
