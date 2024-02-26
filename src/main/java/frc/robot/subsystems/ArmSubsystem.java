@@ -243,6 +243,7 @@ public class ArmSubsystem extends SubsystemBase {
     // switch to manual climb
     public void manualClimb(float climbRate) {
         // get climb rate from controller
+        
 
     }
 
