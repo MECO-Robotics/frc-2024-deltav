@@ -18,13 +18,13 @@ public class VisionSubsystem extends SubsystemBase {
 
     // Step 2: write a function that gets the rotation to the aim at the speaker.
     // Should provide both pitch and yaw.
-    double getRotationToSpeaker() {
+    public double getRotationToSpeaker() {
         //return LimelightHelpers.getTX("limelight");
         return 10.0f;
     }
 
     // Step
-    float getRangeToSpeaker() {
+    public float getRangeToSpeaker() {
         return .5f;
     }
 

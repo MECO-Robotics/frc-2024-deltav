@@ -1,18 +1,28 @@
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 /** 
  * Turn the robot to point to the Speaker, and elevate the arm based on the distance to the speaker.
  */
 public class AimCommand extends Command {
     
+    private final VisionSubsystem vision;
+    private final SwerveSubsystem swerve;
+    private final ArmSubsystem arm;
 
-    // TODO Define class variables for the required subsystems: vision (to receive the aiming direction), swerve (to turn the robot), arm (to raise/lower the arm)
+    
+    public AimCommand(VisionSubsystem visionPassedIn, SwerveSubsystem swerveDrive, ArmSubsystem armPassedIn){
+        vision = visionPassedIn;
+        swerve = swerveDrive;
+        arm = armPassedIn;
+    }
 
-    // TODO Define a constructor that takes in the 3 required subsystems
 
-    // TODO write the execute, end, and isFinished methods
 
     // TODO execute():
     //          1. Get the RotationToSpeaker from the Vision Subsystem
@@ -22,12 +32,43 @@ public class AimCommand extends Command {
     //          5. Convert the range to speaker from a distance to a arm position using a look up table or proportional constant
     //          6. Set the arm position using the appropriate method on the Arm Subsystem
 
-    // TODO end():
-    //          Don't think there is anything to do.
-
-    // TODO isFinished():
+     // TODO isFinished():
     //          1. Get the Rotation and range from the Vision Subsystem
     //          2. Do the same conversions as done in execute()
     //          3. return true if both the error in angular velocity and desired arm position is close to zero.
     //                  return false otherwise.
+
+    /*
+    public void calculate() {
+
+    }
+    */
+    
+    public void execute() {
+        // Drive
+        double angleError = vision.getRotationToSpeaker();
+        Translation2d noTranslation = new Translation2d(0, 0);
+        swerve.drive(noTranslation, angleError*0.1, true); 
+        //write angular position command for swerve instead of angular velocity?
+        
+        // Arm
+        double distanceToSpeaker = vision.getRangeToSpeaker();
+        //TODO take distance and convert it to angle of the arm encoder position value
+        //double aimPosition = convert;
+        //arm.aimSpeake(aimPosition);
+        
+
+    }
+    
+    public void end(boolean interrupted) {
+        
+    }
+
+    public boolean isFinished(){
+        //placeholder
+        return false;
+    }
+    
+
+   
 }

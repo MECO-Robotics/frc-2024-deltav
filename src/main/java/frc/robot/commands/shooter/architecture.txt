@@ -1,0 +1,24 @@
+Brian mode:
+Trigger -> Command -> Subsystem functions
+Our mode:
+Trigger -> Subsystem functions (heavy)
+    
+Each command is usually specific
+each subsystem function is very generic
+
+trigger: button press
+command: movearm
+function: arm.setPosition
+
+
+aimcommand (vision subsystem, armsubsystem, swerve subsystem)
+
+addrequiments(subsystem) //interrupts any other commands running on those subsystems
+
+initialize ()
+    arm.setPosition(<double>)
+
+isFinished()
+    return arm.isBusy();
+
+command 

@@ -200,7 +200,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         setArmPosition(angle);
 
-        boolean radarLock = !isBusy();
+        boolean armInPosition = !isBusy();
 
         double flywheelShootSpeed = 0;
         leftFlywheelMotor.set(flywheelShootSpeed);
@@ -209,7 +209,7 @@ public class ArmSubsystem extends SubsystemBase {
         double difference = Math.abs(flywheelShootSpeed - flywheelSpeed);
         boolean flywheelRevved = difference < 10.0;
 
-        return (radarLock && flywheelRevved);
+        return (armInPosition && flywheelRevved);
     }
 
     // shoot speaker

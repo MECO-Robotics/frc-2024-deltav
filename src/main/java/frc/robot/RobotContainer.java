@@ -84,6 +84,7 @@ public class RobotContainer {
     //Auto selection choices
     autoCommandChoice.addOption("7 note auto", "7 note auto");
     SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
+    
 
     // Configure the trigger bindings
     configureBindings();
