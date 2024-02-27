@@ -54,9 +54,9 @@ public class AimCommand extends Command {
         // Arm
         double distanceToSpeaker = vision.getRangeToSpeaker();
         //TODO take distance and convert it to angle of the arm encoder position value
-        //double aimPosition = convert;
-        //arm.aimSpeake(aimPosition);
-        
+        double aimPosition = distanceToSpeaker*0.1;
+        arm.aimSpeaker(aimPosition);
+        //aim speaker 
 
     }
     

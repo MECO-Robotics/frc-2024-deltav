@@ -66,9 +66,9 @@ public final class Constants
     //Creates the CAN id's for the 2 motor arm gearboxes on the super structure
     
     public static final int rightMotorOneID = 0;
-    public static final int leftMotorOneID = 0;
     public static final int rightMotorTwoID = 0;
-    public static final int leftMotorTwoID = 0;
+    //public static final int leftMotorOneID = 0;
+    //public static final int leftMotorTwoID = 0;
 
     public static final boolean rightMotorOneCANIDInverted = true; //IDK if it needs to be inverted
     public static final boolean leftMotorOneCANIDInverted = true;

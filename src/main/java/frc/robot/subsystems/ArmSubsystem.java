@@ -34,9 +34,13 @@ public class ArmSubsystem extends SubsystemBase {
     // private DigitalInput shooterBeamBreak = new
     // DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
 
+    private CANSparkMax rightArmMotorOne = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
+    private CANSparkMax rightArmMotorTwo = new CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
+
     private SparkPIDController leftPIDController;
     private SparkPIDController rightPIDController;
     private SparkPIDController indexerPIDController;
+    private SparkPIDController rightArmMotorOnePidController;
 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
@@ -52,16 +56,51 @@ public class ArmSubsystem extends SubsystemBase {
         leftPIDController = leftFlywheelMotor.getPIDController();
         rightPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
+        rightArmMotorOnePidController = rightArmMotorOne.getPIDController();
+
+        // TODO Check to make sure that you actually need to invert it
+        rightArmMotorTwo.follow(rightArmMotorOne, true);
 
         setFlywheelPIDController(leftPIDController);
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
+        setRightArmMotorOnePIDController(rightArmMotorOnePidController);
 
-        
         idleFlywheels();
     }
 
     private void setFlywheelPIDController(SparkPIDController PID) {
+        // PID coefficients
+        kP = 5e-5;
+        kI = 1e-6;
+        kD = 0;
+        kIz = 0;
+        kFF = 0.000156;
+        kMaxOutput = 1;
+        kMinOutput = -1;
+        maxRPM = 7000;
+
+        // Smart Motion Coefficients
+        maxVel = 7000; // rpm
+        maxAcc = 1500;
+
+        // set PID coefficients
+        PID.setP(kP);
+        PID.setI(kI);
+        PID.setD(kD);
+        PID.setIZone(kIz);
+        PID.setFF(kFF);
+        PID.setOutputRange(kMinOutput, kMaxOutput);
+
+        int smartMotionSlotLeft = 0;
+        PID.setSmartMotionMaxVelocity(maxVel, smartMotionSlotLeft);
+        PID.setSmartMotionMinOutputVelocity(minVel, smartMotionSlotLeft);
+        PID.setSmartMotionMaxAccel(maxAcc, smartMotionSlotLeft);
+        PID.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlotLeft);
+
+    }
+
+    private void setRightArmMotorOnePIDController(SparkPIDController PID) {
         // PID coefficients
         kP = 5e-5;
         kI = 1e-6;
@@ -119,28 +158,22 @@ public class ArmSubsystem extends SubsystemBase {
     // have for the shooter flywheel (assuming we have functions like
     // setVelocity())?
 
-    public boolean setArmPosition(float armPosition) {
+    public boolean setArmPosition(double armPosition) {
         // will be passed in with constants from xbox buttons
         // possible positions: kStowPosition, kIntakePosition, kAmpPosition,
         // kClimbingPosition, and the speaker aim position calculated from vision
 
         // Create a state for the motion profile
-        TrapezoidProfile.State currentState = new TrapezoidProfile.State(
-                leftFlywheelMotor.getEncoder().getPosition(), leftFlywheelMotor.getEncoder().getVelocity());
+        //TrapezoidProfile.State currentState = new TrapezoidProfile.State(
+                //leftFlywheelMotor.getEncoder().getPosition(), leftFlywheelMotor.getEncoder().getVelocity());
+        
+        rightArmMotorOnePidController.setReference(armPosition, CANSparkMax.ControlType.kPosition);
 
-        // Set the setpoint of the PID controller
-        setSpeed(motionProfile.calculate(0, currentState, finalState).velocity);
 
-        // Set the voltage of the motor using the PID and feedforward controllers
-        leftFlywheelMotor.setVoltage(
-                (shooterLeftPID.calculate(getSpeed()) + feedForward.calculate(shooterLeftPID.getSetpoint())));
+        boolean atPosition = Math.abs(rightArmMotorOne.getEncoder().getPosition() - armPosition) < 0.01;
 
-        return true;
-    }
 
-    public void setPosition(double position) {
-        finalState = new TrapezoidProfile.State(position, 0); // Create a final state for the motion profile
-
+        return atPosition;
     }
 
     public void setSpeed(double rpm) {
@@ -197,7 +230,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     // aim speaker/rev flywheels
     // angle starts at zero, can only increase
-    public boolean aimSpeaker(float angle) {
+    public boolean aimSpeaker(double angle) {
 
         setArmPosition(angle);
 
@@ -234,19 +267,19 @@ public class ArmSubsystem extends SubsystemBase {
         indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
         ;
     }
-    public boolean pullNoteIn(){
-            
-            if (indexerBeambreak.get()){
-                indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
-                return true;
-            }
-            else{
-                indexerPIDController.setReference(-600, CANSparkMax.ControlType.kVelocity);
-                return false;
-            }
-    
+
+    public boolean pullNoteIn() {
+
+        if (indexerBeambreak.get()) {
+            indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
+            return true;
+        } else {
+            indexerPIDController.setReference(-600, CANSparkMax.ControlType.kVelocity);
+            return false;
+        }
+
     }
-    
+
     /*
      * ------------------------------------------------------- *\
      * | C L I M B E R |
@@ -256,7 +289,6 @@ public class ArmSubsystem extends SubsystemBase {
     // switch to manual climb
     public void manualClimb(float climbRate) {
         // get climb rate from controller
-        
 
     }
 
