@@ -6,69 +6,69 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-/** 
- * Turn the robot to point to the Speaker, and elevate the arm based on the distance to the speaker.
+/**
+ * Turn the robot to point to the Speaker, and elevate the arm based on the
+ * distance to the speaker.
  */
 public class AimCommand extends Command {
-    
+
     private final VisionSubsystem vision;
     private final SwerveSubsystem swerve;
     private final ArmSubsystem arm;
 
-    
-    public AimCommand(VisionSubsystem visionPassedIn, SwerveSubsystem swerveDrive, ArmSubsystem armPassedIn){
+    public AimCommand(VisionSubsystem visionPassedIn, SwerveSubsystem swerveDrive, ArmSubsystem armPassedIn) {
         vision = visionPassedIn;
         swerve = swerveDrive;
         arm = armPassedIn;
     }
 
-
-
     // TODO execute():
-    //          1. Get the RotationToSpeaker from the Vision Subsystem
-    //          2. Convert the angle to a angular rotation velocity in radians/sec using a simple proportional constant or full PIDF control
-    //          3. Call the drive method on the SwerveSubsystem with 0 translation and the rotation just calculated
-    //          4. Get the RangeToSpeaker from the Vision Subsystem
-    //          5. Convert the range to speaker from a distance to a arm position using a look up table or proportional constant
-    //          6. Set the arm position using the appropriate method on the Arm Subsystem
+    // 1. Get the RotationToSpeaker from the Vision Subsystem
+    // 2. Convert the angle to a angular rotation velocity in radians/sec using a
+    // simple proportional constant or full PIDF control
+    // 3. Call the drive method on the SwerveSubsystem with 0 translation and the
+    // rotation just calculated
+    // 4. Get the RangeToSpeaker from the Vision Subsystem
+    // 5. Convert the range to speaker from a distance to a arm position using a
+    // look up table or proportional constant
+    // 6. Set the arm position using the appropriate method on the Arm Subsystem
 
-     // TODO isFinished():
-    //          1. Get the Rotation and range from the Vision Subsystem
-    //          2. Do the same conversions as done in execute()
-    //          3. return true if both the error in angular velocity and desired arm position is close to zero.
-    //                  return false otherwise.
+    // TODO isFinished():
+    // 1. Get the Rotation and range from the Vision Subsystem
+    // 2. Do the same conversions as done in execute()
+    // 3. return true if both the error in angular velocity and desired arm position
+    // is close to zero.
+    // return false otherwise.
 
     /*
-    public void calculate() {
+     * public void calculate() {
+     * 
+     * }
+     */
 
-    }
-    */
-    
     public void execute() {
         // Drive
-        double angleError = vision.getRotationToSpeaker();
+        double horizontalAngle = vision.getHorizontalRotationToSpeaker();
         Translation2d noTranslation = new Translation2d(0, 0);
-        swerve.drive(noTranslation, angleError*0.1, true); 
-        //write angular position command for swerve instead of angular velocity?
-        
+        swerve.drive(noTranslation, horizontalAngle * 0.1, true);
+        // write angular position command for swerve instead of angular velocity?
+
         // Arm
-        double distanceToSpeaker = vision.getRangeToSpeaker();
-        //TODO take distance and convert it to angle of the arm encoder position value
-        double aimPosition = distanceToSpeaker*0.1;
+        double verticalAngle = vision.getVerticalRotationToSpeaker();
+        // TODO Use a polynomial regression to convert the angle to target to a armposition (in encoder ticks) 
+        double aimPosition = verticalAngle * 0.1;
         arm.aimSpeaker(aimPosition);
-        //aim speaker 
+        // aim speaker
 
     }
-    
+
     public void end(boolean interrupted) {
-        
+
     }
 
-    public boolean isFinished(){
-        //placeholder
+    public boolean isFinished() {
+        // placeholder
         return false;
     }
-    
 
-   
 }
