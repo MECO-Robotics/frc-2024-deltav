@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
 import frc.robot.commands.intake.StartIntakingCommand;
 import frc.robot.commands.shooter.ShooterCommand;
@@ -177,12 +178,12 @@ public class RobotContainer {
     JoystickButton coPilotLeftBumper = new JoystickButton(coPilot, XboxController.Button.kLeftBumper.value);
 
     JoystickButton triggerJoystickButton = new JoystickButton(pilot, XboxController.Button.kY.value);
-
+    
 
     //pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
     //pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
     pilotXButton.whileTrue(new ShooterCommand(armSubsystem)); 
-    
+    pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
     
 
     // new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new

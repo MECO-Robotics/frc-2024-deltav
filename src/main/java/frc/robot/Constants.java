@@ -80,6 +80,7 @@ public final class Constants
     public static final double kSoftLimitReverse = 0;
     public static final double kSoftLimitForward = 0.0;
     
+    public static final int kBeamBreakSensorPort = 0;
 
     //IDK the gear ratios so these are place holders
     public static final double kArmGearRatio = (1.0 / 25.0) * (28.0 / 50.0) * (16.0 / 64.0); 
@@ -149,7 +150,7 @@ public final class Constants
     public static final double kHandoffSpeed = 0; //(slower than intaking?)
 
     //BeamBreak sensor DIO port for shooter
-    public static final int intakeBeamBreakDIOPort = 0;
+    public static final int kBeamBreakSensorPort = 0;
     
     
   }

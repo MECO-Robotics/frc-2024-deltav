@@ -40,6 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
+    DigitalInput indexerBeambreak = new DigitalInput(Constants.Arm.kBeamBreakSensorPort);
+
     // Constructor
     public ArmSubsystem() {
 
@@ -55,9 +57,8 @@ public class ArmSubsystem extends SubsystemBase {
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
 
+        
         idleFlywheels();
-
-
     }
 
     private void setFlywheelPIDController(SparkPIDController PID) {
@@ -233,7 +234,19 @@ public class ArmSubsystem extends SubsystemBase {
         indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
         ;
     }
-
+    public boolean pullNoteIn(){
+            
+            if (indexerBeambreak.get()){
+                indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
+                return true;
+            }
+            else{
+                indexerPIDController.setReference(-600, CANSparkMax.ControlType.kVelocity);
+                return false;
+            }
+    
+    }
+    
     /*
      * ------------------------------------------------------- *\
      * | C L I M B E R |

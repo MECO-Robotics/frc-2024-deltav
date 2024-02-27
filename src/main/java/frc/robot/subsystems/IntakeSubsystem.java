@@ -11,20 +11,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // Controls the Intake motors and sensors, and contains all intake-related commands
 public class IntakeSubsystem extends SubsystemBase {
 
-  
-
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.intakeMotorCANID, MotorType.kBrushless);
 
-    
+    DigitalInput intakeBeambreak = new DigitalInput(Constants.Intake.kBeamBreakSensorPort);
 
     public IntakeSubsystem() {
-        
 
-
-        //DigitalInput intakeBeamBreak = new DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
-        
-
-
+        // DigitalInput intakeBeamBreak = new
+        // DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
 
         // intakeMotorLeft.follow(intakemotorRight, true)
         // should only need one motor for intake but have capabilities for two
@@ -32,25 +26,34 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // intake start command
     public void startIntaking(boolean shooterEmpty) {
-        //start wheels at kIntakingSpeed
+        // start wheels at kIntakingSpeed
         intakeMotor.setVoltage(6);
-        
+
     }
 
-    public void stopIntaking(boolean shooterEmpty){
+    public void stopIntaking(boolean shooterEmpty) {
         intakeMotor.setVoltage(0);
     }
 
     // handoff to shooter command
-    public void handoffNote() {
-        //set wheels to kHandoffSpeed (slower than intaking?)
-        intakeMotor.setVoltage(4);
+    public boolean handoffNote() {
+        // set wheels to kHandoffSpeed (slower than intaking?)
+
+        if (intakeBeambreak.get()) {
+            // NOTE is in
+            intakeMotor.set(.8);
+            return false;
+        } else {
+            // NOTE is In
+            intakeMotor.set(0);
+            return true;
+        }
 
     }
 
     // emergency outtake command
     public void ejectIntake() {
-        //set wheels to -(kIntakingSpeed)
+        // set wheels to -(kIntakingSpeed)
         intakeMotor.setVoltage(-6);
     }
 
