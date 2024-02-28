@@ -79,8 +79,8 @@ public class RobotContainer {
     //Commands for Pathplanner
     NamedCommands.registerCommand("Shoot", new ShooterCommand(armSubsystem));  
     NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem));
-     
-
+    NamedCommands.registerCommand("Handoff", new HandoffCommand(armSubsystem, intakeSubsystem));
+    
 
     //Auto selection choices
     autoCommandChoice.addOption("7 note auto", "7 note auto");

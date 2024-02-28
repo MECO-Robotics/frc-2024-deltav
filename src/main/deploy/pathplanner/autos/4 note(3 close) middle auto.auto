@@ -26,12 +26,6 @@
                 "data": {
                   "pathName": "4 not(3 close) path 1"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
           }
@@ -63,12 +57,6 @@
                 "data": {
                   "pathName": "4 not(3 close) path 3"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
           }
@@ -99,12 +87,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "4 not(3 close) path 5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
                 }
               }
             ]

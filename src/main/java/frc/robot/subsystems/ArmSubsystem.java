@@ -36,11 +36,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     private CANSparkMax rightArmMotorOne = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
     private CANSparkMax rightArmMotorTwo = new CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
+    private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
+    private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
 
     private SparkPIDController leftPIDController;
     private SparkPIDController rightPIDController;
     private SparkPIDController indexerPIDController;
     private SparkPIDController rightArmMotorOnePidController;
+    private SparkPIDController leftAmMotorOnePIDController;
 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
@@ -52,11 +55,14 @@ public class ArmSubsystem extends SubsystemBase {
         leftFlywheelMotor.setInverted(Constants.Shooter.leftLeaderFlywheelMotorInverted);
         indexingMotor.setInverted(Constants.Shooter.indexingMotorInverted);
 
+        leftArmMotorTwo.follow(leftArmMotorOne, true);
         rightFlywheelMotor.follow(leftFlywheelMotor, true);
+
         leftPIDController = leftFlywheelMotor.getPIDController();
         rightPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
         rightArmMotorOnePidController = rightArmMotorOne.getPIDController();
+        leftAmMotorOnePIDController = leftArmMotorOne.getPIDController();
 
         // TODO Check to make sure that you actually need to invert it
         rightArmMotorTwo.follow(rightArmMotorOne, true);
@@ -65,8 +71,9 @@ public class ArmSubsystem extends SubsystemBase {
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
         setRightArmMotorOnePIDController(rightArmMotorOnePidController);
+        setLeftArmMotorOnePIDController(leftAmMotorOnePIDController);
 
-        idleFlywheels();
+        idleFlywheels();   
     }
 
     private void setFlywheelPIDController(SparkPIDController PID) {
@@ -101,6 +108,37 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     private void setRightArmMotorOnePIDController(SparkPIDController PID) {
+        // PID coefficients
+        kP = 5e-5;
+        kI = 1e-6;
+        kD = 0;
+        kIz = 0;
+        kFF = 0.000156;
+        kMaxOutput = 1;
+        kMinOutput = -1;
+        maxRPM = 7000;
+
+        // Smart Motion Coefficients
+        maxVel = 7000; // rpm
+        maxAcc = 1500;
+
+        // set PID coefficients
+        PID.setP(kP);
+        PID.setI(kI);
+        PID.setD(kD);
+        PID.setIZone(kIz);
+        PID.setFF(kFF);
+        PID.setOutputRange(kMinOutput, kMaxOutput);
+
+        int smartMotionSlotLeft = 0;
+        PID.setSmartMotionMaxVelocity(maxVel, smartMotionSlotLeft);
+        PID.setSmartMotionMinOutputVelocity(minVel, smartMotionSlotLeft);
+        PID.setSmartMotionMaxAccel(maxAcc, smartMotionSlotLeft);
+        PID.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlotLeft);
+
+    }
+
+    private void setLeftArmMotorOnePIDController(SparkPIDController PID) {
         // PID coefficients
         kP = 5e-5;
         kI = 1e-6;
