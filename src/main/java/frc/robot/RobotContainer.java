@@ -53,7 +53,7 @@ public class RobotContainer {
 
   // creates variable for controllerSubsystem
   private final ControllerSubsystem controllerSubsystem = new ControllerSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // The robot's subsystems and commands are defined here...
@@ -78,8 +78,8 @@ public class RobotContainer {
 
     //Commands for Pathplanner
     NamedCommands.registerCommand("Shoot", new ShooterCommand(armSubsystem));  
-    NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem));
-    NamedCommands.registerCommand("Handoff", new HandoffCommand(armSubsystem, intakeSubsystem));
+    //NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem));
+    //NamedCommands.registerCommand("Handoff", new HandoffCommand(armSubsystem, intakeSubsystem));
     
 
     //Auto selection choices
@@ -183,7 +183,7 @@ public class RobotContainer {
     //pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
     //pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
     pilotXButton.whileTrue(new ShooterCommand(armSubsystem)); 
-    pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
+    //pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
     
 
     // new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new

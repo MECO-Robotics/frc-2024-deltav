@@ -42,8 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
     private SparkPIDController leftPIDController;
     private SparkPIDController rightPIDController;
     private SparkPIDController indexerPIDController;
-    private SparkPIDController rightArmMotorOnePidController;
-    private SparkPIDController leftArmMotorOnePIDController;
+    //private SparkPIDController leftArmMotorOnePIDController;
 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
@@ -61,7 +60,6 @@ public class ArmSubsystem extends SubsystemBase {
         leftPIDController = leftFlywheelMotor.getPIDController();
         rightPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
-        //rightArmMotorOnePidController = rightArmMotorOne.getPIDController();
         //leftArmMotorOnePIDController = leftArmMotorOne.getPIDController();
 
         // TODO Check to make sure that you actually need to invert it
@@ -72,7 +70,7 @@ public class ArmSubsystem extends SubsystemBase {
         setFlywheelPIDController(leftPIDController);
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
-        setArmPIDController(leftArmMotorOnePIDController);
+        //setArmPIDController(leftArmMotorOnePIDController);
         
 
         idleFlywheels();   
@@ -80,9 +78,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     private void setFlywheelPIDController(SparkPIDController PID) {
         // PID coefficients
-        kP = .005;
+        kP = .00005;
         //5e-5
-        kI = 1e-6;
+        kI = 0;
         kD = 0;
         kIz = 0;
         kFF = 0.000156;
