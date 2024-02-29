@@ -34,10 +34,10 @@ public class ArmSubsystem extends SubsystemBase {
     // private DigitalInput shooterBeamBreak = new
     // DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
 
-    private CANSparkMax rightArmMotorOne = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
-    private CANSparkMax rightArmMotorTwo = new CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
-    private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
-    private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
+    //private CANSparkMax rightArmMotorOne = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
+    //private CANSparkMax rightArmMotorTwo = new CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
+    //private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
+    //private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
 
     private SparkPIDController leftPIDController;
     private SparkPIDController rightPIDController;
@@ -61,13 +61,13 @@ public class ArmSubsystem extends SubsystemBase {
         leftPIDController = leftFlywheelMotor.getPIDController();
         rightPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
-        rightArmMotorOnePidController = rightArmMotorOne.getPIDController();
-        leftArmMotorOnePIDController = leftArmMotorOne.getPIDController();
+        //rightArmMotorOnePidController = rightArmMotorOne.getPIDController();
+        //leftArmMotorOnePIDController = leftArmMotorOne.getPIDController();
 
         // TODO Check to make sure that you actually need to invert it
-        leftArmMotorTwo.follow(leftArmMotorOne, true);
-        rightArmMotorTwo.follow(leftArmMotorOne, true);
-        leftArmMotorTwo.follow(leftArmMotorOne, true);
+        //leftArmMotorTwo.follow(leftArmMotorOne, true);
+        //rightArmMotorTwo.follow(leftArmMotorOne, true);
+        //leftArmMotorTwo.follow(leftArmMotorOne, true);
 
         setFlywheelPIDController(leftPIDController);
         setFlywheelPIDController(rightPIDController);
@@ -80,7 +80,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     private void setFlywheelPIDController(SparkPIDController PID) {
         // PID coefficients
-        kP = 5e-5;
+        kP = .005;
+        //5e-5
         kI = 1e-6;
         kD = 0;
         kIz = 0;
@@ -168,7 +169,7 @@ public class ArmSubsystem extends SubsystemBase {
     // in the name so we can distinguish them from similar functions we'll
     // have for the shooter flywheel (assuming we have functions like
     // setVelocity())?
-
+    /* 
     public boolean setArmPosition(double armPosition) {
         // will be passed in with constants from xbox buttons
         // possible positions: kStowPosition, kIntakePosition, kAmpPosition,
@@ -186,12 +187,12 @@ public class ArmSubsystem extends SubsystemBase {
 
         return atPosition;
     }
-
+*//* 
     public void manualArmControl(double motorLevel){
         //TODO finish this
         leftArmMotorOne.set(motorLevel);
     }
-    
+    */
     public void setSpeed(double rpm) {
         shooterLeftPID.setSetpoint(rpm); // Set the setpoint of the PID controller
     }
@@ -248,6 +249,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     // aim speaker/rev flywheels
     // angle starts at zero, can only increase
+    /* 
     public boolean aimSpeaker(double angle) {
 
         setArmPosition(angle);
@@ -263,7 +265,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         return (armInPosition && flywheelRevved);
     }
-
+    */
     // shoot speaker
     public void shootSpeaker() {
         leftPIDController.setReference(5200, CANSparkMax.ControlType.kVelocity);

@@ -10,6 +10,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
  * Turn the robot to point to the Speaker, and elevate the arm based on the
  * distance to the speaker.
  */
+/* 
 public class AimCommand extends Command {
 
     private final VisionSubsystem vision;
@@ -45,7 +46,7 @@ public class AimCommand extends Command {
      * 
      * }
      */
-
+/* 
     public void execute() {
         // Drive
         double horizontalAngle = vision.getHorizontalRotationToSpeaker();
@@ -72,3 +73,4 @@ public class AimCommand extends Command {
     }
 
 }
+*/
