@@ -43,7 +43,7 @@ public class ArmSubsystem extends SubsystemBase {
     private SparkPIDController rightPIDController;
     private SparkPIDController indexerPIDController;
     private SparkPIDController rightArmMotorOnePidController;
-    private SparkPIDController leftAmMotorOnePIDController;
+    private SparkPIDController leftArmMotorOnePIDController;
 
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
 
@@ -62,7 +62,7 @@ public class ArmSubsystem extends SubsystemBase {
         rightPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
         rightArmMotorOnePidController = rightArmMotorOne.getPIDController();
-        leftAmMotorOnePIDController = leftArmMotorOne.getPIDController();
+        leftArmMotorOnePIDController = leftArmMotorOne.getPIDController();
 
         // TODO Check to make sure that you actually need to invert it
         leftArmMotorTwo.follow(leftArmMotorOne, true);
@@ -72,7 +72,7 @@ public class ArmSubsystem extends SubsystemBase {
         setFlywheelPIDController(leftPIDController);
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
-        setArmPIDController(rightArmMotorOnePidController);
+        setArmPIDController(leftArmMotorOnePIDController);
         
 
         idleFlywheels();   
@@ -187,11 +187,11 @@ public class ArmSubsystem extends SubsystemBase {
         return atPosition;
     }
 
-    public void manualArmControl(){
+    public void manualArmControl(double motorLevel){
         //TODO finish this
-
+        leftArmMotorOne.set(motorLevel);
     }
-
+    
     public void setSpeed(double rpm) {
         shooterLeftPID.setSetpoint(rpm); // Set the setpoint of the PID controller
     }
@@ -233,7 +233,9 @@ public class ArmSubsystem extends SubsystemBase {
     // recieve
     public void recieveNote() {
         // arm is already at kIntakePosition
-
+        leftPIDController.setReference(-600, CANSparkMax.ControlType.kVelocity);
+        rightPIDController.setReference(-600, CANSparkMax.ControlType.kVelocity);
+        indexerPIDController.setReference(0, CANSparkMax.ControlType.kVelocity);
     }
 
     // idle flywheels
