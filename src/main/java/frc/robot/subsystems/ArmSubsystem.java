@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -55,7 +55,7 @@ public class ArmSubsystem extends SubsystemBase {
         leftFlywheelMotor.setInverted(Constants.Shooter.leftLeaderFlywheelMotorInverted);
         indexingMotor.setInverted(Constants.Shooter.indexingMotorInverted);
 
-        leftArmMotorTwo.follow(leftArmMotorOne, true);
+        
         rightFlywheelMotor.follow(leftFlywheelMotor, true);
 
         leftPIDController = leftFlywheelMotor.getPIDController();
@@ -65,13 +65,15 @@ public class ArmSubsystem extends SubsystemBase {
         leftAmMotorOnePIDController = leftArmMotorOne.getPIDController();
 
         // TODO Check to make sure that you actually need to invert it
-        rightArmMotorTwo.follow(rightArmMotorOne, true);
+        leftArmMotorTwo.follow(leftArmMotorOne, true);
+        rightArmMotorTwo.follow(leftArmMotorOne, true);
+        leftArmMotorTwo.follow(leftArmMotorOne, true);
 
         setFlywheelPIDController(leftPIDController);
         setFlywheelPIDController(rightPIDController);
         setFlywheelPIDController(indexerPIDController);
-        setRightArmMotorOnePIDController(rightArmMotorOnePidController);
-        setLeftArmMotorOnePIDController(leftAmMotorOnePIDController);
+        setArmPIDController(rightArmMotorOnePidController);
+        
 
         idleFlywheels();   
     }
@@ -107,7 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    private void setRightArmMotorOnePIDController(SparkPIDController PID) {
+    private void setArmPIDController(SparkPIDController PID) {
         // PID coefficients
         kP = 5e-5;
         kI = 1e-6;
@@ -138,36 +140,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    private void setLeftArmMotorOnePIDController(SparkPIDController PID) {
-        // PID coefficients
-        kP = 5e-5;
-        kI = 1e-6;
-        kD = 0;
-        kIz = 0;
-        kFF = 0.000156;
-        kMaxOutput = 1;
-        kMinOutput = -1;
-        maxRPM = 7000;
-
-        // Smart Motion Coefficients
-        maxVel = 7000; // rpm
-        maxAcc = 1500;
-
-        // set PID coefficients
-        PID.setP(kP);
-        PID.setI(kI);
-        PID.setD(kD);
-        PID.setIZone(kIz);
-        PID.setFF(kFF);
-        PID.setOutputRange(kMinOutput, kMaxOutput);
-
-        int smartMotionSlotLeft = 0;
-        PID.setSmartMotionMaxVelocity(maxVel, smartMotionSlotLeft);
-        PID.setSmartMotionMinOutputVelocity(minVel, smartMotionSlotLeft);
-        PID.setSmartMotionMaxAccel(maxAcc, smartMotionSlotLeft);
-        PID.setSmartMotionAllowedClosedLoopError(allowedErr, smartMotionSlotLeft);
-
-    }
+    
     /*
      * ------------------------------------------------------- *\
      * | A R M P I D |
@@ -212,6 +185,11 @@ public class ArmSubsystem extends SubsystemBase {
 
 
         return atPosition;
+    }
+
+    public void manualArmControl(){
+        //TODO finish this
+
     }
 
     public void setSpeed(double rpm) {
