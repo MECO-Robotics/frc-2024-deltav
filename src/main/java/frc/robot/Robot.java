@@ -150,10 +150,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+
+    // NOTE: Currently only loads the swerve subsystem and no default commands are executed!
+    
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     try {
-      new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve"));
+      new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve/neo"));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
