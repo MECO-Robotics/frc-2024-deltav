@@ -119,9 +119,10 @@ public final class Constants
   
   
     //PID values for arm
-     public static final int armkP = 0;
-     public static final int armkI = 0;
-     public static final int armkD = 0;
+     public static final double armkP = 0.00005;
+      public static final double maxVoltage = 11.5;
+      public static final double maxRPM = 7000;
+      public static final double maxAcc = 1500;
 
     //Values for FeedForward
     public static final int armFeedkI = 0;
@@ -132,7 +133,7 @@ public final class Constants
     //Arm Encoder Port
     public static final int armEncoderPort = 0;
    
-
+      
   }
 
   
@@ -189,14 +190,11 @@ public final class Constants
       public static final double IDLEMode = 0;
 
        //PID values for shooter
-      public static final int shooterkP = 0;
-      public static final int shooterkI = 0;
-      public static final int shooterkD = 0;
-
-      //Feedforward values for shooter
-      public static final int shooterFeedkS = 0;
-      public static final int shooterFeedkV = 0;
-      public static final int shooterFeedkA = 0;
+      public static final double shooterkP = 0.00005;
+      public static final double maxVoltage = 11.5;
+      public static final double maxRPM = 7000;
+      public static final double maxAcc = 1500;
+      
       
       
 
