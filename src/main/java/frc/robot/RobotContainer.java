@@ -32,6 +32,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ControllerSubsystem;
@@ -39,7 +40,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,28 +51,29 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
  */
 public class RobotContainer {
 
-  // creates variable for controllerSubsystem
-  private final ControllerSubsystem controllerSubsystem = new ControllerSubsystem();
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+    // creates variable for controllerSubsystem
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
-  // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-      "swerve/neo"));
-  // CommandJoystick rotationController = new CommandJoystick(1);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
+    // The robot's subsystems and commands are defined here...
+    private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+            "swerve/neo"));
+    // CommandJoystick rotationController = new CommandJoystick(1);
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+   
 
-  // CommandJoystick driverController = new
-  // CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  XboxController driverXbox = new XboxController(0);
+    // CommandJoystick driverController = new
+    // CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+    XboxController pilotController = new XboxController(0);
+    CommandXboxController pilotCommandController = new CommandXboxController(0);
+    XboxController coPilotController = new XboxController(1);
+    CommandXboxController coPilotCommandController = new CommandXboxController(1);
 
-  
-  private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
   public RobotContainer() {
 
@@ -88,129 +89,129 @@ public class RobotContainer {
     
 
     // Configure the trigger bindings
+    
     configureBindings();
 
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
         // Applies deadbands and inverts controls because joysticks
         // are back-right positive while robot
         // controls are front-left positive
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRightX(),
-        () -> -driverXbox.getRightY());
+        () -> -pilotController.getRightX(),
+        () -> -pilotController.getRightY());
 
     AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> pilotController.getRawAxis(2));
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getRightX(),
+        () -> MathUtil.applyDeadband(pilotController.getRightX(),
             OperatorConstants.RIGHT_X_DEADBAND),
-        driverXbox::getYButtonPressed,
-        driverXbox::getAButtonPressed,
-        driverXbox::getXButtonPressed,
-        driverXbox::getBButtonPressed);
+        pilotController::getYButtonPressed,
+        pilotController::getAButtonPressed,
+        pilotController::getXButtonPressed,
+        pilotController::getBButtonPressed);
 
     TeleopDrive simClosedFieldRel = new TeleopDrive(drivebase,
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
+        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2), () -> true);
+        () -> pilotController.getRawAxis(2), () -> true);
+
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
-        () -> MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverController.getRawAxis(3), () -> true);
+        () -> MathUtil.applyDeadband(pilotCommandController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(pilotCommandController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -pilotCommandController.getRawAxis(3), () -> true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+    intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem,()-> (pilotController.getLeftTriggerAxis() - pilotController.getRightTriggerAxis())*12));
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary predicate, or via the
-   * named factories in
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
-   * for
-   * {@link CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
-   * Flight joysticks}.
-   */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    /**
+     * Use this method to define your trigger->command mappings. Triggers can be
+     * created via the
+     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+     * an arbitrary predicate, or via the
+     * named factories in
+     * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
+     * for
+     * {@link CommandXboxController
+     * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
+     * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
+     * Flight joysticks}.
+     */
+    private void configureBindings() {
+        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    // Old YAGSL Controls
-    // new JoystickButton(driverXbox, 1).onTrue((new
-    // InstantCommand(drivebase::zeroGyro)));
-    // new JoystickButton(driverXbox, 3).onTrue(new
-    // InstantCommand(drivebase::addFakeVisionReading));
+        // Old YAGSL Controls
+        // new JoystickButton(pilot, 1).onTrue((new
+        // InstantCommand(drivebase::zeroGyro)));
+        // new JoystickButton(pilot, 3).onTrue(new
+        // InstantCommand(drivebase::addFakeVisionReading));
 
-    // Driver controls
+        // Driver controls
 
-    // Pilot Controller
-    XboxController pilot = controllerSubsystem.getPilotController();
-    JoystickButton pilotAButton = new JoystickButton(pilot, XboxController.Button.kA.value);
-    JoystickButton pilotBButton = new JoystickButton(pilot, XboxController.Button.kB.value);
-    JoystickButton pilotXButton = new JoystickButton(pilot, XboxController.Button.kX.value);
-    JoystickButton pilotYButton = new JoystickButton(pilot, XboxController.Button.kY.value);
-    JoystickButton pilotStartButton = new JoystickButton(pilot, XboxController.Button.kStart.value);
+        // Pilot Controller
 
-    // CoPilot Controller
-    XboxController coPilot = controllerSubsystem.getCopilotController();
-    JoystickButton coPilotAButton = new JoystickButton(coPilot, XboxController.Button.kA.value);
-    JoystickButton coPilotBButton = new JoystickButton(coPilot, XboxController.Button.kB.value);
-    JoystickButton coPilotXButton = new JoystickButton(coPilot, XboxController.Button.kX.value);
-    JoystickButton coPilotYButton = new JoystickButton(coPilot, XboxController.Button.kY.value);
-    JoystickButton coPilotRightBumper = new JoystickButton(coPilot, XboxController.Button.kRightBumper.value);
-    JoystickButton coPilotStartButton = new JoystickButton(coPilot, XboxController.Button.kStart.value);
-    JoystickButton coPilotLeftBumper = new JoystickButton(coPilot, XboxController.Button.kLeftBumper.value);
+        JoystickButton pilotAButton = new JoystickButton(pilotController, XboxController.Button.kA.value);
+        JoystickButton pilotBButton = new JoystickButton(pilotController, XboxController.Button.kB.value);
+        JoystickButton pilotXButton = new JoystickButton(pilotController, XboxController.Button.kX.value);
+        JoystickButton pilotYButton = new JoystickButton(pilotController, XboxController.Button.kY.value);
+        JoystickButton pilotStartButton = new JoystickButton(pilotController, XboxController.Button.kStart.value);
 
-    JoystickButton triggerJoystickButton = new JoystickButton(pilot, XboxController.Button.kY.value);
-    
+        // CoPilot Controller
 
-    //pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
-    //pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
-    pilotXButton.whileTrue(new ShooterCommand(armSubsystem)); 
-    //pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
-    
+        JoystickButton coPilotAButton = new JoystickButton(coPilotController, XboxController.Button.kA.value);
+        JoystickButton coPilotBButton = new JoystickButton(coPilotController, XboxController.Button.kB.value);
+        JoystickButton coPilotXButton = new JoystickButton(coPilotController, XboxController.Button.kX.value);
+        JoystickButton coPilotYButton = new JoystickButton(coPilotController, XboxController.Button.kY.value);
+        JoystickButton coPilotRightBumper = new JoystickButton(coPilotController, XboxController.Button.kRightBumper.value);
+        JoystickButton coPilotStartButton = new JoystickButton(coPilotController, XboxController.Button.kStart.value);
+        JoystickButton coPilotLeftBumper = new JoystickButton(coPilotController, XboxController.Button.kLeftBumper.value);
 
-    // new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new
-    // InstantCommand(drivebase::lock, drivebase)));
-  }
+        JoystickButton triggerJoystickButton = new JoystickButton(pilotController, XboxController.Button.kY.value);
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    
+        // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
+        pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
+        pilotXButton.whileTrue(new ShooterCommand(armSubsystem));
+        // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 
-    if (autoCommandChoice != null && autoCommandChoice.getSelected() != null) {
-
-      return new PathPlannerAuto(autoCommandChoice.getSelected());
+        // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
+        // InstantCommand(drivebase::lock, drivebase)));
     }
 
-    return null;
-  }
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
 
-  public void setDriveMode() {
-    // drivebase.setDefaultCommand();
-  }
+        if (autoCommandChoice != null && autoCommandChoice.getSelected() != null) {
 
-  public void setMotorBrake(boolean brake) {
-    drivebase.setMotorBrake(brake);
-  }
+            return new PathPlannerAuto(autoCommandChoice.getSelected());
+        }
+
+        return null;
+    }
+
+    public void setDriveMode() {
+        // drivebase.setDefaultCommand();
+    }
+
+    public void setMotorBrake(boolean brake) {
+        drivebase.setMotorBrake(brake);
+    }
 }

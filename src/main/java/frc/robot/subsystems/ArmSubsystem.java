@@ -36,14 +36,14 @@ public class ArmSubsystem extends SubsystemBase {
     // private DigitalInput shooterBeamBreak = new
     // DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
 
-    // private CANSparkMax rightArmMotorOne = new
-    // CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
-    // private CANSparkMax rightArmMotorTwo = new
-    // CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
-    // private CANSparkMax leftArmMotorOne = new
-    // CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
-    // private CANSparkMax leftArmMotorTwo = new
-    // CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
+     private CANSparkMax rightArmMotorOne = new
+     CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
+     private CANSparkMax rightArmMotorTwo = new
+     CANSparkMax(Constants.Arm.rightMotorTwoID, MotorType.kBrushless);
+     private CANSparkMax leftArmMotorOne = new
+     CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
+     private CANSparkMax leftArmMotorTwo = new
+     CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
 
     private SparkPIDController leftFlywheelPIDController;
     private SparkPIDController rightFlywheelPIDController;
@@ -68,12 +68,12 @@ public class ArmSubsystem extends SubsystemBase {
         leftFlywheelPIDController = leftFlywheelMotor.getPIDController();
         rightFlywheelPIDController = rightFlywheelMotor.getPIDController();
         indexerPIDController = indexingMotor.getPIDController();
-        // leftArmMotorOnePIDController = leftArmMotorOne.getPIDController();
+        //leftArmMotorOnePIDController = leftArmMotorOne.getPIDController();
 
         // TODO Check to make sure that you actually need to invert it
-        // leftArmMotorTwo.follow(leftArmMotorOne, true);
-        // rightArmMotorTwo.follow(leftArmMotorOne, true);
-        // leftArmMotorTwo.follow(leftArmMotorOne, true);
+         leftArmMotorTwo.follow(leftArmMotorOne, true);
+         rightArmMotorTwo.follow(leftArmMotorOne, true);
+         leftArmMotorTwo.follow(leftArmMotorOne, true);
 
         setFlywheelPIDController(leftFlywheelPIDController);
         setFlywheelPIDController(rightFlywheelPIDController);
@@ -163,7 +163,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
     */
     public void setSpeed(double rpm) {
-        shooterLeftPID.setSetpoint(rpm); // Set the setpoint of the PID controller
+        //shooterLeftPID.setSetpoint(rpm); // Set the setpoint of the PID controller
     }
 
     public void setFlywheelVoltage(double voltage) {
@@ -286,7 +286,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-
+/* 
     double[] getArmPIDF() {
         return new double[] { leftArmMotorOnePIDController.getP(), leftArmMotorOnePIDController.getI(),
                 leftArmMotorOnePIDController.getD(), leftArmMotorOnePIDController.getFF() };
@@ -306,4 +306,5 @@ public class ArmSubsystem extends SubsystemBase {
         // Allows showing and changing the PIDF values for the ARM from shuffleboard
         builder.addDoubleArrayProperty("Arm PID", this::getArmPIDF, this::setArmPIDF);
     }
+    */
 }

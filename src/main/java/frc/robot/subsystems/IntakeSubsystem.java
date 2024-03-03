@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants;
@@ -29,6 +31,11 @@ public class IntakeSubsystem extends SubsystemBase {
         // start wheels at kIntakingSpeed
         intakeMotor.setVoltage(6);
 
+    }
+
+    public void setIntakeVoltage(double voltage) {
+        // start wheels at kIntakingSpeed
+        intakeMotor.setVoltage(voltage);
     }
 
     public void stopIntaking(boolean shooterEmpty) {
