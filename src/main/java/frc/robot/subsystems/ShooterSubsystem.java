@@ -50,11 +50,11 @@ public class ShooterSubsystem extends SubsystemBase{
         indexingMotor.setVoltage(indexingVoltage);
     }
     public double getLeftFlywheelSpeed() {
-        return leftFlywheelMotor.getEncoder().getVelocity() * Constants.Shooter.CONVERSION_FACTOR; // Get th                                                                                            // motor
+        return leftFlywheelMotor.getEncoder().getVelocity() * Constants.Shooter.CONVERSION_FACTOR;
     }
 
     public double getRightFlywheelSpeed() {
-        return rightFlywheelMotor.getEncoder().getVelocity() * Constants.Shooter.CONVERSION_FACTOR; // Get the                                                                                               // motor
+        return rightFlywheelMotor.getEncoder().getVelocity() * Constants.Shooter.CONVERSION_FACTOR;
     }
 
     public void periodic(){
@@ -64,7 +64,6 @@ public class ShooterSubsystem extends SubsystemBase{
 
     public boolean isBusy(){
         return !(leftPID.atSetpoint() && rightPID.atSetpoint());
-        
     }
     
     
@@ -72,7 +71,5 @@ public class ShooterSubsystem extends SubsystemBase{
         // return shooterBeamBreak.get();
         return false;
     }
-
-   
     
 }
