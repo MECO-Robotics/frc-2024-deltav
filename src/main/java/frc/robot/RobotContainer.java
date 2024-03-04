@@ -19,9 +19,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.HandoffCommand;
+import frc.robot.Constants.Shooter;
+//import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
 import frc.robot.commands.intake.StartIntakingCommand;
+import frc.robot.commands.shooter.IndexingCommand;
 import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.swervedrive.auto.Test;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
@@ -37,6 +39,7 @@ import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ControllerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -54,6 +57,7 @@ public class RobotContainer {
     // creates variable for controllerSubsystem
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ArmSubsystem armSubsystem = new ArmSubsystem();
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
     // The robot's subsystems and commands are defined here...
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -78,7 +82,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     //Commands for Pathplanner
-    NamedCommands.registerCommand("Shoot", new ShooterCommand(armSubsystem));  
+    NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem));  
     //NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem));
     //NamedCommands.registerCommand("Handoff", new HandoffCommand(armSubsystem, intakeSubsystem));
     
@@ -136,7 +140,8 @@ public class RobotContainer {
         () -> -pilotCommandController.getRawAxis(3), () -> true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
-    intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem,()-> (pilotController.getLeftTriggerAxis() - pilotController.getRightTriggerAxis())*12));
+    intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * -12));
+    shooterSubsystem.setDefaultCommand(new IndexingCommand(shooterSubsystem, () -> pilotController.getLeftTriggerAxis() * -12));
   }
 
     /**
@@ -185,7 +190,8 @@ public class RobotContainer {
 
         // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
         pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
-        pilotXButton.whileTrue(new ShooterCommand(armSubsystem));
+        pilotXButton.whileTrue(new ShooterCommand(shooterSubsystem));
+        
         // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 
         // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new

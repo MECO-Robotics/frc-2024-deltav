@@ -15,141 +15,119 @@ import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
- * class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This
+ * class should not be used for any other purpose. All constants should be
+ * declared globally (i.e. public static). Do
  * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
+public final class Constants {
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
-  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
-  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  
-  /* ------------------------------------------------------- *\
-  |                           L E D                           |
-  \* ------------------------------------------------------- */
+  public static final Matter CHASSIS = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
+  public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
+
+  /*
+   * ------------------------------------------------------- *\
+   * | L E D |
+   * \* -------------------------------------------------------
+   */
   public static final class LED {
     public static final int PWMPORT = 0;
     public static final int BUFFERSIZE = 120;
-  
+
   }
 
-  public static final class Auton
-  {
+  public static final class Auton {
 
-    public static final PIDFConfig xAutoPID     = new PIDFConfig(0.7, 0, 0);
-    public static final PIDFConfig yAutoPID     = new PIDFConfig(0.7, 0, 0);
+    public static final PIDFConfig xAutoPID = new PIDFConfig(0.7, 0, 0);
+    public static final PIDFConfig yAutoPID = new PIDFConfig(0.7, 0, 0);
     public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
 
-    public static final double MAX_SPEED        = 4;
+    public static final double MAX_SPEED = 4;
     public static final double MAX_ACCELERATION = 2;
   }
 
-  public static final class Drivebase
-  {
+  public static final class Drivebase {
 
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
-  public static class OperatorConstants
-  {
+  public static class OperatorConstants {
 
     // Joystick Deadband
     public static final double LEFT_X_DEADBAND = 0.01;
     public static final double LEFT_Y_DEADBAND = 0.01;
     public static final double RIGHT_X_DEADBAND = 0.01;
     public static final double TURN_CONSTANT = 0.75;
-    
+
   }
 
-  /* ------------------------------------------------------- *\
-  |                           A R M                           |
-  \* ------------------------------------------------------- */
-  //Arm does not include shooter it only the beam and the gearboxes attached to super structure
+  /*
+   * ------------------------------------------------------- *\
+   * | A R M |
+   * \* -------------------------------------------------------
+   */
+  // Arm does not include shooter it only the beam and the gearboxes attached to
+  // super structure
   public static final class Arm {
-    //Creates the CAN id's for the 2 motor arm gearboxes on the super structure
-    
-    public static final int rightMotorOneID = 0;
-    public static final int rightMotorTwoID = 0;
-    public static final int leftMotorOneID = 0;
-    public static final int leftMotorTwoID = 0;
+    // Creates the CAN id's for the 2 motor arm gearboxes on the super structure
 
-    public static final boolean rightMotorOneCANIDInverted = true; //IDK if it needs to be inverted
-    public static final boolean leftMotorOneCANIDInverted = true;
-    public static final boolean rightMotorTwoCANDIDInverted = true;
-    public static final boolean leftMotorTwoCANDIDInverted = true;
-    //only need 1 current limiting since all the motors should have the same current limit
-    public static final int kCurrentLimit = 0; //Sets current limiting
-
-    public static final double kSoftLimitReverse = 0;
-    public static final double kSoftLimitForward = 0.0;
-    
-    public static final int kBeamBreakSensorPort = 0;
-
-    //IDK the gear ratios so these are place holders
-    public static final double kArmGearRatio = (1.0 / 25.0) * (28.0 / 50.0) * (16.0 / 64.0); 
-    public static final double kPositionFactor =
-        kArmGearRatio
-            * 2.0
-            * Math.PI; // multiply SM value by this number and get arm position in radians
-    public static final double kVelocityFactor = kArmGearRatio * 2.0 * Math.PI / 60.0;
-    public static final double kArmFreeSpeed = 5676.0 * kVelocityFactor;
-    public static final double kArmZeroCosineOffset =
-        1.342; // radians to add to converted arm position to get real-world arm position (starts at
-    // ~76.9deg angle)
-    public static final ArmFeedforward kArmFeedforward =
-        new ArmFeedforward(0.0, 3.0, 12.0 / kArmFreeSpeed, 0.0);
-    //public static final PIDGains kArmPositionGains = new PIDGains();
-    public static final TrapezoidProfile.Constraints kArmMotionConstraint =
-        new TrapezoidProfile.Constraints(1.0, 2.0);
-
-    //Differnt arm positions
-    public static final double kIntakePosition = 0.0;
-    public static final double kClimbingPosition = 0;
-    public static final double kAmpPosition = 0;
-    public static final double kStowPosition = 0;
-
-    //THe ops are lurking so be aware
-  public static final PIDFConfig armPID = new PIDFConfig(0,0,0);   
-  
-  
-    //PID values for arm
-     public static final double armkP = 0.00005;
-      public static final double maxVoltage = 11.5;
-      public static final double maxRPM = 7000;
-      public static final double maxAcc = 1500;
-
-    //Values for FeedForward
-    public static final int armFeedkI = 0;
-    public static final int armFeedkFF = 0;
-    public static final int armFeedforwardOutputRangeMin = 0;
-    public static final int armFeedforwardOutputRangeMax = 0;
-    
-    //Arm Encoder Port
+    // Arm Encoder Port
     public static final int armEncoderPort = 0;
-   
-      
+
+    public static final int rightMotorOneID = 19;
+    public static final int rightMotorTwoID = 20;
+    public static final int leftMotorOneID = 18;
+    public static final int leftMotorTwoID = 17;
+
+    // Feed Forward
+    public static final int armks = 0;
+    public static final int armkg = 0;
+    public static final int armkv = 0;
+
+    // PID values for arm
+    public static final double armkP = 0.00005;
+    public static final double maxVoltage = 11.5;
+    public static final double maxRPM = 7000;
+    public static final double maxAcc = 1500;
+
+    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1.0, 2.0);
+
+    public static final int kCurrentLimit = 0; // Sets current limiting
+
+    // Differnt arm positions
+    public static class SetPointPositions {
+      public static final double kIntakePosition = 0.0;
+      public static final double kClimbingPosition = 0;
+      public static final double kAmpPosition = 0;
+      public static final double kStowPosition = 0;
+
+    }
+
   }
 
-  
-  /* ------------------------------------------------------- *\
-  |                        I N T A K E                        |
-  \* ------------------------------------------------------- */
+  /*
+   * ------------------------------------------------------- *\
+   * | I N T A K E |
+   * \* -------------------------------------------------------
+   */
   public static final class Intake {
 
-    //public static final int kCanId = 0;
-    public static final int intakeMotorCANID = 0;
+    // public static final int kCanId = 0;
+    public static final int intakeMotorCANID = 21;
 
     public static final boolean intakeMotorCANIDInverted = false;
 
     public static final int kIntakeCurrentLimit = 0;
 
-    //public static final PIDGains kPositionGains = new PIDGains();
+    // public static final PIDGains kPositionGains = new PIDGains();
     public static final double kPositionTolerance = 0;
 
     public static final double kIntakePower = 0;
@@ -157,59 +135,62 @@ public final class Constants
     public static final double kShotFeedTime = 0;
 
     public static final double kIntakingSpeed = 0;
-    public static final double kHandoffSpeed = 0; //(slower than intaking?)
+    public static final double kHandoffSpeed = 0; // (slower than intaking?)
 
-    //BeamBreak sensor DIO port for shooter
+    // BeamBreak sensor DIO port for shooter
     public static final int kBeamBreakSensorPort = 0;
-    
-    
+
   }
 
+  /*
+   * ------------------------------------------------------- *\
+   * | S H O O T E R |
+   * \* -------------------------------------------------------
+   */
+  public static final class Shooter {
 
-  /* ------------------------------------------------------- *\
-  |                       S H O O T E R                       |
-  \* ------------------------------------------------------- */
-  public static final class Shooter{
+    public static final class Presets {
+      public static final int kLeftSpeaker = 5200;
+      public static final int kRightSpeaker = 5100;
 
-      //CAN ID's for the shooter motors
-      public static final int leftLeaderFlywheelMotor = 14;
-      public static final int rightLeaderFlywheelMotor = 15;
-      public static final int indexingMotor = 16;
-    
-
-      public static final boolean leftLeaderFlywheelMotorInverted = true;
-      public static final boolean rightFollowerFlywheelMotorInverted = false;
-      public static final boolean indexingMotorInverted = false;
-
-      public static final int kShooterCurrentLimit = 0;
-
-      //Only needs 1 PID constant for flywheels 
-      //Top and bottom in follower mode
-      public static final PIDFConfig flywheelPID = new PIDFConfig(0,0,0 );
-     
-      public static final double IDLEMode = 0;
-
-       //PID values for shooter
-      public static final double shooterkP = 0.00005;
-      public static final double maxVoltage = 11.5;
-      public static final double maxRPM = 7000;
-      public static final double maxAcc = 1500;
-      
-      
-      
-
-      //BeamBreak sensor DIO port for shooter
-      public static final int shooterBeamBreakDIOPort = 0;
-
-      //Even more goofy variables
-      public static final double CONVERSION_FACTOR = 0;
-      public static final double BUSY_TOLERANCE = 0;
-      
-
-
+      //IDLE
+      public static final int kIDLE = 3000;
 
     }
 
+    // CAN ID's for the shooter motors
+    public static final int leftLeaderFlywheelMotor = 14;
+    public static final int rightLeaderFlywheelMotor = 15;
+    public static final int indexingMotor = 16;
 
+    public static final boolean kleftMotorInverted = true;
+    public static final boolean krightMotorInverted = false;
+    public static final boolean indexingMotorInverted = false;
+
+    public static final int kShooterCurrentLimit = 0;
+
+    public static final int shooterks = 0;
+    public static final int shooterkv = 0;
+
+    // Only needs 1 PID constant for flywheels
+    // Top and bottom in follower mode
+    public static final PIDFConfig flywheelPID = new PIDFConfig(0, 0, 0);
+
+    public static final double IDLEMode = 0;
+
+    // PID values for shooter
+    public static final double shooterkP = 0.00005;
+    public static final double maxVoltage = 11.5;
+    public static final double maxRPM = 7000;
+    public static final double maxAcc = 1500;
+
+    // BeamBreak sensor DIO port for shooter
+    public static final int shooterBeamBreakDIOPort = 0;
+
+    // Even more goofy variables
+    public static final double CONVERSION_FACTOR = 0;
+    public static final double BUSY_TOLERANCE = 0;
+
+  }
 
 }

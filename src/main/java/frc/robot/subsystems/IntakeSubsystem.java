@@ -15,7 +15,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private CANSparkMax intakeMotor = new CANSparkMax(Constants.Intake.intakeMotorCANID, MotorType.kBrushless);
 
-    DigitalInput intakeBeambreak = new DigitalInput(Constants.Intake.kBeamBreakSensorPort);
+    //DigitalInput intakeBeambreak = new DigitalInput(Constants.Intake.kBeamBreakSensorPort);
 
     public IntakeSubsystem() {
 
@@ -41,11 +41,11 @@ public class IntakeSubsystem extends SubsystemBase {
     public void stopIntaking(boolean shooterEmpty) {
         intakeMotor.setVoltage(0);
     }
-
+/* 
     // handoff to shooter command
     public boolean handoffNote() {
         // set wheels to kHandoffSpeed (slower than intaking?)
-
+ 
         if (intakeBeambreak.get()) {
             // NOTE is in
             intakeMotor.set(.8);
@@ -57,7 +57,7 @@ public class IntakeSubsystem extends SubsystemBase {
         }
 
     }
-
+*/
     // emergency outtake command
     public void ejectIntake() {
         // set wheels to -(kIntakingSpeed)

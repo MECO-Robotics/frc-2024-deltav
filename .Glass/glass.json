@@ -1,0 +1,34 @@
+{
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "PathPlannerAuto": {
+          "open": true
+        },
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/PathPlannerAuto": "String Chooser",
+      "/SmartDashboard/Pigeon 2 (v6) [13]": "Gyro"
+    }
+  },
+  "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "open": true
+    },
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "10.83.24.2"
+  }
+}

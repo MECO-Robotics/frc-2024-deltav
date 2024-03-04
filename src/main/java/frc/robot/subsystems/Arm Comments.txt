@@ -1,0 +1,76 @@
+// Hey Brian don't worry about this code, sure it's jank but this is what we
+    // know how to do from previous years so let us cook b(￣▽￣)d
+
+    // TODO(from Paul): Question for Brennan/Nate/Brian - Do these methods need to
+    // have "Arm"
+    // in the name so we can distinguish them from similar functions we'll
+    // have for the shooter flywheel (assuming we have functions like
+    // setVelocity())?
+    /* 
+    public boolean setArmPosition(double armPosition) {
+        // will be passed in with constants from xbox buttons
+        // possible positions: kStowPosition, kIntakePosition, kAmpPosition,
+        // kClimbingPosition, and the speaker aim position calculated from vision
+
+        // Create a state for the motion profile
+        //TrapezoidProfile.State currentState = new TrapezoidProfile.State(
+                //leftFlywheelMotor.getEncoder().getPosition(), leftFlywheelMotor.getEncoder().getVelocity());
+        
+        rightArmMotorOnePidController.setReference(armPosition, CANSparkMax.ControlType.kPosition);
+
+
+        boolean atPosition = Math.abs(rightArmMotorOne.getEncoder().getPosition() - armPosition) < 0.01;
+
+
+        return atPosition;
+    }
+    */
+
+
+
+    // recieve
+    
+
+    // aim speaker/rev flywheels
+    // angle starts at zero, can only increase
+    /*
+     * public boolean aimSpeaker(double angle) {
+     * 
+     * setArmPosition(angle);
+     * 
+     * boolean armInPosition = !isBusy();
+     * 
+     * double flywheelShootSpeed = 0;
+     * leftFlywheelMotor.set(flywheelShootSpeed);
+     * double flywheelSpeed = leftFlywheelMotor.get(); // gets RPMs?
+     * 
+     * double difference = Math.abs(flywheelShootSpeed - flywheelSpeed);
+     * boolean flywheelRevved = difference < 10.0;
+     * 
+     * return (armInPosition && flywheelRevved);
+     * }
+     */
+    // shoot speaker
+    
+
+    /* 
+    double[] getArmPIDF() {
+        return new double[] { leftArmMotorOnePIDController.getP(), leftArmMotorOnePIDController.getI(),
+                leftArmMotorOnePIDController.getD(), leftArmMotorOnePIDController.getFF() };
+    }
+
+    void setArmPIDF(double[] pidf) {
+        leftArmMotorOnePIDController.setP(pidf[0]);
+        leftArmMotorOnePIDController.setI(pidf[1]);
+        leftArmMotorOnePIDController.setD(pidf[2]);
+        leftArmMotorOnePIDController.setFF(pidf[3]);
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+
+        // Allows showing and changing the PIDF values for the ARM from shuffleboard
+        builder.addDoubleArrayProperty("Arm PID", this::getArmPIDF, this::setArmPIDF);
+    }
+    */
