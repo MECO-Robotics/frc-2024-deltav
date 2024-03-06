@@ -1,11 +1,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandStadiaController;
-import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 //This command never finishees unless end if called
@@ -13,12 +8,17 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShooterCommand extends Command{
 
     private final ShooterSubsystem shooter;
+    private final double leftRPM, rightRPM;
+    
 
-    public ShooterCommand(ShooterSubsystem shooterSubsystem){
+    public ShooterCommand(ShooterSubsystem shooterSubsystem, double leftRPM, double rightRPM){
         shooter = shooterSubsystem;
+        this.leftRPM = leftRPM;
+        this.rightRPM = rightRPM;
     }
-    public void execute(){
-        shooter.setSpeed(Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker);
+    public void initialize(){
+        shooter.setSpeed(leftRPM, rightRPM);
+        shooter.enable();
     }
     public boolean isFinished(){
         return !shooter.isBusy();

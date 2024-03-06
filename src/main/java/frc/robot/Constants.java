@@ -123,7 +123,7 @@ public final class Constants {
     // public static final int kCanId = 0;
     public static final int intakeMotorCANID = 21;
 
-    public static final boolean intakeMotorCANIDInverted = false;
+    public static final boolean intakeMotorCANIDInverted = true;
 
     public static final int kIntakeCurrentLimit = 0;
 
@@ -151,7 +151,7 @@ public final class Constants {
 
     public static final class Presets {
       public static final int kLeftSpeaker = 5200;
-      public static final int kRightSpeaker = 5100;
+      public static final int kRightSpeaker = 5170;
 
       //IDLE
       public static final int kIDLE = 3000;
@@ -161,36 +161,40 @@ public final class Constants {
     // CAN ID's for the shooter motors
     public static final int leftLeaderFlywheelMotor = 14;
     public static final int rightLeaderFlywheelMotor = 15;
-    public static final int indexingMotor = 16;
+    
 
     public static final boolean kleftMotorInverted = true;
     public static final boolean krightMotorInverted = false;
-    public static final boolean indexingMotorInverted = false;
+    
 
     public static final int kShooterCurrentLimit = 0;
 
-    public static final int shooterks = 0;
-    public static final int shooterkv = 0;
-
-    // Only needs 1 PID constant for flywheels
-    // Top and bottom in follower mode
-    public static final PIDFConfig flywheelPID = new PIDFConfig(0, 0, 0);
-
-    public static final double IDLEMode = 0;
+    public static final double shooterks = 0;
+    public static final double shooterkv = 0;
 
     // PID values for shooter
-    public static final double shooterkP = 0.00005;
+    public static final double shooterkP = 0.5;
+    public static final double shooterkI = 0;
+    public static final double shooterkD = 0;
     public static final double maxVoltage = 11.5;
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;
 
+  
     // BeamBreak sensor DIO port for shooter
     public static final int shooterBeamBreakDIOPort = 0;
 
     // Even more goofy variables
-    public static final double CONVERSION_FACTOR = 0;
+    public static final double CONVERSION_FACTOR = 1;
     public static final double BUSY_TOLERANCE = 0;
 
+  }
+
+  
+  public static final class Indexing{
+
+  public static final int indexingMotor = 16;
+  public static final boolean indexingMotorInverted = true;
   }
 
 }

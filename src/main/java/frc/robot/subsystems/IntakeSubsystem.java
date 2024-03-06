@@ -18,7 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
     //DigitalInput intakeBeambreak = new DigitalInput(Constants.Intake.kBeamBreakSensorPort);
 
     public IntakeSubsystem() {
-
+        intakeMotor.setInverted(Constants.Intake.intakeMotorCANIDInverted);
         // DigitalInput intakeBeamBreak = new
         // DigitalInput(Constants.Intake.intakeBeamBreakDIOPort);
 

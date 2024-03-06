@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Shooter;
+import frc.robot.commands.indexer.IndexingCommand;
 //import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
 import frc.robot.commands.intake.StartIntakingCommand;
-import frc.robot.commands.shooter.IndexingCommand;
 import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.swervedrive.auto.Test;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
@@ -38,6 +38,7 @@ import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ControllerSubsystem;
+import frc.robot.subsystems.IndexingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ArmSubsystem armSubsystem = new ArmSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final IndexingSubsystem indexingSubsystem = new IndexingSubsystem();
 
     // The robot's subsystems and commands are defined here...
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -82,7 +84,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     //Commands for Pathplanner
-    NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem));  
+    //NamedCommands.registerCommand("Shoot", new ShooterSpeakerCommand(shooterSubsystem));  
     //NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem));
     //NamedCommands.registerCommand("Handoff", new HandoffCommand(armSubsystem, intakeSubsystem));
     
@@ -140,9 +142,9 @@ public class RobotContainer {
         () -> -pilotCommandController.getRawAxis(3), () -> true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
-    intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * -12));
-    shooterSubsystem.setDefaultCommand(new IndexingCommand(shooterSubsystem, () -> pilotController.getLeftTriggerAxis() * -12));
-  }
+    intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * 12));
+    indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
+}
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be
@@ -170,28 +172,13 @@ public class RobotContainer {
 
         // Pilot Controller
 
-        JoystickButton pilotAButton = new JoystickButton(pilotController, XboxController.Button.kA.value);
-        JoystickButton pilotBButton = new JoystickButton(pilotController, XboxController.Button.kB.value);
-        JoystickButton pilotXButton = new JoystickButton(pilotController, XboxController.Button.kX.value);
-        JoystickButton pilotYButton = new JoystickButton(pilotController, XboxController.Button.kY.value);
-        JoystickButton pilotStartButton = new JoystickButton(pilotController, XboxController.Button.kStart.value);
-
+        
         // CoPilot Controller
 
-        JoystickButton coPilotAButton = new JoystickButton(coPilotController, XboxController.Button.kA.value);
-        JoystickButton coPilotBButton = new JoystickButton(coPilotController, XboxController.Button.kB.value);
-        JoystickButton coPilotXButton = new JoystickButton(coPilotController, XboxController.Button.kX.value);
-        JoystickButton coPilotYButton = new JoystickButton(coPilotController, XboxController.Button.kY.value);
-        JoystickButton coPilotRightBumper = new JoystickButton(coPilotController, XboxController.Button.kRightBumper.value);
-        JoystickButton coPilotStartButton = new JoystickButton(coPilotController, XboxController.Button.kStart.value);
-        JoystickButton coPilotLeftBumper = new JoystickButton(coPilotController, XboxController.Button.kLeftBumper.value);
-
-        JoystickButton triggerJoystickButton = new JoystickButton(pilotController, XboxController.Button.kY.value);
-
         // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
-        pilotBButton.onTrue(new NoAutomationIntakieCommand(intakeSubsystem));
-        pilotXButton.whileTrue(new ShooterCommand(shooterSubsystem));
-        
+        pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
+        coPilotCommandController.x().onTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
+        coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disabled));
         // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 
         // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
