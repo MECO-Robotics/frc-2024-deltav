@@ -2,14 +2,16 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexingSubsystem extends SubsystemBase{
     
-    DigitalInput indexerBeambreak = new DigitalInput(Constants.Shooter.shooterBeamBreakDIOPort);
+    AnalogInput indexerBeambreak = new AnalogInput(Constants.Shooter.shooterBeamBreakDIOPort);
 
     private CANSparkMax indexingMotor = new CANSparkMax(Constants.Indexing.indexingMotor, MotorType.kBrushless);
 
@@ -21,8 +23,12 @@ public class IndexingSubsystem extends SubsystemBase{
         indexingMotor.setVoltage(indexingVoltage);
     }
 
+    public void periodic(){
+        SmartDashboard.putNumber("BeamBreak IR value",indexerBeambreak.getValue());
+    }
+
     public boolean isNoteAquired(){
-        return indexerBeambreak.get();
+        return indexerBeambreak.getValue()< Constants.Indexing.beamBreakIRThreashold;
     }
 
 }

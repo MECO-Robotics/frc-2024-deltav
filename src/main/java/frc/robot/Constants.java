@@ -199,6 +199,7 @@ public final class Constants {
   public static final int indexingMotor = 16;
   public static final boolean indexingMotorInverted = true;
   public static final int indexingSpeed = 4000;
+  public static final int beamBreakIRThreashold = 0;
   }
 
 }
