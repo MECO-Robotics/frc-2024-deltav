@@ -29,7 +29,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // intake start command
     public void startIntaking(boolean shooterEmpty) {
         // start wheels at kIntakingSpeed
-        intakeMotor.setVoltage(6);
+        intakeMotor.setVoltage(-6);
 
     }
 

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Shooter;
+import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 //import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
@@ -141,9 +142,14 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(pilotCommandController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -pilotCommandController.getRawAxis(3), () -> true);
 
+
+    ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+        () -> MathUtil.applyDeadband(coPilotController.getRightY() * 12,0.01));
+
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
     intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * 12));
     indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
+    armSubsystem.setDefaultCommand(manualArm);
 }
 
     /**
@@ -179,6 +185,12 @@ public class RobotContainer {
         pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
         coPilotCommandController.x().onTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
         coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disabled));
+
+
+        
+
+        
+
         // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 
         // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new

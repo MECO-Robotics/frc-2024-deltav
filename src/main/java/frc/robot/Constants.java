@@ -151,7 +151,7 @@ public final class Constants {
 
     public static final class Presets {
       public static final int kLeftSpeaker = 5200;
-      public static final int kRightSpeaker = 5170;
+      public static final int kRightSpeaker = 5100;
 
       //IDLE
       public static final int kIDLE = 3000;
@@ -182,7 +182,7 @@ public final class Constants {
 
   
     // BeamBreak sensor DIO port for shooter
-    public static final int shooterBeamBreakDIOPort = 0;
+    public static final int shooterBeamBreakDIOPort = 1;
 
     // Even more goofy variables
     public static final double CONVERSION_FACTOR = 1;

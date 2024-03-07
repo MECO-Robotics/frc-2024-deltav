@@ -14,10 +14,11 @@ public class ManualArmControlCommand extends Command{
         arm = armSubsystem;
         input = controllerInput;
 
+        addRequirements(armSubsystem);
     }
     public void execute(){
         double returnedValue = input.getAsDouble();
-        arm.setVoltage(returnedValue);
+        arm.setVoltage(returnedValue + .115);
     }
     public boolean isFinished(){
         return false;

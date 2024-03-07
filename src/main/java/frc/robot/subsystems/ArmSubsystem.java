@@ -17,8 +17,7 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem
     
     private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
     private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
-
-
+    
     private PIDController PID = new PIDController(Constants.Arm.armkP, 0, 0);
     private ArmFeedforward FF = new ArmFeedforward(Constants.Arm.armks, Constants.Arm.armkg, Constants.Arm.armkv);
 
@@ -48,5 +47,7 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem
     public boolean isBusy(){
         return !PID.atSetpoint();
     }
+    
+    
     
 }
