@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Shooter;
+import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 //import frc.robot.commands.HandoffCommand;
@@ -69,8 +70,6 @@ public class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
    
 
-    // CommandJoystick driverController = new
-    // CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
 
     XboxController pilotController = new XboxController(0);
     CommandXboxController pilotCommandController = new CommandXboxController(0);
@@ -85,18 +84,17 @@ public class RobotContainer {
   public RobotContainer() {
 
     //Commands for Pathplanner
-    //NamedCommands.registerCommand("Shoot", new ShooterSpeakerCommand(shooterSubsystem));  
-    //NamedCommands.registerCommand("Intake", new StartIntakingCommand(armSubsystem, intakeSubsystem));
-    //NamedCommands.registerCommand("Handoff", new HandoffCommand(armSubsystem, intakeSubsystem));
-    
+    NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
+    NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem));
+    NamedCommands.registerCommand("Handoff", new HandoffCommand(indexingSubsystem, intakeSubsystem));
 
     //Auto selection choices
     autoCommandChoice.addOption("7 note auto", "7 note auto");
     SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
-    
+    SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
+    SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
 
-    // Configure the trigger bindings
-    
+    // Configure the trigger bindingss
     configureBindings();
 
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
@@ -174,18 +172,11 @@ public class RobotContainer {
         // new JoystickButton(pilot, 3).onTrue(new
         // InstantCommand(drivebase::addFakeVisionReading));
 
-        // Driver controls
-
-        // Pilot Controller
-
-        
-        // CoPilot Controller
-
         // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
         pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
         coPilotCommandController.x().onTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
         coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disabled));
-
+        pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem));
 
         
 

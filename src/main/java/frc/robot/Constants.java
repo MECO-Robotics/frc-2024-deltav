@@ -153,6 +153,9 @@ public final class Constants {
       public static final int kLeftSpeaker = 5200;
       public static final int kRightSpeaker = 5100;
 
+      public static final int kidleSpeed = 1000;
+
+
       //IDLE
       public static final int kIDLE = 3000;
 
@@ -190,11 +193,12 @@ public final class Constants {
 
   }
 
-  
+  //Indexer
   public static final class Indexing{
 
   public static final int indexingMotor = 16;
   public static final boolean indexingMotorInverted = true;
+  public static final int indexingSpeed = 4000;
   }
 
 }

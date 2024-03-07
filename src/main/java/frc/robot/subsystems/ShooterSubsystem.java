@@ -47,6 +47,11 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right Flywheel", rightVoltage);
     }
 
+    public void setIdleSpeed(){
+        leftFlywheelMotor.set(1000);
+        rightFlywheelMotor.set(1000);
+    }
+
     public double getLeftFlywheelSpeed() {
         return leftFlywheelMotor.getEncoder().getVelocity() * Constants.Shooter.CONVERSION_FACTOR; // Get th // motor
     }
