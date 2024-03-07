@@ -142,7 +142,7 @@ public class RobotContainer {
 
 
     ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-        () -> MathUtil.applyDeadband(coPilotController.getRightY() * 12,0.01));
+        () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12,0.01));
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
     intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * 12));
