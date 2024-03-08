@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Shooter;
 import frc.robot.commands.HandoffCommand;
@@ -68,87 +70,88 @@ public class RobotContainer {
             "swerve/neo"));
     // CommandJoystick rotationController = new CommandJoystick(1);
     // Replace with CommandPS4Controller or CommandJoystick if needed
-   
-
 
     XboxController pilotController = new XboxController(0);
     CommandXboxController pilotCommandController = new CommandXboxController(0);
     XboxController coPilotController = new XboxController(1);
     CommandXboxController coPilotCommandController = new CommandXboxController(1);
+    CommandXboxController tuningCommandXboxController = new CommandXboxController(2);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
-  public RobotContainer() {
+    public RobotContainer() {
 
-    //Commands for Pathplanner
-    NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
-    NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem));
-    NamedCommands.registerCommand("Handoff", new HandoffCommand(indexingSubsystem, intakeSubsystem));
+        // Commands for Pathplanner
+        NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
+                Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
+        //NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem));
+        NamedCommands.registerCommand("Handoff", new HandoffCommand(indexingSubsystem, intakeSubsystem));
 
-    //Auto selection choices
-    autoCommandChoice.addOption("7 note auto", "7 note auto");
-    SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
-    SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
-    SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
+        // Auto selection choices
+        autoCommandChoice.addOption("7 note auto", "7 note auto");
+        SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
+        SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
+        SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
 
-    // Configure the trigger bindingss
-    configureBindings();
+        // Configure the trigger bindingss
+        configureBindings();
 
-    AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
-        // Applies deadbands and inverts controls because joysticks
-        // are back-right positive while robot
-        // controls are front-left positive
-        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
-            OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
-            OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pilotController.getRightX(),
-        () -> -pilotController.getRightY());
+        AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
+                // Applies deadbands and inverts controls because joysticks
+                // are back-right positive while robot
+                // controls are front-left positive
+                () -> MathUtil.applyDeadband(pilotController.getLeftY(),
+                        OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(pilotController.getLeftX(),
+                        OperatorConstants.LEFT_X_DEADBAND),
+                () -> -pilotController.getRightX(),
+                () -> -pilotController.getRightY());
 
-    AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
-        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
-            OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
-            OperatorConstants.LEFT_X_DEADBAND),
-        () -> pilotController.getRawAxis(2));
+        AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
+                () -> MathUtil.applyDeadband(pilotController.getLeftY(),
+                        OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(pilotController.getLeftX(),
+                        OperatorConstants.LEFT_X_DEADBAND),
+                () -> pilotController.getRawAxis(2));
 
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
-            OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
-            OperatorConstants.LEFT_X_DEADBAND),
-        () -> MathUtil.applyDeadband(pilotController.getRightX(),
-            OperatorConstants.RIGHT_X_DEADBAND),
-        pilotController::getYButtonPressed,
-        pilotController::getAButtonPressed,
-        pilotController::getXButtonPressed,
-        pilotController::getBButtonPressed);
+        AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
+                () -> MathUtil.applyDeadband(pilotController.getLeftY(),
+                        OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(pilotController.getLeftX(),
+                        OperatorConstants.LEFT_X_DEADBAND),
+                () -> MathUtil.applyDeadband(pilotController.getRightX(),
+                        OperatorConstants.RIGHT_X_DEADBAND),
+                pilotController::getYButtonPressed,
+                pilotController::getAButtonPressed,
+                pilotController::getXButtonPressed,
+                pilotController::getBButtonPressed);
 
-    TeleopDrive simClosedFieldRel = new TeleopDrive(drivebase,
-        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
-            OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
-            OperatorConstants.LEFT_X_DEADBAND),
-        () -> pilotController.getRawAxis(2), () -> true);
+        TeleopDrive simClosedFieldRel = new TeleopDrive(drivebase,
+                () -> MathUtil.applyDeadband(pilotController.getLeftY(),
+                        OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(pilotController.getLeftX(),
+                        OperatorConstants.LEFT_X_DEADBAND),
+                () -> pilotController.getRawAxis(2), () -> true);
 
-    TeleopDrive closedFieldRel = new TeleopDrive(
-        drivebase,
-        () -> MathUtil.applyDeadband(pilotCommandController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(pilotCommandController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pilotCommandController.getRawAxis(3), () -> true);
+        TeleopDrive closedFieldRel = new TeleopDrive(
+                drivebase,
+                () -> MathUtil.applyDeadband(pilotCommandController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+                () -> MathUtil.applyDeadband(pilotCommandController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+                () -> -pilotCommandController.getRawAxis(3), () -> true);
 
+        ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+                () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
 
-    ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-        () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12,0.01));
-
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
-    intakeSubsystem.setDefaultCommand(new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * 12));
-    indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
-    armSubsystem.setDefaultCommand(manualArm);
-}
+        drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+        intakeSubsystem.setDefaultCommand(
+                new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * 12));
+        indexingSubsystem.setDefaultCommand(
+                new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
+        armSubsystem.setDefaultCommand(manualArm);
+    }
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be
@@ -174,13 +177,18 @@ public class RobotContainer {
 
         // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
         pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
-        coPilotCommandController.x().onTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
-        coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disabled));
+        coPilotCommandController.x().whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
+                Constants.Shooter.Presets.kRightSpeaker));
+        coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem));
-        
-        
-
-        
+        tuningCommandXboxController.x().whileTrue(shooterSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kForward)
+                .finallyDo(shooterSubsystem::disable));
+        tuningCommandXboxController.a().whileTrue(shooterSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kReverse)
+                .finallyDo(shooterSubsystem::disable));
+        tuningCommandXboxController.y().whileTrue(
+                shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward).finallyDo(shooterSubsystem::disable));
+        tuningCommandXboxController.b().whileTrue(
+                shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse).finallyDo(shooterSubsystem::disable));
 
         // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 

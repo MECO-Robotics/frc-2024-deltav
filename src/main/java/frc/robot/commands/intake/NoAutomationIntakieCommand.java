@@ -13,17 +13,13 @@ public class NoAutomationIntakieCommand extends Command {
     private final IntakeSubsystem intake;
     private final DoubleSupplier intakeSpeed;
 
-    public NoAutomationIntakieCommand(IntakeSubsystem intakeSubsystem){
-        this(intakeSubsystem, null);
-    }
-
     public NoAutomationIntakieCommand(IntakeSubsystem intakeSubsystem, DoubleSupplier intakeSpeed){
         intake = intakeSubsystem;
         this.intakeSpeed = intakeSpeed;
         addRequirements(intakeSubsystem);
     }
     public void execute() {
-        intake.setIntakeVoltage(intakeSpeed == null ? 12 : intakeSpeed.getAsDouble());
+        intake.setIntakeVoltage(intakeSpeed.getAsDouble());
 
     }
     public boolean isFinished() {

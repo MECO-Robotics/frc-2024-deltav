@@ -6,30 +6,43 @@ import frc.robot.subsystems.IndexingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class HandoffCommand extends Command{
+public class HandoffCommand extends Command {
     private final IndexingSubsystem indexer;
     private final IntakeSubsystem intake;
-      
 
-    public HandoffCommand(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn){
+    private boolean finished = false;
+    private boolean reversing = false;
+
+    public HandoffCommand(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn) {
         indexer = indexerPassedIn;
         intake = intakePassedIn;
         addRequirements(indexer, intake);
     }
-    public void execute(){
-        indexer.setIndexingVoltage(11);
-        intake.setIntakeVoltage(11);
+    public void initialize() {
+        finished = false;
+        reversing = false;
     }
 
-    public void end(boolean isInterrupted){
+    public void execute() {
+        if (indexer.isNoteAquired()) {
+            indexer.setIndexingVoltage(-6);
+            intake.setIntakeVoltage(0);
+            reversing = true;
+        } else if (reversing) {
+            finished = true;
+        } else {
+            indexer.setIndexingVoltage(6);
+            intake.setIntakeVoltage(12);
+        }
+    }
+
+    public void end(boolean isInterrupted) {
         indexer.setIndexingVoltage(0);
         intake.setIntakeVoltage(0);
     }
-    public boolean isFinished(){
-        return indexer.isNoteAquired();
+
+    public boolean isFinished() {
+        return finished;
     }
 
-
-
 }
-

@@ -155,8 +155,7 @@ public final class Constants {
 
       public static final int kidleSpeed = 1000;
 
-
-      //IDLE
+      // IDLE
       public static final int kIDLE = 3000;
 
     }
@@ -164,11 +163,9 @@ public final class Constants {
     // CAN ID's for the shooter motors
     public static final int leftLeaderFlywheelMotor = 14;
     public static final int rightLeaderFlywheelMotor = 15;
-    
 
     public static final boolean kleftMotorInverted = true;
     public static final boolean krightMotorInverted = false;
-    
 
     public static final int kShooterCurrentLimit = 0;
 
@@ -183,9 +180,9 @@ public final class Constants {
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;
 
-  
     // BeamBreak sensor DIO port for shooter
-    public static final int shooterBeamBreakDIOPort = 1;
+    public static final int kBeamBreakPort = 0;
+
 
     // Even more goofy variables
     public static final double CONVERSION_FACTOR = 1;
@@ -193,13 +190,13 @@ public final class Constants {
 
   }
 
-  //Indexer
-  public static final class Indexing{
+  // Indexer
+  public static final class Indexing {
 
-  public static final int indexingMotor = 16;
-  public static final boolean indexingMotorInverted = true;
-  public static final int indexingSpeed = 4000;
-  public static final int beamBreakIRThreashold = 0;
+    public static final int indexingMotor = 16;
+    public static final boolean indexingMotorInverted = true;
+    public static final int indexingSpeed = 4000;
+    public static final int beamBreakIRThreashold = 200;
   }
 
 }

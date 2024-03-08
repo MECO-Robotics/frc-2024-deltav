@@ -1,10 +1,14 @@
 package frc.robot.subsystems;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
@@ -19,11 +23,26 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANSparkMax rightFlywheelMotor = new CANSparkMax(Constants.Shooter.rightLeaderFlywheelMotor,
             MotorType.kBrushless);
 
-    private boolean PIDEnabled;
+    private boolean PIDEnabled = false;
 
-    private PIDController leftPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI, Constants.Shooter.shooterkD);
-    private PIDController rightPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI, Constants.Shooter.shooterkD);
-    private SimpleMotorFeedforward FF = new SimpleMotorFeedforward(Constants.Shooter.shooterks,Constants.Shooter.shooterkv);
+    private PIDController leftPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI,
+            Constants.Shooter.shooterkD);
+    private PIDController rightPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI,
+            Constants.Shooter.shooterkD);
+    private SimpleMotorFeedforward FF = new SimpleMotorFeedforward(Constants.Shooter.shooterks,
+            Constants.Shooter.shooterkv);
+
+    public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(voltage.in(Units.Volts), 0),
+                    log ->
+                    // Record a frame for the shooter motor.
+                    log.motor("Flywheel")
+                            .voltage(
+                                    Units.Volts.of(
+                                            leftFlywheelMotor.getAppliedOutput() * leftFlywheelMotor.getBusVoltage()))
+                            .angularPosition(Units.Rotations.of(leftFlywheelMotor.getEncoder().getPosition()))
+                            .angularVelocity(Units.RotationsPerSecond.of(getLeftFlywheelSpeed())),
+                    this));
 
     public ShooterSubsystem() {
         leftFlywheelMotor.setInverted(Constants.Shooter.kleftMotorInverted);
@@ -47,7 +66,7 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right Flywheel", rightVoltage);
     }
 
-    public void setIdleSpeed(){
+    public void setIdleSpeed() {
         leftFlywheelMotor.set(1000);
         rightFlywheelMotor.set(1000);
     }
@@ -65,9 +84,12 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right PID", rightPID.getSetpoint());
         SmartDashboard.putNumber("Left Current", getLeftFlywheelSpeed());
         SmartDashboard.putNumber("Right Current", getRightFlywheelSpeed());
-        if(PIDEnabled){
-            setFlywheelVoltage(leftPID.calculate(getLeftFlywheelSpeed()) + FF.calculate(leftPID.getSetpoint()),
-                rightPID.calculate(getRightFlywheelSpeed())+FF.calculate(rightPID.getSetpoint()));
+
+        double leftVoltage = leftPID.calculate(getLeftFlywheelSpeed()) + FF.calculate(leftPID.getSetpoint());
+        double rightVoltage = rightPID.calculate(getRightFlywheelSpeed()) + FF.calculate(rightPID.getSetpoint());
+
+        if (PIDEnabled) {
+            setFlywheelVoltage(leftVoltage, rightVoltage);
         }
 
     }
@@ -77,20 +99,24 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
 
-    public boolean isNoteAquired() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isNoteAquired'");
-    }
-
-    public void setIndexingVoltage(double asDouble) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setIndexingVoltage'");
-    }
-    public void enable(){
+    public void enable() {
         PIDEnabled = true;
     }
-    public void disabled(){
+
+    public void disable() {
         PIDEnabled = false;
         setFlywheelVoltage(0, 0);
+    }
+
+    public boolean getEnabled(){
+        return PIDEnabled;
+    }
+
+    public Command sysIdQuasistaticc(SysIdRoutine.Direction direction) {
+        return routine.quasistatic(direction);
+    }
+
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return routine.dynamic(direction);
     }
 }
