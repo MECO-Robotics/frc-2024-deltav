@@ -169,13 +169,14 @@ public final class Constants {
 
     public static final int kShooterCurrentLimit = 0;
 
-    public static final double shooterks = 0;
-    public static final double shooterkv = 0;
-
+    public static final double shooterks = 0.073163;
+    public static final double shooterkv = 0.0020854;
+    public static final double shooterkA = 0.00050503;
     // PID values for shooter
-    public static final double shooterkP = 0.5;
+    public static final double shooterkP = 0.00011154;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
+    
     public static final double maxVoltage = 11.5;
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;

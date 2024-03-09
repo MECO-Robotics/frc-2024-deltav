@@ -33,15 +33,15 @@ public class ShooterSubsystem extends SubsystemBase {
             Constants.Shooter.shooterkv);
 
     public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
-            new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(voltage.in(Units.Volts), 0),
+            new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(0, voltage.in(Units.Volts)),
                     log ->
                     // Record a frame for the shooter motor.
                     log.motor("Flywheel")
                             .voltage(
                                     Units.Volts.of(
-                                            leftFlywheelMotor.getAppliedOutput() * leftFlywheelMotor.getBusVoltage()))
-                            .angularPosition(Units.Rotations.of(leftFlywheelMotor.getEncoder().getPosition()))
-                            .angularVelocity(Units.RotationsPerSecond.of(getLeftFlywheelSpeed())),
+                                            rightFlywheelMotor.getAppliedOutput() * rightFlywheelMotor.getBusVoltage()))
+                            .angularPosition(Units.Rotations.of(rightFlywheelMotor.getEncoder().getPosition()))
+                            .angularVelocity(Units.RotationsPerSecond.of(getRightFlywheelSpeed())),
                     this));
 
     public ShooterSubsystem() {
