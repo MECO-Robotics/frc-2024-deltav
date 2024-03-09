@@ -30,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private PIDController rightPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI,
             Constants.Shooter.shooterkD);
     private SimpleMotorFeedforward FF = new SimpleMotorFeedforward(Constants.Shooter.shooterks,
-            Constants.Shooter.shooterkv);
+            Constants.Shooter.shooterkv, Constants.Shooter.shooterka);
 
     public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(0, voltage.in(Units.Volts)),
