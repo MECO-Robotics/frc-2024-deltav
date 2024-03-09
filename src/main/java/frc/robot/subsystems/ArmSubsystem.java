@@ -1,9 +1,14 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -20,14 +25,14 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
     private PIDController PID = new PIDController(Constants.Arm.armkP, 0, 0);
     private ArmFeedforward FF = new ArmFeedforward(Constants.Arm.armks, Constants.Arm.armkg, Constants.Arm.armkv);
 
-    // public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
-    //         new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setVoltage(voltage.in(Units.Volts)), log ->
-    //         // Record a frame for the shooter motor.
-    //         log.motor("arm")
-    //                 .voltage(
-    //                         Units.Volts.of(leftArmMotorOne.getAppliedOutput() * leftArmMotorOne.getBusVoltage()))
-    //                 .angularPosition(Units.Rotations.of(getPosition()))
-    //                 .angularVelocity(Units.RotationsPerSecond.of(getVelocity())), this));
+    public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setVoltage(voltage.in(Units.Volts)), log ->
+            // Record a frame for the shooter motor.
+            log.motor("arm")
+                    .voltage(
+                            Units.Volts.of(leftArmMotorOne.getAppliedOutput() * leftArmMotorOne.getBusVoltage()))
+                    .angularPosition(Units.Rotations.of(getPosition()))
+                    .angularVelocity(Units.RotationsPerSecond.of(getVelocity())), this));
 
     // Constructor
     public ArmSubsystem() {
@@ -57,12 +62,12 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
         return !PID.atSetpoint();
     }
 
-    // public Command sysIdQuasistaticc(SysIdRoutine.Direction direction) {
-    //     return routine.quasistatic(direction);
-    // }
+    public Command sysIdQuasistaticc(SysIdRoutine.Direction direction) {
+        return routine.quasistatic(direction);
+    }
 
-    // public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-    //     return routine.dynamic(direction);
-    // }
+    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+        return routine.dynamic(direction);
+    }
 
 }
