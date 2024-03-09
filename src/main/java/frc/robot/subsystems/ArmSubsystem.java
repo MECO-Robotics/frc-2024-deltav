@@ -22,7 +22,7 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
     private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
     private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
 
-    private PIDController PID = new PIDController(Constants.Arm.armkP, 0, 0);
+    private PIDController PID = new PIDController(Constants.Arm.armkP, Constants.Arm.armkI, Constants.Arm.armkD);
     private ArmFeedforward FF = new ArmFeedforward(Constants.Arm.armks, Constants.Arm.armkg, Constants.Arm.armkv);
 
     public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
