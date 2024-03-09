@@ -175,11 +175,11 @@ public final class Constants {
 
     public static final int kShooterCurrentLimit = 0;
 
-    public static final double shooterks = 0;
+    public static final double shooterks = 2;
     public static final double shooterkv = 0;
 
     // PID values for shooter
-    public static final double shooterkP = 0.5;
+    public static final double shooterkP = 0;
     public static final double shooterkI = 0;
     public static final double shooterkD = 0;
     public static final double maxVoltage = 11.5;
