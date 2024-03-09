@@ -11,6 +11,7 @@ public class ShooterCommand extends Command {
 
     private final ShooterSubsystem shooter;
     private final double leftRPM, rightRPM;
+    private boolean isFinished = false;
 
     public ShooterCommand(ShooterSubsystem shooterSubsystem, double leftRPM, double rightRPM) {
         shooter = shooterSubsystem;
@@ -21,13 +22,16 @@ public class ShooterCommand extends Command {
     public void initialize() {
         shooter.enable();
         shooter.setSpeed(leftRPM, rightRPM);
-        SmartDashboard.putBoolean("Flywheel enabled", true);
+    }
+
+    public void execute() {
+        if (shooter.getEnabled() && !shooter.isBusy()) {
+            isFinished = true;
+        }
     }
 
     public boolean isFinished() {
-        SmartDashboard.putBoolean("Flywheel enabled", false);
-
-        return !shooter.isBusy();
+        return isFinished;
     }
 
 }

@@ -6,10 +6,12 @@
     "3 note(1 close, 1 far) top paths",
     "4 note(3 close) bottom paths",
     "4 note(3 close) middle paths",
-    "5 note(4 far) top paths"
+    "5 note(4 far) top paths",
+    "New Folder"
   ],
   "autoFolders": [
-    "New Folder"
+    "New Folder",
+    "New New Folder"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

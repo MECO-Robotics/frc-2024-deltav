@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.hal.ConstantsJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -36,6 +37,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.lang.invoke.ConstantCallSite;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
@@ -87,8 +89,9 @@ public class RobotContainer {
         // Commands for Pathplanner
         NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
-        //NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem));
+        NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem, null));
         NamedCommands.registerCommand("Handoff", new HandoffCommand(indexingSubsystem, intakeSubsystem));
+        NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
 
         // Auto selection choices
         autoCommandChoice.addOption("7 note auto", "7 note auto");
@@ -107,8 +110,8 @@ public class RobotContainer {
                         OperatorConstants.LEFT_Y_DEADBAND),
                 () -> MathUtil.applyDeadband(pilotController.getLeftX(),
                         OperatorConstants.LEFT_X_DEADBAND),
-                () -> -pilotController.getRightX(),
-                () -> -pilotController.getRightY());
+                () -> pilotController.getRightX(),
+                () -> pilotController.getRightY());
 
         AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
                 () -> MathUtil.applyDeadband(pilotController.getLeftY(),
@@ -179,8 +182,11 @@ public class RobotContainer {
         pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
         coPilotCommandController.x().whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
                 Constants.Shooter.Presets.kRightSpeaker));
+        //coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem));
+        
+        //SysId controls
         tuningCommandXboxController.x().whileTrue(shooterSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kForward)
                 .finallyDo(shooterSubsystem::disable));
         tuningCommandXboxController.a().whileTrue(shooterSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kReverse)
@@ -202,13 +208,15 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-
+/* 
         if (autoCommandChoice != null && autoCommandChoice.getSelected() != null) {
 
             return new PathPlannerAuto(autoCommandChoice.getSelected());
         }
 
         return null;
+        */
+        return new PathPlannerAuto("4 note(3 close) middle auto test");
     }
 
     public void setDriveMode() {

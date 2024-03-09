@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIndexer"
+                }
+              }
+            ]
           }
         },
         {
@@ -26,14 +39,27 @@
                 "data": {
                   "pathName": "4 not(3 close) path 1"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HandOff"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "4 not(3 close) path 2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 not(3 close) path 2"
+                }
+              }
+            ]
           }
         },
         {
@@ -43,9 +69,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIndexer"
+                }
+              }
+            ]
           }
         },
         {
@@ -57,20 +96,27 @@
                 "data": {
                   "pathName": "4 not(3 close) path 3"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HandOff"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "4 not(3 close) path 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 not(3 close) path 4"
+                }
+              }
+            ]
           }
         },
         {
@@ -84,24 +130,69 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "4 not(3 close) path 5"
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIndexer"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "4 not(3 close) path 6"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 not(3 close) path 5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HandOff"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 not(3 close) path 6"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "RunIndexer"
+                }
+              }
+            ]
           }
         }
       ]

@@ -84,6 +84,8 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right PID", rightPID.getSetpoint());
         SmartDashboard.putNumber("Left Current", getLeftFlywheelSpeed());
         SmartDashboard.putNumber("Right Current", getRightFlywheelSpeed());
+        SmartDashboard.putBoolean("PID Enabled", PIDEnabled);
+        
 
         double leftVoltage = leftPID.calculate(getLeftFlywheelSpeed()) + FF.calculate(leftPID.getSetpoint());
         double rightVoltage = rightPID.calculate(getRightFlywheelSpeed()) + FF.calculate(rightPID.getSetpoint());

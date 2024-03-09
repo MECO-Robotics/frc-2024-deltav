@@ -87,13 +87,18 @@ public final class Constants {
     public static final int leftMotorOneID = 18;
     public static final int leftMotorTwoID = 17;
 
+    public static final double armkP = 0.00005;
+    public static final double armkI = 0;
+    public static final double armkD = 0;
+    
     // Feed Forward
     public static final int armks = 0;
     public static final int armkg = 0;
     public static final int armkv = 0;
 
+
     // PID values for arm
-    public static final double armkP = 0.00005;
+    
     public static final double maxVoltage = 11.5;
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;
@@ -104,6 +109,7 @@ public final class Constants {
 
     // Differnt arm positions
     public static class SetPointPositions {
+      //0 is the home position and all the way down
       public static final double kIntakePosition = 0.0;
       public static final double kClimbingPosition = 0;
       public static final double kAmpPosition = 0;
@@ -197,6 +203,8 @@ public final class Constants {
     public static final boolean indexingMotorInverted = true;
     public static final int indexingSpeed = 4000;
     public static final int beamBreakIRThreashold = 200;
+    
+    
   }
 
 }
