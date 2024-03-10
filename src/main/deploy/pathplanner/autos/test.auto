@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 1.177071978473117,
+      "y": 5.565873600441298
     },
     "rotation": 0
   },
@@ -12,9 +12,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "test"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "test"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "HandOff"
+                }
+              }
+            ]
           }
         }
       ]

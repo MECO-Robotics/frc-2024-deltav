@@ -14,10 +14,11 @@ public class SetPointControlCommand extends Command{
 
     }
     public void initialize(){
+        arm.enable();
         arm.setGoal(input);
     }
     public boolean isFinished(){
-        return !arm.isBusy();
+        return false;//!arm.isBusy();
     }
 }
 

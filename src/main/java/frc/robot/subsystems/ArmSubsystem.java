@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
@@ -21,6 +24,11 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
 
     private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
     private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
+    
+    private DutyCycleEncoder armEncoder = new DutyCycleEncoder(Constants.Arm.armEncoderPortS);
+    // private Encoder armIncrementalEncoder = new Encoder(Constants.Arm.armEncoderPortA, Constants.Arm.armEncoderPortB);
+        
+    private double initialArmPosition;
 
     private PIDController PID = new PIDController(Constants.Arm.armkP, Constants.Arm.armkI, Constants.Arm.armkD);
     private ArmFeedforward FF = new ArmFeedforward(Constants.Arm.armks, Constants.Arm.armkg, Constants.Arm.armkv);
@@ -40,21 +48,35 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
         leftArmMotorTwo.follow(leftArmMotorOne, false);
         rightArmMotorOne.follow(leftArmMotorOne, true);
         rightArmMotorTwo.follow(leftArmMotorOne, true);
+        leftArmMotorOne.getEncoder().setVelocityConversionFactor(Constants.Arm.ajustedArmGearRatio);
+        leftArmMotorOne.getEncoder().setPositionConversionFactor(Constants.Arm.ajustedArmGearRatio);
+
+        armEncoder.setPositionOffset(Constants.Arm.horizontalArmOffset);
+        // armIncrementalEncoder.setDistancePerPulse(1.0/Constants.Arm.armTicksPerRevolution);
+        // armIncrementalEncoder.setReverseDirection(true);
+        initialArmPosition = armEncoder.get();
     }
 
     public void setVoltage(double voltage) {
         leftArmMotorOne.setVoltage(voltage);
     }
 
-    public double getPosition() {
-        return leftArmMotorOne.getEncoder().getPosition();
+    public void periodic(){
+        // SmartDashboard.putNumber("Arm Quadrature Encoder", armIncrementalEncoder.getDistance());
+        SmartDashboard.putNumber("Duty Cycle Encoder", armEncoder.get());
+    }
+
+    private double getPosition() {
+        return armEncoder.get();
     }
 
     public double getVelocity() {
-        return leftArmMotorOne.getEncoder().getVelocity();
+        return armEncoder.get();
     }
 
     public void useState(TrapezoidProfile.State state) {
+        SmartDashboard.putNumber("state velocity", state.velocity);
+        SmartDashboard.putNumber("State position", state.position);
         setVoltage(PID.calculate(getVelocity(), state.velocity) + FF.calculate(state.position, state.velocity));
     }
 

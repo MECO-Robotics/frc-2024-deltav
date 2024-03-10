@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -16,8 +15,14 @@ public class IndexingSubsystem extends SubsystemBase {
 
     private CANSparkMax indexingMotor = new CANSparkMax(Constants.Indexing.indexingMotor, MotorType.kBrushless);
 
+    private double sensorValue = 0;
+
+
     public IndexingSubsystem() {
         indexingMotor.setInverted(Constants.Indexing.indexingMotorInverted);
+        indexerBeambreak.setAccumulatorInitialValue(0);
+        indexerBeambreak.setAccumulatorCenter(0);
+        indexerBeambreak.resetAccumulator();
     }
 
     public void setIndexingVoltage(double indexingVoltage) {
@@ -26,7 +31,7 @@ public class IndexingSubsystem extends SubsystemBase {
 
     public void periodic() {
         SmartDashboard.putNumber("BeamBreak IR value", indexerBeambreak.getValue());
-    }
+    }   
 
     public boolean isNoteAquired() {
         return indexerBeambreak.getValue() < Constants.Indexing.beamBreakIRThreashold;

@@ -80,40 +80,50 @@ public final class Constants {
     // Creates the CAN id's for the 2 motor arm gearboxes on the super structure
 
     // Arm Encoder Port
-    public static final int armEncoderPort = 0;
+    public static final int armEncoderPortA = 0;
+    public static final int armEncoderPortB = 1;
+    public static final int armEncoderPortS = 2;
 
     public static final int rightMotorOneID = 19;
     public static final int rightMotorTwoID = 20;
     public static final int leftMotorOneID = 18;
     public static final int leftMotorTwoID = 17;
 
-    public static final double armkP = 0.00005;
+    public static final double armGearRatio = 72.0 / 15.0 * 56.0 / 20.0 * 58.0 / 10.0;
+    public static final double ajustedArmGearRatio = 1 / armGearRatio;
+    
+    public static final double armAngleOffset = 0.44688;
+    public static final double armTicksPerRevolution = 8192;
+
+    public static final double horizontalArmOffset = 0.09845875246;
+
+    public static final double armkP = 0.037728;
     public static final double armkI = 0;
     public static final double armkD = 0;
-    
-    // Feed Forward
-    public static final int armks = 0;
-    public static final int armkg = 0;
-    public static final int armkv = 0;
 
+    // Feed Forward
+    public static final double armks = 1.5699;
+    public static final double armkg = 0.41168;
+    public static final double armkv = 0.083496;
+    public static final double armka = 0.02356;
 
     // PID values for arm
-    
+
     public static final double maxVoltage = 11.5;
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;
 
-    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1.0, 2.0);
+    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1.0/2, 1.0/8);
 
     public static final int kCurrentLimit = 0; // Sets current limiting
 
     // Differnt arm positions
     public static class SetPointPositions {
-      //0 is the home position and all the way down
+      // 0 is the home position and all the way down
       public static final double kIntakePosition = 0.0;
       public static final double kClimbingPosition = 0;
-      public static final double kAmpPosition = 0;
-      public static final double kStowPosition = 0;
+      public static final double kAmpPosition = 0.2587;
+      public static final double kStowPosition = -0.08185;
 
     }
 
@@ -156,8 +166,8 @@ public final class Constants {
   public static final class Shooter {
 
     public static final class Presets {
-      public static final int kLeftSpeaker = 5200;
-      public static final int kRightSpeaker = 5100;
+      public static final int kLeftSpeaker = 5000;
+      public static final int kRightSpeaker = 4800;
 
       public static final int kidleSpeed = 1000;
 
@@ -175,14 +185,24 @@ public final class Constants {
 
     public static final int kShooterCurrentLimit = 0;
 
-    public static final double shooterks = 0.073163;
-    public static final double shooterkv = 0.0020854;
-    public static final double shooterkA = 0.00050503;
+    public static final double kRightShooterks = 0.040967;
+    public static final double kRightShooterkv = 0.0020721;
+    public static final double kRightShooterkA = 0.00052497;
+
     // PID values for shooter
-    public static final double shooterkP = 0.00011154;
-    public static final double shooterkI = 0;
-    public static final double shooterkD = 0;
-    
+    public static final double kRightShooterkP = 0.00019397;
+    public static final double kRightShooterkI = 0;
+    public static final double kRightShooterkD = 0;
+
+    public static final double kLeftShooterks = 0.074672;
+    public static final double kLeftShooterkv = 0.0021139;
+    public static final double kLeftShooterkA = 0.00050288;
+
+    // PID values for shooter
+    public static final double kLeftShooterkP = 3.6451E-05;
+    public static final double kLeftShooterkI = 0;
+    public static final double kLeftShooterkD = 0;
+
     public static final double maxVoltage = 11.5;
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;
@@ -190,10 +210,9 @@ public final class Constants {
     // BeamBreak sensor DIO port for shooter
     public static final int kBeamBreakPort = 0;
 
-
     // Even more goofy variables
     public static final double CONVERSION_FACTOR = 1;
-    public static final double BUSY_TOLERANCE = 0;
+    public static final double PID_TOLERANCE = 20;
 
   }
 
@@ -204,8 +223,7 @@ public final class Constants {
     public static final boolean indexingMotorInverted = true;
     public static final int indexingSpeed = 4000;
     public static final int beamBreakIRThreashold = 200;
-    
-    
+
   }
 
 }

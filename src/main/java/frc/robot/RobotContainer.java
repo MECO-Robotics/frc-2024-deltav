@@ -25,6 +25,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Shooter;
 import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.arm.ManualArmControlCommand;
+import frc.robot.commands.arm.SetPointControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 //import frc.robot.commands.HandoffCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
@@ -92,6 +93,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem, null));
         NamedCommands.registerCommand("Handoff", new HandoffCommand(indexingSubsystem, intakeSubsystem));
         NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
+        NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
 
         // Auto selection choices
         autoCommandChoice.addOption("7 note auto", "7 note auto");
@@ -110,8 +112,8 @@ public class RobotContainer {
                         OperatorConstants.LEFT_Y_DEADBAND),
                 () -> MathUtil.applyDeadband(pilotController.getLeftX(),
                         OperatorConstants.LEFT_X_DEADBAND),
-                () -> pilotController.getRightX(),
-                () -> pilotController.getRightY());
+                () -> -pilotController.getRightX(),
+                () -> -pilotController.getRightY());
 
         AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
                 () -> MathUtil.applyDeadband(pilotController.getLeftY(),
@@ -145,15 +147,17 @@ public class RobotContainer {
                 () -> MathUtil.applyDeadband(pilotCommandController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
                 () -> -pilotCommandController.getRawAxis(3), () -> true);
 
-        ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-                () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
+        //ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+                //() -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
 
         drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
         intakeSubsystem.setDefaultCommand(
-                new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * 12));
-        indexingSubsystem.setDefaultCommand(
-                new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
-        armSubsystem.setDefaultCommand(manualArm);
+               new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * -12));
+        indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
+   
+        //armSubsystem.setDefaultCommand(manualArm);
+                //new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * -12));
+        //armSubsystem.setDefaultCommand(manualArm);
     }
 
     /**
@@ -185,16 +189,18 @@ public class RobotContainer {
         //coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem));
+        coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kStowPosition));
+        coPilotCommandController.povUp().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
         
         //SysId controls
-        tuningCommandXboxController.x().whileTrue(shooterSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kForward)
-                .finallyDo(shooterSubsystem::disable));
-        tuningCommandXboxController.a().whileTrue(shooterSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kReverse)
-                .finallyDo(shooterSubsystem::disable));
+        tuningCommandXboxController.x().whileTrue(armSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kForward)
+                .finallyDo(armSubsystem::disable));
+        tuningCommandXboxController.a().whileTrue(armSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kReverse)
+                .finallyDo(armSubsystem::disable));
         tuningCommandXboxController.y().whileTrue(
-                shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward).finallyDo(shooterSubsystem::disable));
+                armSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward).finallyDo(armSubsystem::disable));
         tuningCommandXboxController.b().whileTrue(
-                shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse).finallyDo(shooterSubsystem::disable));
+                armSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse).finallyDo(armSubsystem::disable));
 
         // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 
@@ -216,7 +222,7 @@ public class RobotContainer {
 
         return null;
         */
-        return new PathPlannerAuto("4 note(3 close) middle auto test");
+        return new PathPlannerAuto("test");
     }
 
     public void setDriveMode() {

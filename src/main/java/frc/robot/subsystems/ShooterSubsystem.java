@@ -25,28 +25,33 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private boolean PIDEnabled = false;
 
-    private PIDController leftPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI,
-            Constants.Shooter.shooterkD);
-    private PIDController rightPID = new PIDController(Constants.Shooter.shooterkP, Constants.Shooter.shooterkI,
-            Constants.Shooter.shooterkD);
-    private SimpleMotorFeedforward FF = new SimpleMotorFeedforward(Constants.Shooter.shooterks,
-            Constants.Shooter.shooterkv, Constants.Shooter.shooterka);
+    private PIDController leftPID = new PIDController(Constants.Shooter.kLeftShooterkP, Constants.Shooter.kLeftShooterkI,
+            Constants.Shooter.kLeftShooterkD);
+    private PIDController rightPID = new PIDController(Constants.Shooter.kRightShooterkP, Constants.Shooter.kRightShooterkI,
+            Constants.Shooter.kRightShooterkD);
+    private SimpleMotorFeedforward rightFF = new SimpleMotorFeedforward(Constants.Shooter.kRightShooterks,
+            Constants.Shooter.kRightShooterkv, Constants.Shooter.kRightShooterkA);
+    private SimpleMotorFeedforward leftFF = new SimpleMotorFeedforward(Constants.Shooter.kLeftShooterks,
+            Constants.Shooter.kLeftShooterkv, Constants.Shooter.kLeftShooterkA);
+    
 
     public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
-            new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(0, voltage.in(Units.Volts)),
+            new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(voltage.in(Units.Volts), 0),
                     log ->
                     // Record a frame for the shooter motor.
                     log.motor("Flywheel")
                             .voltage(
                                     Units.Volts.of(
-                                            rightFlywheelMotor.getAppliedOutput() * rightFlywheelMotor.getBusVoltage()))
-                            .angularPosition(Units.Rotations.of(rightFlywheelMotor.getEncoder().getPosition()))
-                            .angularVelocity(Units.RotationsPerSecond.of(getRightFlywheelSpeed())),
+                                            leftFlywheelMotor.getAppliedOutput() * leftFlywheelMotor.getBusVoltage()))
+                            .angularPosition(Units.Rotations.of(leftFlywheelMotor.getEncoder().getPosition()))
+                            .angularVelocity(Units.RotationsPerSecond.of(getLeftFlywheelSpeed())),
                     this));
 
     public ShooterSubsystem() {
         leftFlywheelMotor.setInverted(Constants.Shooter.kleftMotorInverted);
         rightFlywheelMotor.setInverted(Constants.Shooter.krightMotorInverted);
+        leftPID.setTolerance(Constants.Shooter.PID_TOLERANCE);
+        rightPID.setTolerance(Constants.Shooter.PID_TOLERANCE);
 
     }
 
@@ -84,11 +89,10 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right PID", rightPID.getSetpoint());
         SmartDashboard.putNumber("Left Current", getLeftFlywheelSpeed());
         SmartDashboard.putNumber("Right Current", getRightFlywheelSpeed());
-        SmartDashboard.putBoolean("PID Enabled", PIDEnabled);
-        
+         
 
-        double leftVoltage = leftPID.calculate(getLeftFlywheelSpeed()) + FF.calculate(leftPID.getSetpoint());
-        double rightVoltage = rightPID.calculate(getRightFlywheelSpeed()) + FF.calculate(rightPID.getSetpoint());
+        double leftVoltage = leftPID.calculate(getLeftFlywheelSpeed()) + leftFF.calculate(leftPID.getSetpoint());
+        double rightVoltage = rightPID.calculate(getRightFlywheelSpeed()) + rightFF.calculate(rightPID.getSetpoint());
 
         if (PIDEnabled) {
             setFlywheelVoltage(leftVoltage, rightVoltage);
