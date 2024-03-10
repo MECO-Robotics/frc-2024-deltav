@@ -13,7 +13,7 @@ public class SetPointControlCommand extends Command{
         input = armPosition;
 
     }
-    public void initialize(){
+    public void execute(){
         arm.enable();
         arm.setGoal(input);
     }
