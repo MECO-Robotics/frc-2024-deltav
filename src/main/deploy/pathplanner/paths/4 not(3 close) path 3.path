@@ -11,21 +11,21 @@
         "x": 1.2096755572502238,
         "y": 5.535421655118764
       },
-      "isLocked": true,
-      "linkedName": null
+      "isLocked": false,
+      "linkedName": "2"
     },
     {
       "anchor": {
-        "x": 2.778121612581254,
+        "x": 2.864839532495967,
         "y": 5.535493887889185
       },
       "prevControl": {
-        "x": 1.6796946269948885,
+        "x": 1.7664125469096015,
         "y": 5.4921349279318274
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "3"
     }
   ],
   "rotationTargets": [],

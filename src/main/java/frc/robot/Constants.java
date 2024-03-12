@@ -93,29 +93,26 @@ public final class Constants {
     public static final double ajustedArmGearRatio = 1 / armGearRatio;
     
     public static final double armAngleOffset = 0.44688;
-    public static final double armTicksPerRevolution = 8192;
+    public static final double armTicksPerRevolution = 2048;
 
-    public static final double horizontalArmOffset = 0.09845875246;
+    public static final double horizontalArmOffset = 0.0975;
 
-    public static final double armkP = 0.037728;
+    public static final double armkP = 6.6544; //3.0565;
     public static final double armkI = 0;
-    public static final double armkD = 0;
+    public static final double armkD = 4.833; //0;
 
     // Feed Forward
-    public static final double armks = 1.5699;
-    public static final double armkg = 0.41168;
-    public static final double armkv = 0.083496;
-    public static final double armka = 0.02356;
+    public static final double armks = 0.78338;
+    public static final double armkg = 0.13421;
+    public static final double armkv = 5.6111;
+    public static final double armka = 0.39689;
 
     // PID values for arm
 
     public static final double maxVoltage = 11.5;
-    public static final double maxRPM = 7000;
-    public static final double maxAcc = 1500;
 
-    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1.0/2, 1.0/8);
+    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1, 1);
 
-    public static final int kCurrentLimit = 0; // Sets current limiting
 
     // Differnt arm positions
     public static class SetPointPositions {
@@ -124,6 +121,7 @@ public final class Constants {
       public static final double kClimbingPosition = 0;
       public static final double kAmpPosition = 0.2587;
       public static final double kStowPosition = -0.08185;
+      public static final double ktest = 0;
 
     }
 
@@ -222,7 +220,7 @@ public final class Constants {
     public static final int indexingMotor = 16;
     public static final boolean indexingMotorInverted = true;
     public static final int indexingSpeed = 4000;
-    public static final int beamBreakIRThreashold = 200;
+    public static final int beamBreakIRThreashold = 50;
 
   }
 

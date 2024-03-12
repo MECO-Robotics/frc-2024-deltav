@@ -9,6 +9,8 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -175,6 +177,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+    
   }
 
   @Override
@@ -364,8 +367,22 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Add a fake vision reading for testing purposes.
    */
-  public void addFakeVisionReading()
+  public void addVisionMeasurement(Pose2d position, double time)
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+    swerveDrive.addVisionMeasurement(position, time);
+  }
+
+  public boolean isRedAlliance() {
+    boolean isRed = false;
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent()) {
+      isRed = alliance.get() == DriverStation.Alliance.Red;
+    }
+
+    return isRed;
+  }
+
+  public SwerveDrivePoseEstimator getEstimator() {
+    return swerveDrive.swerveDrivePoseEstimator;
   }
 }

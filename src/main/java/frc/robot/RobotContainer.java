@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -31,6 +32,7 @@ import frc.robot.commands.indexer.IndexingCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
 import frc.robot.commands.intake.StartIntakingCommand;
 import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.swervedrive.LimelightDefaultCommand;
 import frc.robot.commands.swervedrive.auto.Test;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -47,6 +49,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ControllerSubsystem;
 import frc.robot.subsystems.IndexingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
@@ -67,6 +70,7 @@ public class RobotContainer {
     private final ArmSubsystem armSubsystem = new ArmSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final IndexingSubsystem indexingSubsystem = new IndexingSubsystem();
+    private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
     // The robot's subsystems and commands are defined here...
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -90,8 +94,7 @@ public class RobotContainer {
         // Commands for Pathplanner
         NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
-        NamedCommands.registerCommand("Intake", new NoAutomationIntakieCommand(intakeSubsystem, null));
-        NamedCommands.registerCommand("Handoff", new HandoffCommand(indexingSubsystem, intakeSubsystem));
+        NamedCommands.registerCommand("Intake", new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem), new PrintCommand("HandOff Command running")));
         NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
         NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
 
@@ -147,15 +150,15 @@ public class RobotContainer {
                 () -> MathUtil.applyDeadband(pilotCommandController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
                 () -> -pilotCommandController.getRawAxis(3), () -> true);
 
-        //ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-                //() -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
+        ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+                () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
 
         drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
         intakeSubsystem.setDefaultCommand(
                new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * -12));
         indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
-   
-        //armSubsystem.setDefaultCommand(manualArm);
+        limelightSubsystem.setDefaultCommand(new LimelightDefaultCommand(limelightSubsystem, drivebase));
+        // armSubsystem.setDefaultCommand(new InstantCommand(() -> armSubsystem.setVelocity(coPilotCommandController.getLeftY()), arm).repeatedly());
                 //new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * -12));
         //armSubsystem.setDefaultCommand(manualArm);
     }
@@ -189,18 +192,10 @@ public class RobotContainer {
         //coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem));
+
         coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kStowPosition));
+        coPilotCommandController.povRight().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.ktest));
         coPilotCommandController.povUp().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
-        
-        //SysId controls
-        tuningCommandXboxController.x().whileTrue(armSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kForward)
-                .finallyDo(armSubsystem::disable));
-        tuningCommandXboxController.a().whileTrue(armSubsystem.sysIdQuasistaticc(SysIdRoutine.Direction.kReverse)
-                .finallyDo(armSubsystem::disable));
-        tuningCommandXboxController.y().whileTrue(
-                armSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward).finallyDo(armSubsystem::disable));
-        tuningCommandXboxController.b().whileTrue(
-                armSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse).finallyDo(armSubsystem::disable));
 
         // pilotAButton.onTrue(new HandoffCommand(armSubsystem, intakeSubsystem));
 
@@ -222,7 +217,7 @@ public class RobotContainer {
 
         return null;
         */
-        return new PathPlannerAuto("test");
+        return new PathPlannerAuto("4 note(3 close) middle auto");
     }
 
     public void setDriveMode() {
@@ -232,4 +227,7 @@ public class RobotContainer {
     public void setMotorBrake(boolean brake) {
         drivebase.setMotorBrake(brake);
     }
+
+    
+
 }

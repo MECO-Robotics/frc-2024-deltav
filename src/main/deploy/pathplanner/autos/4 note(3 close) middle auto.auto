@@ -68,7 +68,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "HandOff"
+                  "name": "Intake"
                 }
               }
             ]
@@ -97,25 +97,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot"
-                      }
-                    }
-                  ]
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -150,7 +131,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "HandOff"
+                  "name": "Intake"
                 }
               }
             ]
@@ -179,25 +160,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot"
-                      }
-                    }
-                  ]
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -232,7 +194,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "HandOff"
+                  "name": "Intake"
                 }
               }
             ]
@@ -256,28 +218,15 @@
           "data": {
             "commands": [
               {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Shoot"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "RunIndexer"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.0
                 }
               }
             ]

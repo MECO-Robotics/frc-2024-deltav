@@ -22,6 +22,9 @@ public class IndexingCommand extends Command{
         addRequirements(indexingSubsystem);
         auto = true;
     }
+    public void initialize(){
+        execute();
+    }
     public void execute(){
         indexingSubsystem.setIndexingVoltage(indexingSpeed.getAsDouble());
     
