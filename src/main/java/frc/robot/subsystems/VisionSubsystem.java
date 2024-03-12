@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.LimelightHelpers;
 
@@ -22,6 +23,45 @@ public class VisionSubsystem extends SubsystemBase {
      * 
      * @return The angle, in degrees between -29.8 and 29.9
      */
+
+    private final NetworkTable limelightTable;
+
+    public VisionSubsystem() {
+        limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    }
+
+    public double getRotationErrorAngle() {
+
+        NetworkTableEntry tx = limelightTable.getEntry("tx");
+
+        // read values periodically
+        double x = tx.getDouble(0.0);
+
+        // post to smart dashboard periodically
+        SmartDashboard.putNumber("LimelightX", x);
+
+        return x;
+    }
+
+    public double getArea() {
+
+        NetworkTableEntry ta = limelightTable.getEntry("ta");
+
+        // read values periodically
+        double area = ta.getDouble(0.0);
+
+        // post to smart dashboard periodically
+        SmartDashboard.putNumber("Limelight AREA", area);
+
+        return area;
+    }
+
+    public void periodic() {
+        getArea();
+    }
+
+
+
     public double getHorizontalRotationToSpeaker() {
 
         // tx = Horizontal Offset From Crosshair To Target (LL2: -29.8 to 29.8 degrees)
@@ -65,7 +105,8 @@ public class VisionSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
-        // The network tables are already available for the limelight, but these values are only non-zero when the april tag is in view.
+        // The network tables are already available for the limelight, but these values
+        // are only non-zero when the april tag is in view.
 
         builder.addDoubleProperty("forward-camera-tx", this::getHorizontalRotationToSpeaker, null);
         builder.addDoubleProperty("forward-camera-ty", this::getVerticalRotationToSpeaker, null);
