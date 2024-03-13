@@ -3,11 +3,10 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
-    "3 note(1 close, 1 far) top paths",
-    "4 note(3 close) bottom paths",
-    "4 note(3 close) middle paths",
-    "5 note(4 far) top paths",
-    "4 note(3 close) move arm path"
+    "center red",
+    "center blue",
+    "center blue sniper",
+    "top blue"
   ],
   "autoFolders": [
     "New Folder",
