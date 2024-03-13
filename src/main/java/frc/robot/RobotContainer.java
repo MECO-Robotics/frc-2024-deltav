@@ -38,6 +38,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.vision.TurnToSpeakerStationaryCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.lang.invoke.ConstantCallSite;
@@ -51,6 +52,7 @@ import frc.robot.subsystems.IndexingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -71,6 +73,7 @@ public class RobotContainer {
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final IndexingSubsystem indexingSubsystem = new IndexingSubsystem();
     private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+    private final VisionSubsystem vision = new VisionSubsystem();
 
     // The robot's subsystems and commands are defined here...
     private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -97,6 +100,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem), new PrintCommand("HandOff Command running")));
         NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
         NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
+        NamedCommands.registerCommand("Arm", new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.ktest));
+        NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kStowPosition));
 
         // Auto selection choices
         autoCommandChoice.addOption("7 note auto", "7 note auto");
@@ -157,7 +162,7 @@ public class RobotContainer {
         intakeSubsystem.setDefaultCommand(
                new NoAutomationIntakieCommand(intakeSubsystem, () -> pilotController.getRightTriggerAxis() * -12));
         indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * 12));
-        limelightSubsystem.setDefaultCommand(new LimelightDefaultCommand(limelightSubsystem, drivebase));
+        //limelightSubsystem.setDefaultCommand(new LimelightDefaultCommand(limelightSubsystem, drivebase));
         // armSubsystem.setDefaultCommand(new InstantCommand(() -> armSubsystem.setVelocity(coPilotCommandController.getLeftY()), arm).repeatedly());
                 //new IndexingCommand(indexingSubsystem, () -> pilotController.getLeftTriggerAxis() * -12));
         //armSubsystem.setDefaultCommand(manualArm);
@@ -192,6 +197,8 @@ public class RobotContainer {
         //coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
         pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem));
+        coPilotCommandController.b().whileTrue(new TurnToSpeakerStationaryCommand(drivebase, vision));
+                
 
         coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kStowPosition));
         coPilotCommandController.povRight().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.ktest));
@@ -217,7 +224,7 @@ public class RobotContainer {
 
         return null;
         */
-        return new PathPlannerAuto("4 note(3 close) middle auto");
+        return new PathPlannerAuto("arm move");
     }
 
     public void setDriveMode() {

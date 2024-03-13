@@ -22,8 +22,7 @@ public class SetPointControlCommand extends Command {
         //arm.enable();
         arm.setPosition(input);
     }
-
     public boolean isFinished() {
-        return false;// !arm.isBusy();
+        return !arm.isBusy();
     }
 }

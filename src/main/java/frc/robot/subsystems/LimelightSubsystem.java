@@ -119,9 +119,7 @@ public class LimelightSubsystem extends SubsystemBase {
         return;
       }
 
-      poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStds, xyStds, 0.0));
-
-      poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0));
+      poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp() - (pose[6] / 1000.0), VecBuilder.fill(xyStds, xyStds, 0.0));
     }
   }
 }

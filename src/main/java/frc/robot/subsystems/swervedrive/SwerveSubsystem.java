@@ -10,18 +10,25 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
+
 import java.io.File;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
@@ -177,7 +184,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    
+    addVisionMeasurement(LimelightHelpers.getBotPose2d("limelight"), Timer.getFPGATimestamp());
   }
 
   @Override
@@ -367,9 +374,12 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Add a fake vision reading for testing purposes.
    */
-  public void addVisionMeasurement(Pose2d position, double time)
+  public void addVisionMeasurement(Pose2d position, double timestamp)
   {
-    swerveDrive.addVisionMeasurement(position, time);
+    swerveDrive.addVisionMeasurement(position, timestamp);
+    Field2d f = new Field2d();
+    f.setRobotPose(position);
+    SmartDashboard.putData("Limelight Position", f);
   }
 
   public boolean isRedAlliance() {

@@ -114,7 +114,7 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1, 1);
 
 
-    // Differnt arm positions
+    // Differnt arm position
     public static class SetPointPositions {
       // 0 is the home position and all the way down
       public static final double kIntakePosition = 0.0;
@@ -220,7 +220,7 @@ public final class Constants {
     public static final int indexingMotor = 16;
     public static final boolean indexingMotorInverted = true;
     public static final int indexingSpeed = 4000;
-    public static final int beamBreakIRThreashold = 50;
+    public static final int beamBreakIRThreashold = 100;
 
   }
 

@@ -42,7 +42,6 @@ public class TurnToSpeakerStationaryCommand extends Command {
         System.out.println("YAW AFTER - :" + swerve.getSwerveController().lastAngleScalar);
 
     }
-
     public boolean isFinished() {
         // return Math.abs(vision.getRotationErrorAngle()) < 3;
         return false;
