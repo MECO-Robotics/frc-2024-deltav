@@ -104,10 +104,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kStowPosition));
 
         // Auto selection choices
-        autoCommandChoice.addOption("7 note auto", "7 note auto");
         SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
-        SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
-        SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
+        autoCommandChoice.addOption("7 note auto", "7 note auto");
+        autoCommandChoice.addOption("center blue", "center blue");
+        
+        //SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
+        //SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
 
         // Configure the trigger bindingss
         configureBindings();
