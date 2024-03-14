@@ -162,12 +162,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Arm"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -237,12 +231,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Arm"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -285,10 +273,16 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Down"
+          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Blue",
   "choreoAuto": false
 }

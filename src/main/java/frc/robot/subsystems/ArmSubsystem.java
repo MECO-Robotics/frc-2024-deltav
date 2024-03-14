@@ -34,6 +34,8 @@ public class ArmSubsystem extends SubsystemBase {
     private PIDController PID = new PIDController(Constants.Arm.armkP, Constants.Arm.armkI, Constants.Arm.armkD);
     private ArmFeedforward FF = new ArmFeedforward(Constants.Arm.armks, Constants.Arm.armkg, Constants.Arm.armkv);
 
+    private boolean enabled = false;
+
     private TrapezoidProfile profile = new TrapezoidProfile(Constants.Arm.kArmMotionConstraint);
 
 
@@ -87,7 +89,17 @@ public class ArmSubsystem extends SubsystemBase {
         setpointState = profile.calculate(0.02, setpointState, goalState);
         double voltage = PID.calculate(getPosition(), setpointState.position) + FF.calculate(setpointState.position * 2 * Math.PI, setpointState.velocity);
         SmartDashboard.putNumber("voltage", voltage);
-        setVoltage(voltage);
+
+        if (enabled){
+            setVoltage(voltage);
+        }
+    }
+
+    public void enable(){
+        enabled = true;
+    }
+    public void disable(){
+        enabled = false;
     }
 
     private double getPosition() {

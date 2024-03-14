@@ -7,6 +7,8 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -33,10 +35,18 @@ public final class Constants {
   public static final double LOOP_TIME = 0.13; // s, 20ms + 110ms sprk max velocity lag
 
   /*
-   * ------------------------------------------------------- *\
+   * ------------------------------ ------------------------- *\
    * | L E D |
    * \* -------------------------------------------------------
    */
+
+  public static final class aprilTag {
+    //Apritag spaces relative to bluespeaker converted to meters
+    public static final Translation2d blueSpeaker = new Translation2d(-0.0381, 5.5372);
+    public static final Translation2d redSpeaker = new Translation2d(16.57934, 5.547864);
+    public static final double speakerHeight = 1.9845;
+  }   
+
   public static final class LED {
     public static final int PWMPORT = 0;
     public static final int BUFFERSIZE = 120;
@@ -103,7 +113,7 @@ public final class Constants {
 
     // Feed Forward
     public static final double armks = 0.78338;
-    public static final double armkg = 0.13421;
+    public static final double armkg = 0.135;
     public static final double armkv = 5.6111;
     public static final double armka = 0.39689;
 

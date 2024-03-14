@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.895296810271618,
-        "y": 6.990384785778517
+        "x": 8.284709527165534,
+        "y": 0.7515553059275135
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.955413141595515,
-        "y": 7.034441832747708
+        "x": 9.284709527165534,
+        "y": 0.7515553059275133
       },
       "isLocked": false,
-      "linkedName": "2a"
+      "linkedName": "far1"
     },
     {
       "anchor": {
-        "x": 0.6924444618120014,
-        "y": 6.549814316086593
+        "x": 0.6246266013658792,
+        "y": 4.50933183556508
       },
       "prevControl": {
-        "x": 1.4267285779652068,
-        "y": 7.137241609009157
+        "x": 3.0238223856729407,
+        "y": 0.2167947997867832
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "2c"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.3,
-      "rotationDegrees": 36.32525358771934,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.39249775375108,
+    "rotation": -55.71312302279104,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "top blue",
+  "folder": "blue far 2",
   "previewStartingState": {
-    "rotation": 3.503531644784406,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

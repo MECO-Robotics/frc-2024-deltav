@@ -3,14 +3,16 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
-    "center red",
+    "blue far 2",
     "center blue",
     "center blue sniper",
-    "top blue"
+    "center red",
+    "top blue",
+    "top red sniper"
   ],
   "autoFolders": [
-    "New Folder",
-    "New New Folder"
+    "Blue",
+    "Red"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

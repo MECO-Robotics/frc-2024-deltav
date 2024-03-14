@@ -3,35 +3,35 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.895296810271618,
-        "y": 6.990384785778517
+        "x": 15.943790760814382,
+        "y": 6.605014900170645
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.955413141595515,
-        "y": 7.034441832747708
+        "x": 14.94364408446959,
+        "y": 7.001192080620191
       },
       "isLocked": false,
-      "linkedName": "2a"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.6924444618120014,
-        "y": 6.549814316086593
+        "x": 13.661220561875577,
+        "y": 7.009698526439304
       },
       "prevControl": {
-        "x": 1.4267285779652068,
-        "y": 7.137241609009157
+        "x": 14.984112447096459,
+        "y": 6.995410885959211
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "2c"
+      "linkedName": "4a"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3,
-      "rotationDegrees": 36.32525358771934,
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": 179.8101647062681,
       "rotateFast": false
     }
   ],
@@ -45,13 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.39249775375108,
+    "rotation": -179.99999999999983,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "top blue",
+  "folder": "top red sniper",
   "previewStartingState": {
-    "rotation": 3.503531644784406,
+    "rotation": 116.90609345593863,
     "velocity": 0
   },
   "useDefaultConstraints": true

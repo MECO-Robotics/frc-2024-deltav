@@ -18,7 +18,8 @@ public class ManualArmControlCommand extends Command{
     }
     public void execute(){
         double returnedValue = input.getAsDouble();
-        arm.setVoltage(returnedValue);
+        arm.setVoltage(returnedValue * 12);
+        arm.disable();
     }
     public boolean isFinished(){
         return false;
