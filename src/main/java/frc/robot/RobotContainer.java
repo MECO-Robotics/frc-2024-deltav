@@ -121,6 +121,8 @@ public class RobotContainer {
                 // Red aliance
                 autoCommandChoice.addOption("center red", "center red");
                 autoCommandChoice.addOption("top red sniper", "top red sniper");
+                autoCommandChoice.addOption("KA", "KA");
+                
 
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
                 // SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
@@ -168,7 +170,7 @@ public class RobotContainer {
                                                 OperatorConstants.LEFT_Y_DEADBAND),
                                 () -> MathUtil.applyDeadband(-pilotCommandController.getLeftX(),
                                                 OperatorConstants.LEFT_X_DEADBAND),
-                                () -> -pilotCommandController.getRawAxis(3), () -> true);
+                                () -> -pilotController.getRightX(), () -> true);
 
                 ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
                                 () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
@@ -176,13 +178,13 @@ public class RobotContainer {
                 // Configure the trigger bindingss
                 configureBindings();
 
-                drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+                drivebase.setDefaultCommand(closedFieldRel);
 
                 intakeSubsystem.setDefaultCommand(
                                 new NoAutomationIntakieCommand(intakeSubsystem,
                                                 () -> pilotController.getRightTriggerAxis() * -12));
                 indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem,
-                                () -> pilotController.getLeftTriggerAxis() * 12));
+                                () -> (pilotController.getLeftTriggerAxis() + coPilotController.getLeftTriggerAxis())  * 12));
 
                 //armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () -> SmartDashboard.getNumber("Arm Setpoint", 0)));
 
@@ -212,13 +214,16 @@ public class RobotContainer {
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
+                pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
+                pilotCommandController.y().onTrue((new
+                 InstantCommand(drivebase::zeroGyro)));
+
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
                                                 Constants.Shooter.Presets.kRightSpeaker));
                 // coPilotCommandController.a().onTrue(new
                 // InstantCommand(shooterSubsystem::disable));
                 coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
-                pilotCommandController.x().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
                 coPilotCommandController.b().whileTrue(new TurnToSpeakerStationaryCommand(drivebase, vision));
 
                 coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
@@ -229,8 +234,7 @@ public class RobotContainer {
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
 
                 coPilotCommandController.rightStick().whileTrue(new ManualArmControlCommand(armSubsystem, () -> coPilotCommandController.getRightY() > 0 ? -coPilotCommandController.getRightY() : 0));
-                coPilotCommandController.y().onTrue((new
-                 InstantCommand(drivebase::zeroGyro)));
+                
                  //new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
 

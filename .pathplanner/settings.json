@@ -3,12 +3,15 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
+    "Red keep away",
     "blue far 2",
     "center blue",
     "center blue sniper",
     "center red",
     "top blue",
-    "top red sniper"
+    "top red",
+    "top red sniper",
+    "zBrennan test"
   ],
   "autoFolders": [
     "Blue",

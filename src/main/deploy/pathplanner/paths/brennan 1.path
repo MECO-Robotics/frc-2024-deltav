@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.690126535182646,
-        "y": 4.104648209296419
+        "x": 1.1449341208541577,
+        "y": 5.578852847846542
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.64989923644313,
-        "y": 5.032624339921508
+        "x": 2.012113320001288,
+        "y": 5.925724527505394
       },
       "isLocked": false,
-      "linkedName": "3f"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 15.438937920129362,
-        "y": 5.578852847846542
+        "x": 2.7636686259288017,
+        "y": 6.89407463321969
       },
       "prevControl": {
-        "x": 15.144096992419335,
-        "y": 5.226199973526708
+        "x": 1.4484468405556534,
+        "y": 5.867912580895585
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "thing"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.2,
-      "rotationDegrees": -164.0815355447719,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 179.58716032415688,
+    "rotation": 36.86989764584395,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "center red",
+  "folder": "zBrennan test",
   "previewStartingState": {
-    "rotation": -128.6598082540899,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

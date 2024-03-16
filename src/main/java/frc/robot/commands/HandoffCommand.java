@@ -35,6 +35,10 @@ public class HandoffCommand extends Command {
     }
 
     public void execute() {
+        if (pilot != null) {
+                pilot.setRumble(RumbleType.kBothRumble, 1);
+                copilot.setRumble(RumbleType.kBothRumble, 1);
+            }
         if (indexer.isNoteAquired()) {
             indexer.setIndexingVoltage(-6);
             intake.setIntakeVoltage(0);
@@ -44,10 +48,7 @@ public class HandoffCommand extends Command {
             finished = true;
             SmartDashboard.putBoolean("Is Handoff Command Reversing?", false);
             SmartDashboard.putBoolean("Is Handoff Command Intaking?", false);
-            if (pilot != null) {
-                pilot.setRumble(RumbleType.kBothRumble, 1);
-                copilot.setRumble(RumbleType.kBothRumble, 1);
-            }
+            
         } else {
             indexer.setIndexingVoltage(6);
             intake.setIntakeVoltage(12);
