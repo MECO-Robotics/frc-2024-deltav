@@ -121,7 +121,7 @@ public class RobotContainer {
                 // Red aliance
                 autoCommandChoice.addOption("center red", "center red");
                 autoCommandChoice.addOption("top red sniper", "top red sniper");
-                autoCommandChoice.addOption("KA", "KA");
+                autoCommandChoice.addOption("top far", "top far");
                 
 
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
