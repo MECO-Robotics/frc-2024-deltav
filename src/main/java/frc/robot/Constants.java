@@ -41,15 +41,15 @@ public final class Constants {
    */
 
   public static final class aprilTag {
-    //Apritag spaces relative to bluespeaker converted to meters
+    // Apritag spaces relative to bluespeaker converted to meters
     public static final Translation2d blueSpeaker = new Translation2d(-0.0381, 5.5372);
     public static final Translation2d redSpeaker = new Translation2d(16.57934, 5.547864);
     public static final double speakerHeight = 1.9845;
-  }   
+  }
 
   public static final class LED {
     public static final int PWMPORT = 0;
-    public static final int BUFFERSIZE = 120;
+    public static final int BUFFERSIZE = 163;
 
   }
 
@@ -101,15 +101,15 @@ public final class Constants {
 
     public static final double armGearRatio = 72.0 / 15.0 * 56.0 / 20.0 * 58.0 / 10.0;
     public static final double ajustedArmGearRatio = 1 / armGearRatio;
-    
+
     public static final double armAngleOffset = 0.44688;
     public static final double armTicksPerRevolution = 2048;
 
     public static final double horizontalArmOffset = 0.0975;
 
-    public static final double armkP = 6.6544; //3.0565;
+    public static final double armkP = 6.6544; // 3.0565;
     public static final double armkI = 0;
-    public static final double armkD = 4.833; //0;
+    public static final double armkD = 4.833; // 0;
 
     // Feed Forward
     public static final double armks = 0.78338;
@@ -123,15 +123,13 @@ public final class Constants {
 
     public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1, 1);
 
-
     // Differnt arm position
     public static class SetPointPositions {
       // 0 is the home position and all the way down
-      public static final double kIntakePosition = 0.0;
-      public static final double kClimbingPosition = 0;
       public static final double kAmpPosition = 0.2587;
-      public static final double kStowPosition = -0.08185;
-      public static final double ktest = 0;
+      public static final double kStowPosition = -0.0789;
+      public static final double kShootFlatPosition = 16.2 / 360.0;
+      // public static final double kBeamFlatPosition = 0;
 
     }
 

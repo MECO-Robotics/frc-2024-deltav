@@ -30,6 +30,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.commands.vision.TurnToSpeakerStationaryCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -38,6 +39,7 @@ import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IndexingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -60,6 +62,7 @@ public class RobotContainer {
         private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
         private final IndexingSubsystem indexingSubsystem = new IndexingSubsystem();
         private final VisionSubsystem vision = new VisionSubsystem();
+        private final LEDSubsystem led = new LEDSubsystem();
 
         // The robot's subsystems and commands are defined here...
         private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -72,7 +75,7 @@ public class RobotContainer {
         CommandXboxController pilotCommandController = new CommandXboxController(0);
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
-
+        
         Command aimCommand = new ParallelCommandGroup(
                         new AbsoluteFieldDrive(drivebase,
                                         () -> MathUtil.applyDeadband(pilotController.getLeftY(),
@@ -100,8 +103,8 @@ public class RobotContainer {
                                                 new PrintCommand("HandOff Command running")));
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
                 NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
-                NamedCommands.registerCommand("Arm",
-                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.ktest));
+                // NamedCommands.registerCommand("Arm",
+                //                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
                 NamedCommands.registerCommand("amp",
@@ -122,6 +125,7 @@ public class RobotContainer {
                 autoCommandChoice.addOption("center red", "center red");
                 autoCommandChoice.addOption("top red sniper", "top red sniper");
                 autoCommandChoice.addOption("top far", "top far");
+                
                 
 
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
@@ -217,7 +221,9 @@ public class RobotContainer {
                 pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
                 pilotCommandController.y().onTrue((new
                  InstantCommand(drivebase::zeroGyro)));
-
+                
+                pilotCommandController.x().whileTrue(aimCommand);
+         
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
                                                 Constants.Shooter.Presets.kRightSpeaker));
@@ -229,7 +235,9 @@ public class RobotContainer {
                 coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
                 coPilotCommandController.povRight().onTrue(
-                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.ktest));
+                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootFlatPosition));
+                // coPilotCommandController.povLeft().onTrue(
+                //                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 coPilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
 

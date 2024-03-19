@@ -52,7 +52,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public double maximumSpeed = Units.feetToMeters(16.6);
+  public double maximumSpeed = Units.feetToMeters(16.5);
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -188,15 +188,15 @@ public class SwerveSubsystem extends SubsystemBase {
   public void drive(ChassisSpeeds velocity) {
     swerveDrive.drive(velocity);
 
-
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Distance to speaker", distanceToSpeaker());
-    //if (LimelightHelpers.getTV("limelight")) {
-      //addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"), Timer.getFPGATimestamp());
-    //}
+    // if (LimelightHelpers.getTV("limelight")) {
+    // addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),
+    // Timer.getFPGATimestamp());
+    // }
 
   }
 
@@ -397,33 +397,27 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Rotation2d angletoSpeaker() {
-    Optional<Alliance> ally = DriverStation.getAlliance();
     Translation2d dTranslation = swerveDrive.getPose().getTranslation();
-    if (ally.isPresent()) {
-      if (ally.get() == Alliance.Red) {
-        dTranslation = dTranslation.minus(Constants.aprilTag.redSpeaker);
-      }
-      if (ally.get() == Alliance.Blue) {
-        dTranslation = dTranslation.minus(Constants.aprilTag.blueSpeaker);
-      }
+    
+    if (isRedAlliance()) {
+      dTranslation = dTranslation.minus(Constants.aprilTag.redSpeaker);
+    } else {
+      dTranslation = dTranslation.minus(Constants.aprilTag.blueSpeaker);
     }
+
     SmartDashboard.putNumber("limelight rotation", dTranslation.getAngle().getDegrees());
     return dTranslation.getAngle();
   }
 
   public double distanceToSpeaker() {
-    Optional<Alliance> ally = DriverStation.getAlliance();
     Translation2d dTranslation = swerveDrive.getPose().getTranslation();
-    if (ally.isPresent()) {
-      if (ally.get() == Alliance.Red) {
-        SmartDashboard.putNumber("Distance to red speaker", dTranslation.getDistance(Constants.aprilTag.redSpeaker));
-        return dTranslation.getDistance(Constants.aprilTag.redSpeaker);
-      }
-      if (ally.get() == Alliance.Blue) {
-        SmartDashboard.putNumber("Distance to blue speaker", dTranslation.getDistance(Constants.aprilTag.blueSpeaker));
-        return dTranslation.getDistance(Constants.aprilTag.blueSpeaker);
-      }
+
+    if (isRedAlliance()) {
+      SmartDashboard.putNumber("Distance to red speaker", dTranslation.getDistance(Constants.aprilTag.redSpeaker));
+      return dTranslation.getDistance(Constants.aprilTag.redSpeaker);
+    } else {
+      SmartDashboard.putNumber("Distance to blue speaker", dTranslation.getDistance(Constants.aprilTag.blueSpeaker));
+      return dTranslation.getDistance(Constants.aprilTag.blueSpeaker);
     }
-    return -1;
   }
 }
