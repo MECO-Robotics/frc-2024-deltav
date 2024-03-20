@@ -11,10 +11,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -25,6 +28,8 @@ import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.arm.SetPointControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
+import frc.robot.commands.leds.FlashOnceCommand;
+import frc.robot.commands.leds.LedDefaultCommand;
 import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -99,7 +104,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
                 NamedCommands.registerCommand("Intake",
-                                new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem),
+                                new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led),
                                                 new PrintCommand("HandOff Command running")));
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
                 NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
@@ -190,6 +195,8 @@ public class RobotContainer {
                 indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem,
                                 () -> (pilotController.getLeftTriggerAxis() + coPilotController.getLeftTriggerAxis())  * 12));
 
+                led.setDefaultCommand(new LedDefaultCommand(led));
+
                 //armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () -> SmartDashboard.getNumber("Arm Setpoint", 0)));
 
         }
@@ -218,7 +225,7 @@ public class RobotContainer {
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
-                pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
+                pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, led, pilotController, coPilotController));
                 pilotCommandController.y().onTrue((new
                  InstantCommand(drivebase::zeroGyro)));
                 

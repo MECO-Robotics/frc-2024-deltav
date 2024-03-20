@@ -25,63 +25,9 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.start();
   }
 
-  @Override
-  public void periodic() {
-    Color color = Color.kBlack;
-    if (DriverStation.isTeleopEnabled() && DriverStation.getAlliance().isPresent()) {
-
-      Alliance ally = DriverStation.getAlliance().get();
-
-      if (ally == Alliance.Red) {
-        color = new Color(16, 0, 0);
-      } else if (ally == Alliance.Blue) { // should only have pipelines 0 & 1
-        color = new Color(0, 0, 16);
-      }
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, color);
-      }
-
-      setLEDs();
-    } else if (DriverStation.isAutonomousEnabled() && DriverStation.getAlliance().isPresent()) {
-
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlack);
-      }
-
-      Alliance ally = DriverStation.getAlliance().get();
-
-      if (ally == Alliance.Red) {
-        color = new Color(16, 0, 0);
-      } else if (ally == Alliance.Blue) { // should only have pipelines 0 & 1
-        color = new Color(0, 0, 16);
-      }
-
-      increment++;
-
-      if (increment < 12) {
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-          m_ledBuffer.setLED(i, color);
-        }
-      } else if(increment >= 12 && increment <= 25){
-
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-          m_ledBuffer.setLED(i, Color.kBlack);
-        }
-        
-      } else {
-        increment = 0;
-      }
-
-      setLEDs();
-
-    } else if (DriverStation.isEnabled() && DriverStation.getAlliance().isPresent() /* && Indexingcommand whatever */) {
-      chaserIndex(true);
-
-    } else {
-      rainbow();
-    }
-
-  }
+  
+  // --------------------------------------- Public functions?
+  // I think these need to be able to override/interrupt the periodic
 
   public void rainbow() {
     // For every pixel
@@ -96,11 +42,11 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue += 3;
     // Check bounds
     m_rainbowFirstPixelHue %= 180;
-    m_led.setData(m_ledBuffer);
+    setLEDs();
   }
 
   /**
-   * Moves alliance colored chaser up from bottom on both sides
+   * Moves (alliance colored?) chaser up from bottom on both sides
    */
   public void chaserIndex(boolean status) {
     int numLights = 57;
@@ -110,9 +56,7 @@ public class LEDSubsystem extends SubsystemBase {
 
     if (status) {
 
-      for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlack);
-      }
+      setAll(Color.kBlack);
 
       for (int i = 0; i < chaseLength; i++) {
         int position1 = chaserLocation * numChaseOffOnPerPeriod + i;
@@ -125,10 +69,21 @@ public class LEDSubsystem extends SubsystemBase {
 
     }
 
-    m_led.setData(m_ledBuffer);
+    setLEDs();
 
   }
 
+
+  public void setAll(Color color) {
+    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setLED(i, color);
+    }
+    setLEDs();
+  }
+
+  // --------------------------------------- Private functions?
+
+  // alternate/shortcut to actually set the leds from the buffer
   private void setLEDs() {
 
     m_led.setData(m_ledBuffer);
