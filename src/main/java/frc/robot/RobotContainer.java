@@ -196,7 +196,7 @@ public class RobotContainer {
                 indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem,
                                 () -> (pilotController.getLeftTriggerAxis() + coPilotController.getLeftTriggerAxis())  * 12));
 
-                led.setDefaultCommand(new LedDefaultCommand(led));
+                led.setDefaultCommand(new LedDefaultCommand(led).ignoringDisable(true));
 
                 //armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () -> SmartDashboard.getNumber("Arm Setpoint", 0)));
 
