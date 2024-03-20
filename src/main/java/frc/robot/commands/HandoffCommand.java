@@ -78,9 +78,9 @@ public class HandoffCommand extends Command {
         }
         led.chaserIndex(false);
 
-        if(!isInterrupted) {
-        CommandScheduler.getInstance().schedule(new FlashOnceCommand(led, Color.kGreen));
-        }
+        // if(!isInterrupted) {
+        // CommandScheduler.getInstance().schedule(new FlashOnceCommand(led, Color.kGreen));
+        // }
     }
 
     public boolean isFinished() {

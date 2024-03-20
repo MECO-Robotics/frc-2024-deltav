@@ -49,7 +49,7 @@ public class LEDSubsystem extends SubsystemBase {
    * Moves (alliance colored?) chaser up from bottom on both sides
    */
   public void chaserIndex(boolean status) {
-    int numLights = 60;
+    int numLights = (m_ledBuffer.getLength() / 2);
     int numChaseOffOnPerPeriod = 3;
     int chaseLength = 5;
     int numIterations = numLights / numChaseOffOnPerPeriod;
@@ -61,7 +61,7 @@ public class LEDSubsystem extends SubsystemBase {
       for (int i = 0; i < chaseLength; i++) {
         int position1 = (m_ledBuffer.getLength() / 2) + (-chaserLocation) * numChaseOffOnPerPeriod - i;
         m_ledBuffer.setLED(position1, Color.kWhite);
-        int position2 = (m_ledBuffer.getLength() / 2) + chaserLocation * numChaseOffOnPerPeriod + i;
+        int position2 = (m_ledBuffer.getLength() / 2) + 1 + chaserLocation * numChaseOffOnPerPeriod + i;
         m_ledBuffer.setLED(position2, Color.kWhite);
       }
 
@@ -89,6 +89,7 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
 
+  /* 
   private void setFrontAll(Color color) {
     for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
       m_ledBuffer.setLED(i, color);
@@ -109,5 +110,29 @@ public class LEDSubsystem extends SubsystemBase {
     for (var i = m_ledBuffer.getLength() / 2; i < m_ledBuffer.getLength(); i++) {
       m_ledBuffer.setLED(i, color);
     }
+  }
+  */
+
+  public void bothColors(boolean flipped) {
+    Color color1;
+    Color color2;
+    
+    if (flipped) {
+      color1 = Color.kBlue;
+      color2 = Color.kRed;
+    } else {
+      color1 = Color.kRed;
+      color2 = Color.kBlue;
+    }
+
+    setAll(Color.kBlack);
+
+    for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
+      m_ledBuffer.setLED(i, color1);
+    }
+    for (var i = 0; i > m_ledBuffer.getLength() / 2; i--) {
+      m_ledBuffer.setLED(i, color2);
+    }
+
   }
 }

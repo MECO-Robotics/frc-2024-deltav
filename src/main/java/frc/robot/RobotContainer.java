@@ -226,7 +226,12 @@ public class RobotContainer {
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
-                pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, led, pilotController, coPilotController));
+
+                pilotCommandController.rightBumper().whileTrue(new SequentialCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led, pilotController, coPilotController), new FlashOnceCommand(led, Color.kGreen)));
+
+
+                //pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, led, pilotController, coPilotController));
+                
                 pilotCommandController.y().onTrue((new
                  InstantCommand(drivebase::zeroGyro)));
                 

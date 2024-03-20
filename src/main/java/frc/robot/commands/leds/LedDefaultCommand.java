@@ -17,7 +17,7 @@ public class LedDefaultCommand extends Command {
 
     public void execute() {
         Color color = Color.kBlack;
-        if (DriverStation.isTeleopEnabled() && DriverStation.getAlliance().isPresent()) {
+        if (DriverStation.isTeleopEnabled() && DriverStation.getAlliance().isPresent()) { // Teleop Enabled - Solid alliance color
 
             Alliance ally = DriverStation.getAlliance().get();
 
@@ -28,7 +28,7 @@ public class LedDefaultCommand extends Command {
             }
             led.setAll(color);
 
-        } else if (DriverStation.isAutonomousEnabled() && DriverStation.getAlliance().isPresent()) {
+        } else if (DriverStation.isAutonomousEnabled() && DriverStation.getAlliance().isPresent()) { // Auto Enabled - Blink alliance color
 
             led.setAll(Color.kBlack);
 
@@ -54,7 +54,7 @@ public class LedDefaultCommand extends Command {
                 increment = 0;
             }
 
-        } else {
+        } else { // Disabled or anything else - Rainbow pattern
             led.rainbow();
         }
 
