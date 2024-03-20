@@ -28,7 +28,7 @@ public class HandoffCommand extends Command {
         led = ledPassedIn;
         this.pilot = pilot;
         this.copilot = copilot;
-        addRequirements(indexer, intake);
+        addRequirements(indexer, intake, led);
     }
 
     public HandoffCommand(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn, LEDSubsystem ledPassedIn) {

@@ -49,7 +49,7 @@ public class LEDSubsystem extends SubsystemBase {
    * Moves (alliance colored?) chaser up from bottom on both sides
    */
   public void chaserIndex(boolean status) {
-    int numLights = 57;
+    int numLights = 54;
     int numChaseOffOnPerPeriod = 3;
     int chaseLength = 5;
     int numIterations = numLights / numChaseOffOnPerPeriod;
@@ -59,9 +59,9 @@ public class LEDSubsystem extends SubsystemBase {
       setAll(Color.kBlack);
 
       for (int i = 0; i < chaseLength; i++) {
-        int position1 = chaserLocation * numChaseOffOnPerPeriod + i;
+        int position1 = (m_ledBuffer.getLength() / 2) + (-chaserLocation) * numChaseOffOnPerPeriod - i;
         m_ledBuffer.setLED(position1, Color.kWhite);
-        int position2 = m_ledBuffer.getLength() - 1 + (-chaserLocation) * numChaseOffOnPerPeriod - i;
+        int position2 = (m_ledBuffer.getLength() / 2) + chaserLocation * numChaseOffOnPerPeriod + i;
         m_ledBuffer.setLED(position2, Color.kWhite);
       }
 
