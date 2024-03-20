@@ -34,6 +34,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.commands.vision.TurnToSpeakerStationaryCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.lang.invoke.ConstantCallSite;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.ArmSubsystem;
@@ -84,8 +85,8 @@ public class RobotContainer {
                                                         OperatorConstants.LEFT_X_DEADBAND),
                                         drivebase.angletoSpeaker()::getRotations),
                         new SetPointControlCommand(armSubsystem, armAimAngle),
-                        new ShooterCommand(shooterSubsystem, 0,
-                                        0)); // TODO create aiming
+                        new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
+                                        Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
                                                                                    // equation
 
         /**
