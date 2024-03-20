@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -25,7 +26,6 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.start();
   }
 
-  
   // --------------------------------------- Public functions?
   // I think these need to be able to override/interrupt the periodic
 
@@ -52,7 +52,11 @@ public class LEDSubsystem extends SubsystemBase {
     int numLights = (m_ledBuffer.getLength() / 2);
     int numChaseOffOnPerPeriod = 3;
     int chaseLength = 5;
-    int numIterations = numLights / numChaseOffOnPerPeriod;
+    int numIterations = numLights / numChaseOffOnPerPeriod - 1;
+
+    // Debug
+    int ledLength = m_ledBuffer.getLength();
+    SmartDashboard.putNumber(getName(), ledLength);
 
     if (status) {
 
@@ -66,13 +70,14 @@ public class LEDSubsystem extends SubsystemBase {
       }
 
       chaserLocation = (chaserLocation + 1) % numIterations;
+      setLEDs();
 
+    } else {
+      setAll(Color.kBlack);
+      chaserLocation = 0;
     }
 
-    setLEDs();
-
   }
-
 
   public void setAll(Color color) {
     for (int i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -89,34 +94,34 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
 
-  /* 
-  private void setFrontAll(Color color) {
-    for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
-      m_ledBuffer.setLED(i, color);
-    }
-  }
-
-  public void setFrontHalf() {
-    for (int i = 0; i < m_ledBuffer.getLength() / 2; i++) {
-      if (i < m_ledBuffer.getLength() / 2) {
-        m_ledBuffer.setLED(i, Color.kBlue);
-      } else {
-        m_ledBuffer.setLED(i, Color.kRed);
-      }
-    }
-  }
-
-  public void setBackAll(Color color) {
-    for (var i = m_ledBuffer.getLength() / 2; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setLED(i, color);
-    }
-  }
-  */
+  /*
+   * private void setFrontAll(Color color) {
+   * for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
+   * m_ledBuffer.setLED(i, color);
+   * }
+   * }
+   * 
+   * public void setFrontHalf() {
+   * for (int i = 0; i < m_ledBuffer.getLength() / 2; i++) {
+   * if (i < m_ledBuffer.getLength() / 2) {
+   * m_ledBuffer.setLED(i, Color.kBlue);
+   * } else {
+   * m_ledBuffer.setLED(i, Color.kRed);
+   * }
+   * }
+   * }
+   * 
+   * public void setBackAll(Color color) {
+   * for (var i = m_ledBuffer.getLength() / 2; i < m_ledBuffer.getLength(); i++) {
+   * m_ledBuffer.setLED(i, color);
+   * }
+   * }
+   */
 
   public void bothColors(boolean flipped) {
     Color color1;
     Color color2;
-    
+
     if (flipped) {
       color1 = Color.kBlue;
       color2 = Color.kRed;
