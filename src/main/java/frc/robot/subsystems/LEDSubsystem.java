@@ -49,7 +49,7 @@ public class LEDSubsystem extends SubsystemBase {
    * Moves (alliance colored?) chaser up from bottom on both sides
    */
   public void chaserIndex(boolean status) {
-    int numLights = 54;
+    int numLights = 60;
     int numChaseOffOnPerPeriod = 3;
     int chaseLength = 5;
     int numIterations = numLights / numChaseOffOnPerPeriod;
