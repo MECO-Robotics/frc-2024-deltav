@@ -20,10 +20,11 @@ public class LEDSubsystem extends SubsystemBase {
   private int increment = 0;
 
   public LEDSubsystem() {
-
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
+
+    setAll(Color.kBlack);
   }
 
   // --------------------------------------- Public functions?
