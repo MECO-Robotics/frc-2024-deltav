@@ -31,7 +31,6 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.commands.vision.TurnToSpeakerStationaryCommand;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import java.lang.invoke.ConstantCallSite;
@@ -42,7 +41,6 @@ import frc.robot.subsystems.IndexingSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -62,32 +60,29 @@ public class RobotContainer {
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
         private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
         private final IndexingSubsystem indexingSubsystem = new IndexingSubsystem();
-        private final VisionSubsystem vision = new VisionSubsystem();
         private final LEDSubsystem led = new LEDSubsystem();
 
         // The robot's subsystems and commands are defined here...
         private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                         "swerve/neo"));
 
-        DoubleSupplier armAimAngle = () -> Math.atan2(Constants.aprilTag.speakerHeight,
-                        drivebase.distanceToSpeaker()) - 28.2 / 360 - 90.0 / 360;
+        DoubleSupplier armAimAngle = () -> SmartDashboard.getNumber("Arm Aim Angle", 0);
 
         XboxController pilotController = new XboxController(0);
         CommandXboxController pilotCommandController = new CommandXboxController(0);
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
         
-        Command aimCommand = new ParallelCommandGroup(
-                        new AbsoluteFieldDrive(drivebase,
-                                        () -> MathUtil.applyDeadband(pilotController.getLeftY(),
-                                                        OperatorConstants.LEFT_Y_DEADBAND),
-                                        () -> MathUtil.applyDeadband(pilotController.getLeftX(),
-                                                        OperatorConstants.LEFT_X_DEADBAND),
-                                        drivebase.angletoSpeaker()::getRotations),
-                        new SetPointControlCommand(armSubsystem, armAimAngle),
-                        new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
-                                        Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
-                                                                                   // equation
+        //Command aimCommand = new AbsoluteFieldDrive(drivebase,
+                  //                       () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
+                  //                                       OperatorConstants.LEFT_Y_DEADBAND),
+                  //                       () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
+                  //                                      OperatorConstants.LEFT_X_DEADBAND),
+                  //                       () -> 2 * drivebase.angletoSpeaker().getRotations());
+        //                 new SetPointControlCommand(armSubsystem, armAimAngle));
+        //                 //new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
+        //                                 //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
+        //                                                                            // equation
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -95,6 +90,7 @@ public class RobotContainer {
         private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
         public RobotContainer() {
+                SmartDashboard.putNumber("Arm Aim Angle", 0);
 
                 // Commands for Pathplanner
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
@@ -110,7 +106,7 @@ public class RobotContainer {
                                 Constants.Arm.SetPointPositions.kStowPosition));
                 NamedCommands.registerCommand("amp",
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
-                NamedCommands.registerCommand("Sniper", aimCommand);
+                //NamedCommands.registerCommand("Sniper", aimCommand);
 
                 // Auto selection choices
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
@@ -219,11 +215,11 @@ public class RobotContainer {
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
-                pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
+                pilotCommandController.rightBumper().and(() -> armSubsystem.getPosition() <= Constants.Arm.SetPointPositions.kStowPosition).whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
                 pilotCommandController.y().onTrue((new
                  InstantCommand(drivebase::zeroGyro)));
                 
-                pilotCommandController.x().whileTrue(aimCommand);
+                // pilotCommandController.x().whileTrue(aimCommand);
          
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
@@ -231,7 +227,6 @@ public class RobotContainer {
                 // coPilotCommandController.a().onTrue(new
                 // InstantCommand(shooterSubsystem::disable));
                 coPilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
-                coPilotCommandController.b().whileTrue(new TurnToSpeakerStationaryCommand(drivebase, vision));
 
                 coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));

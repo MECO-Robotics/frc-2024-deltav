@@ -42,8 +42,8 @@ public final class Constants {
 
   public static final class aprilTag {
     // Apritag spaces relative to bluespeaker converted to meters
-    public static final Translation2d blueSpeaker = new Translation2d(-0.0381, 5.5372);
-    public static final Translation2d redSpeaker = new Translation2d(16.57934, 5.547864);
+    public static final Translation2d blueSpeaker = new Translation2d(Units.inchesToMeters(-1.5), Units.inchesToMeters(218.42));
+    public static final Translation2d redSpeaker = new Translation2d(Units.inchesToMeters(652.73), Units.inchesToMeters(218.42));
     public static final double speakerHeight = 1.9845;
   }
 

@@ -66,13 +66,19 @@ public class ArmSubsystem extends SubsystemBase {
         leftArmMotorTwo.setIdleMode(IdleMode.kBrake);
         rightArmMotorOne.setIdleMode(IdleMode.kBrake);
         rightArmMotorTwo.setIdleMode(IdleMode.kBrake);
+
+        leftArmMotorOne.setSmartCurrentLimit(40);
+        leftArmMotorTwo.setSmartCurrentLimit(40);
+        rightArmMotorOne.setSmartCurrentLimit(40);
+        rightArmMotorTwo.setSmartCurrentLimit(40);
         
         armEncoder.setPositionOffset(Constants.Arm.horizontalArmOffset);
         armIncrementalEncoder.setDistancePerPulse(1.0/Constants.Arm.armTicksPerRevolution);
         armIncrementalEncoder.setReverseDirection(true);
         initialArmPosition = armEncoder.get();
-        goalState = new TrapezoidProfile.State(getPosition(), getVelocity());
+        //goalState = new TrapezoidProfile.State(getPosition(), getVelocity());
         setpointState = new TrapezoidProfile.State(getPosition(), getVelocity());
+        setPosition(Constants.Arm.SetPointPositions.kStowPosition);
     }
 
     public void setVoltage(double voltage) {
@@ -102,7 +108,7 @@ public class ArmSubsystem extends SubsystemBase {
         enabled = false;
     }
 
-    private double getPosition() {
+    public double getPosition() {
         return armEncoder.get();
     }
 
