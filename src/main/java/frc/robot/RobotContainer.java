@@ -11,10 +11,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -25,6 +28,8 @@ import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.arm.SetPointControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
+import frc.robot.commands.leds.FlashOnceCommand;
+import frc.robot.commands.leds.LedDefaultCommand;
 import frc.robot.commands.shooter.ShooterCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -72,17 +77,18 @@ public class RobotContainer {
         CommandXboxController pilotCommandController = new CommandXboxController(0);
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
-        
-        //Command aimCommand = new AbsoluteFieldDrive(drivebase,
-                  //                       () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
-                  //                                       OperatorConstants.LEFT_Y_DEADBAND),
-                  //                       () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
-                  //                                      OperatorConstants.LEFT_X_DEADBAND),
-                  //                       () -> 2 * drivebase.angletoSpeaker().getRotations());
-        //                 new SetPointControlCommand(armSubsystem, armAimAngle));
-        //                 //new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
-        //                                 //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
-        //                                                                            // equation
+
+        // Command aimCommand = new AbsoluteFieldDrive(drivebase,
+        // () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
+        // OperatorConstants.LEFT_Y_DEADBAND),
+        // () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
+        // OperatorConstants.LEFT_X_DEADBAND),
+        // () -> 2 * drivebase.angletoSpeaker().getRotations());
+        // new SetPointControlCommand(armSubsystem, armAimAngle));
+        // //new ShooterCommand(shooterSubsystem,
+        // Constants.Shooter.Presets.kLeftSpeaker,
+        // //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
+        // // equation
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -96,17 +102,18 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
                 NamedCommands.registerCommand("Intake",
-                                new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem),
+                                new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led),
                                                 new PrintCommand("HandOff Command running")));
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
                 NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
                 // NamedCommands.registerCommand("Arm",
-                //                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kBeamFlatPosition));
+                // new SetPointControlCommand(armSubsystem,
+                // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
                 NamedCommands.registerCommand("amp",
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
-                //NamedCommands.registerCommand("Sniper", aimCommand);
+                // NamedCommands.registerCommand("Sniper", aimCommand);
 
                 // Auto selection choices
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
@@ -122,8 +129,6 @@ public class RobotContainer {
                 autoCommandChoice.addOption("center red", "center red");
                 autoCommandChoice.addOption("top red sniper", "top red sniper");
                 autoCommandChoice.addOption("top far", "top far");
-                
-                
 
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
                 // SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
@@ -185,9 +190,13 @@ public class RobotContainer {
                                 new NoAutomationIntakieCommand(intakeSubsystem,
                                                 () -> pilotController.getRightTriggerAxis() * -12));
                 indexingSubsystem.setDefaultCommand(new IndexingCommand(indexingSubsystem,
-                                () -> (pilotController.getLeftTriggerAxis() + coPilotController.getLeftTriggerAxis())  * 12));
+                                () -> (pilotController.getLeftTriggerAxis() + coPilotController.getLeftTriggerAxis())
+                                                * 12));
 
-                //armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () -> SmartDashboard.getNumber("Arm Setpoint", 0)));
+                led.setDefaultCommand(new LedDefaultCommand(led).ignoringDisable(true));
+
+                // armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () ->
+                // SmartDashboard.getNumber("Arm Setpoint", 0)));
 
         }
 
@@ -215,12 +224,17 @@ public class RobotContainer {
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
-                pilotCommandController.rightBumper().and(() -> armSubsystem.getPosition() <= Constants.Arm.SetPointPositions.kStowPosition).whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
-                pilotCommandController.y().onTrue((new
-                 InstantCommand(drivebase::zeroGyro)));
-                
+                pilotCommandController.rightBumper()
+                                .and(() -> armSubsystem.getPosition() <= Constants.Arm.SetPointPositions.kStowPosition)
+                                .whileTrue(new SequentialCommandGroup(
+                                                new HandoffCommand(indexingSubsystem, intakeSubsystem, led,
+                                                                pilotController, coPilotController),
+                                                new FlashOnceCommand(led, Color.kGreen)));
+
+                pilotCommandController.y().onTrue((new InstantCommand(drivebase::zeroGyro)));
+
                 // pilotCommandController.x().whileTrue(aimCommand);
-         
+
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
                                                 Constants.Shooter.Presets.kRightSpeaker));
@@ -231,15 +245,21 @@ public class RobotContainer {
                 coPilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
                 coPilotCommandController.povRight().onTrue(
-                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootFlatPosition));
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kShootFlatPosition));
                 // coPilotCommandController.povLeft().onTrue(
-                //                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kBeamFlatPosition));
+                // new SetPointControlCommand(armSubsystem,
+                // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 coPilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
 
-                coPilotCommandController.rightStick().whileTrue(new ManualArmControlCommand(armSubsystem, () -> coPilotCommandController.getRightY() > 0 ? -coPilotCommandController.getRightY() : 0));
-                
-                 //new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
+                coPilotCommandController.rightStick()
+                                .whileTrue(new ManualArmControlCommand(armSubsystem,
+                                                () -> coPilotCommandController.getRightY() > 0
+                                                                ? -coPilotCommandController.getRightY()
+                                                                : 0));
+
+                // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
 
         }
