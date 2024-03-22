@@ -31,6 +31,7 @@ import frc.robot.commands.intake.NoAutomationIntakieCommand;
 import frc.robot.commands.leds.FlashOnceCommand;
 import frc.robot.commands.leds.LedDefaultCommand;
 import frc.robot.commands.shooter.ShooterCommand;
+import frc.robot.commands.swervedrive.auto.ShootInPlaceAuto;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -119,6 +120,9 @@ public class RobotContainer {
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
                 // autoCommandChoice.addOption("7 note auto", "7 note auto");
 
+                //Anything
+                autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
+                
                 // Blue aliance
                 autoCommandChoice.addOption("center blue", "center blue");
                 autoCommandChoice.addOption("center blue sniper", "center blue sniper");
@@ -225,7 +229,6 @@ public class RobotContainer {
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
                 pilotCommandController.rightBumper()
-                                .and(() -> armSubsystem.getPosition() <= Constants.Arm.SetPointPositions.kStowPosition)
                                 .whileTrue(new SequentialCommandGroup(
                                                 new HandoffCommand(indexingSubsystem, intakeSubsystem, led,
                                                                 pilotController, coPilotController),
@@ -235,6 +238,7 @@ public class RobotContainer {
 
                 // pilotCommandController.x().whileTrue(aimCommand);
 
+                
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
                                                 Constants.Shooter.Presets.kRightSpeaker));
@@ -272,8 +276,11 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
 
                 if (autoCommandChoice != null && autoCommandChoice.getSelected() != null) {
-
-                        return new PathPlannerAuto(autoCommandChoice.getSelected());
+                        if (autoCommandChoice.getSelected() == "ShootInPlaceAuto") {
+                                return new ShootInPlaceAuto(shooterSubsystem, indexingSubsystem);
+                        } else {
+                                return new PathPlannerAuto(autoCommandChoice.getSelected());
+                        }
                 }
 
                 return null;

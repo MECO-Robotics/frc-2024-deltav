@@ -67,10 +67,10 @@ public class ArmSubsystem extends SubsystemBase {
         rightArmMotorOne.setIdleMode(IdleMode.kBrake);
         rightArmMotorTwo.setIdleMode(IdleMode.kBrake);
 
-        leftArmMotorOne.setSmartCurrentLimit(40);
-        leftArmMotorTwo.setSmartCurrentLimit(40);
-        rightArmMotorOne.setSmartCurrentLimit(40);
-        rightArmMotorTwo.setSmartCurrentLimit(40);
+        leftArmMotorOne.setSmartCurrentLimit(60);
+        leftArmMotorTwo.setSmartCurrentLimit(60);
+        rightArmMotorOne.setSmartCurrentLimit(60);
+        rightArmMotorTwo.setSmartCurrentLimit(60);
         
         armEncoder.setPositionOffset(Constants.Arm.horizontalArmOffset);
         armIncrementalEncoder.setDistancePerPulse(1.0/Constants.Arm.armTicksPerRevolution);

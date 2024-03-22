@@ -180,6 +180,10 @@ public final class Constants {
       // IDLE
       public static final int kIDLE = 3000;
 
+      public static final double kOverStageFlySpeedL = 3000;
+      public static final double kOverStageFlySpeedR = 2800;
+      public static final double kRedStageAngle = Units.degreesToRadians(30);
+      public static final double kBlueStageAngle = Units.degreesToRadians(-30);
     }
 
     // CAN ID's for the shooter motors
@@ -231,5 +235,6 @@ public final class Constants {
     public static final int beamBreakIRThreashold = 100;
 
   }
+
 
 }
