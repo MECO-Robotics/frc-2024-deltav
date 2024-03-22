@@ -78,7 +78,7 @@ public class RobotContainer {
                   //                                       OperatorConstants.LEFT_Y_DEADBAND),
                   //                       () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
                   //                                      OperatorConstants.LEFT_X_DEADBAND),
-                  //                       () -> 2 * drivebase.angletoSpeaker().getRotations());
+                    //                     () -> 2 * drivebase.angletoSpeaker().getRotations());
         //                 new SetPointControlCommand(armSubsystem, armAimAngle));
         //                 //new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
         //                                 //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
@@ -215,7 +215,7 @@ public class RobotContainer {
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
                 pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
-                pilotCommandController.rightBumper().and(() -> armSubsystem.getPosition() <= Constants.Arm.SetPointPositions.kStowPosition).whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
+                pilotCommandController.rightBumper().whileTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, pilotController, coPilotController));
                 pilotCommandController.y().onTrue((new
                  InstantCommand(drivebase::zeroGyro)));
                 

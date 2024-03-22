@@ -42,8 +42,10 @@ public final class Constants {
 
   public static final class aprilTag {
     // Apritag spaces relative to bluespeaker converted to meters
-    public static final Translation2d blueSpeaker = new Translation2d(Units.inchesToMeters(-1.5), Units.inchesToMeters(218.42));
-    public static final Translation2d redSpeaker = new Translation2d(Units.inchesToMeters(652.73), Units.inchesToMeters(218.42));
+    public static final Translation2d blueSpeaker = new Translation2d(Units.inchesToMeters(-1.5),
+        Units.inchesToMeters(218.42));
+    public static final Translation2d redSpeaker = new Translation2d(Units.inchesToMeters(652.73),
+        Units.inchesToMeters(218.42));
     public static final double speakerHeight = 1.9845;
   }
 
@@ -107,9 +109,9 @@ public final class Constants {
 
     public static final double horizontalArmOffset = 0.0975;
 
-    public static final double armkP = 6.6544; // 3.0565;
+    public static final double armkP = 10; //6.6544; // 3.0565;
     public static final double armkI = 0;
-    public static final double armkD = 4.833; // 0;
+    public static final double armkD = 0; //4.833; // 0;
 
     // Feed Forward
     public static final double armks = 0.78338;
@@ -121,7 +123,7 @@ public final class Constants {
 
     public static final double maxVoltage = 11.5;
 
-    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1, 1);
+    public static final TrapezoidProfile.Constraints kArmMotionConstraint = new TrapezoidProfile.Constraints(1.25, 1.25);
 
     // Differnt arm position
     public static class SetPointPositions {

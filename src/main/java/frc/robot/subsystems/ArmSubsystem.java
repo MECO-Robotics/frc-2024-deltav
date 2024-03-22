@@ -67,10 +67,10 @@ public class ArmSubsystem extends SubsystemBase {
         rightArmMotorOne.setIdleMode(IdleMode.kBrake);
         rightArmMotorTwo.setIdleMode(IdleMode.kBrake);
 
-        leftArmMotorOne.setSmartCurrentLimit(40);
-        leftArmMotorTwo.setSmartCurrentLimit(40);
-        rightArmMotorOne.setSmartCurrentLimit(40);
-        rightArmMotorTwo.setSmartCurrentLimit(40);
+        leftArmMotorOne.setSmartCurrentLimit(60);
+        leftArmMotorTwo.setSmartCurrentLimit(60);
+        rightArmMotorOne.setSmartCurrentLimit(60);
+        rightArmMotorTwo.setSmartCurrentLimit(60);
         
         armEncoder.setPositionOffset(Constants.Arm.horizontalArmOffset);
         armIncrementalEncoder.setDistancePerPulse(1.0/Constants.Arm.armTicksPerRevolution);
@@ -90,7 +90,7 @@ public class ArmSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Duty Cycle Encoder", armEncoder.get());
 
         // if (profile.isFinished(0.2)) {
-        //     setpointState = new TrapezoidProfile.State(getPosition(), getVelocity());
+        //     setpointState = new TrapezoidProfile.State(getPosition(), 0);
         // }
         setpointState = profile.calculate(0.02, setpointState, goalState);
         double voltage = PID.calculate(getPosition(), setpointState.position) + FF.calculate(setpointState.position * 2 * Math.PI, setpointState.velocity);
