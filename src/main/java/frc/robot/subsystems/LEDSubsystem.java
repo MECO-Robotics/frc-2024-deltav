@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -19,69 +20,15 @@ public class LEDSubsystem extends SubsystemBase {
   private int increment = 0;
 
   public LEDSubsystem() {
-
     m_led.setLength(m_ledBuffer.getLength());
     m_led.setData(m_ledBuffer);
     m_led.start();
+
+    setAll(Color.kBlack);
   }
 
-  @Override
-  public void periodic() {
-    Color color = Color.kBlack;
-    if (DriverStation.isTeleopEnabled() && DriverStation.getAlliance().isPresent()) {
-
-      Alliance ally = DriverStation.getAlliance().get();
-
-      if (ally == Alliance.Red) {
-        color = new Color(16, 0, 0);
-      } else if (ally == Alliance.Blue) { // should only have pipelines 0 & 1
-        color = new Color(0, 0, 16);
-      }
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, color);
-      }
-
-      setLEDs();
-    } else if (DriverStation.isAutonomousEnabled() && DriverStation.getAlliance().isPresent()) {
-
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlack);
-      }
-
-      Alliance ally = DriverStation.getAlliance().get();
-
-      if (ally == Alliance.Red) {
-        color = new Color(16, 0, 0);
-      } else if (ally == Alliance.Blue) { // should only have pipelines 0 & 1
-        color = new Color(0, 0, 16);
-      }
-
-      increment++;
-
-      if (increment < 12) {
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-          m_ledBuffer.setLED(i, color);
-        }
-      } else if(increment >= 12 && increment <= 25){
-
-        for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-          m_ledBuffer.setLED(i, Color.kBlack);
-        }
-        
-      } else {
-        increment = 0;
-      }
-
-      setLEDs();
-
-    } else if (DriverStation.isEnabled() && DriverStation.getAlliance().isPresent() /* && Indexingcommand whatever */) {
-      chaserIndex(true);
-
-    } else {
-      rainbow();
-    }
-
-  }
+  // --------------------------------------- Public functions?
+  // I think these need to be able to override/interrupt the periodic
 
   public void rainbow() {
     // For every pixel
@@ -96,63 +43,102 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue += 3;
     // Check bounds
     m_rainbowFirstPixelHue %= 180;
-    m_led.setData(m_ledBuffer);
+    setLEDs();
   }
 
   /**
-   * Moves alliance colored chaser up from bottom on both sides
+   * Moves (alliance colored?) chaser up from bottom on both sides
    */
   public void chaserIndex(boolean status) {
-    int numLights = 57;
+    int numLights = (m_ledBuffer.getLength() / 2);
     int numChaseOffOnPerPeriod = 3;
     int chaseLength = 5;
-    int numIterations = numLights / numChaseOffOnPerPeriod;
+    int numIterations = numLights / numChaseOffOnPerPeriod - 1;
+
+    // Debug
+    int ledLength = m_ledBuffer.getLength();
+    SmartDashboard.putNumber(getName(), ledLength);
 
     if (status) {
 
-      for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setLED(i, Color.kBlack);
-      }
+      setAll(Color.kBlack);
 
       for (int i = 0; i < chaseLength; i++) {
-        int position1 = chaserLocation * numChaseOffOnPerPeriod + i;
+        int position1 = (m_ledBuffer.getLength() / 2) + (-chaserLocation) * numChaseOffOnPerPeriod - i;
         m_ledBuffer.setLED(position1, Color.kWhite);
-        int position2 = m_ledBuffer.getLength() - 1 + (-chaserLocation) * numChaseOffOnPerPeriod - i;
+        int position2 = (m_ledBuffer.getLength() / 2) + 1 + chaserLocation * numChaseOffOnPerPeriod + i;
         m_ledBuffer.setLED(position2, Color.kWhite);
       }
 
       chaserLocation = (chaserLocation + 1) % numIterations;
+      setLEDs();
 
+    } else {
+      setAll(Color.kBlack);
+      chaserLocation = 0;
     }
-
-    m_led.setData(m_ledBuffer);
 
   }
 
+  public void setAll(Color color) {
+    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setLED(i, color);
+    }
+    setLEDs();
+  }
+
+  // --------------------------------------- Private functions?
+
+  // alternate/shortcut to actually set the leds from the buffer
   private void setLEDs() {
 
     m_led.setData(m_ledBuffer);
   }
 
-  private void setFrontAll(Color color) {
+  /*
+   * private void setFrontAll(Color color) {
+   * for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
+   * m_ledBuffer.setLED(i, color);
+   * }
+   * }
+   * 
+   * public void setFrontHalf() {
+   * for (int i = 0; i < m_ledBuffer.getLength() / 2; i++) {
+   * if (i < m_ledBuffer.getLength() / 2) {
+   * m_ledBuffer.setLED(i, Color.kBlue);
+   * } else {
+   * m_ledBuffer.setLED(i, Color.kRed);
+   * }
+   * }
+   * }
+   * 
+   * public void setBackAll(Color color) {
+   * for (var i = m_ledBuffer.getLength() / 2; i < m_ledBuffer.getLength(); i++) {
+   * m_ledBuffer.setLED(i, color);
+   * }
+   * }
+   */
+
+  public void bothColors(boolean flipped) {
+    Color color1;
+    Color color2;
+
+    if (flipped) {
+      color1 = Color.kBlue;
+      color2 = Color.kRed;
+    } else {
+      color1 = Color.kRed;
+      color2 = Color.kBlue;
+    }
+
+    setAll(Color.kBlack);
+
     for (var i = 0; i < m_ledBuffer.getLength() / 2; i++) {
-      m_ledBuffer.setLED(i, color);
+      m_ledBuffer.setLED(i, color1);
     }
-  }
+    for (var i = 0; i > m_ledBuffer.getLength() / 2; i--) {
+      m_ledBuffer.setLED(i, color2);
+    }
 
-  public void setFrontHalf() {
-    for (int i = 0; i < m_ledBuffer.getLength() / 2; i++) {
-      if (i < m_ledBuffer.getLength() / 2) {
-        m_ledBuffer.setLED(i, Color.kBlue);
-      } else {
-        m_ledBuffer.setLED(i, Color.kRed);
-      }
-    }
-  }
-
-  public void setBackAll(Color color) {
-    for (var i = m_ledBuffer.getLength() / 2; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setLED(i, color);
-    }
   }
 }
