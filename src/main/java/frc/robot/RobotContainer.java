@@ -182,8 +182,8 @@ public class RobotContainer {
                                                 OperatorConstants.LEFT_X_DEADBAND),
                                 () -> -pilotController.getRightX(), () -> true);
 
-                ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-                                () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
+                // ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+                //                 () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
 
                 // Configure the trigger bindingss
                 configureBindings();
@@ -257,11 +257,11 @@ public class RobotContainer {
                 coPilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
 
-                coPilotCommandController.rightStick()
-                                .whileTrue(new ManualArmControlCommand(armSubsystem,
-                                                () -> coPilotCommandController.getRightY() > 0
-                                                                ? -coPilotCommandController.getRightY()
-                                                                : 0));
+                // coPilotCommandController.rightStick()
+                //                 .whileTrue(new ManualArmControlCommand(armSubsystem,
+                //                                 () -> coPilotCommandController.getRightY() > 0
+                //                                                 ? -coPilotCommandController.getRightY()
+                //                                                 : 0));
 
                 // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
