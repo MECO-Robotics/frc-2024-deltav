@@ -1,0 +1,58 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.892206382584367,
+        "y": 7.003397916877522
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.953492586856834,
+        "y": 6.674799850200031
+      },
+      "isLocked": false,
+      "linkedName": "sniper 1"
+    },
+    {
+      "anchor": {
+        "x": 2.892206382584367,
+        "y": 5.5532480859697415
+      },
+      "prevControl": {
+        "x": 2.884118250925064,
+        "y": 5.651528395206417
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "sniper 2"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": -88.17217903794655,
+      "rotateFast": true
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.06,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -88.93351665919758,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "new blue sniper",
+  "previewStartingState": {
+    "rotation": 45.50033287435299,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

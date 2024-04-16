@@ -238,6 +238,25 @@ public class RobotContainer {
 
                 // pilotCommandController.x().whileTrue(aimCommand);
 
+
+                pilotCommandController.x()
+                                .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
+                                                Constants.Shooter.Presets.kRightSpeaker));
+                // coPilotCommandController.a().onTrue(new
+                // InstantCommand(shooterSubsystem::disable));
+                pilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
+
+                pilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
+                                Constants.Arm.SetPointPositions.kStowPosition));
+                pilotCommandController.povRight().onTrue(
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kShootFlatPosition));
+
+                pilotCommandController.povUp().onTrue(
+                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
+                // coPilotCommandController.povLeft().onTrue(
+                // new SetPointControlCommand(armSubsystem,
+                // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
