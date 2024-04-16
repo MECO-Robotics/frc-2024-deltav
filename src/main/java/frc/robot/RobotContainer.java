@@ -102,15 +102,23 @@ public class RobotContainer {
                 // Commands for Pathplanner
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
+
+                NamedCommands.registerCommand("PodiumLine", new SetPointControlCommand(
+                        armSubsystem, Constants.Arm.SetPointPositions.kPodiumLinePosition));
+
+                NamedCommands.registerCommand("WingLine", new SetPointControlCommand(armSubsystem, 
+                        Constants.Arm.SetPointPositions.kShootWingLinePosition));
                 NamedCommands.registerCommand("Intake",
                                 new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led),
                                                 new PrintCommand("HandOff Command running")));
+
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
+
                 NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
                 // NamedCommands.registerCommand("Arm",
                 // new SetPointControlCommand(armSubsystem,
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
-                NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem,
+                NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
                 NamedCommands.registerCommand("amp",
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
