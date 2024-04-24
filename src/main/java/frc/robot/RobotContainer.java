@@ -79,12 +79,12 @@ public class RobotContainer {
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
 
-        // Command aimCommand = new AbsoluteFieldDrive(drivebase,
-        // () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
-        // OperatorConstants.LEFT_Y_DEADBAND),
-        // () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
-        // OperatorConstants.LEFT_X_DEADBAND),
-        // () -> 2 * drivebase.angletoSpeaker().getRotations());
+         //Command aimCommand = new AbsoluteFieldDrive(drivebase,
+         //() -> MathUtil.applyDeadband(-pilotController.getLeftY(),
+         //OperatorConstants.LEFT_Y_DEADBAND),
+         //() -> MathUtil.applyDeadband(-pilotController.getLeftX(),
+         //OperatorConstants.LEFT_X_DEADBAND),
+         //() -> 2 * drivebase.angletoSpeaker().getRotations());
         // new SetPointControlCommand(armSubsystem, armAimAngle));
         // //new ShooterCommand(shooterSubsystem,
         // Constants.Shooter.Presets.kLeftSpeaker,
@@ -136,12 +136,14 @@ public class RobotContainer {
                 autoCommandChoice.addOption("center blue sniper", "center blue sniper");
                 autoCommandChoice.addOption("top blue", "top blue");
                 autoCommandChoice.addOption("far low", "far low");
+                autoCommandChoice.addOption("new sniper blue", "new sniper blue");
 
                 // Red aliance
                 autoCommandChoice.addOption("center red", "center red");
                 autoCommandChoice.addOption("top red sniper", "top red sniper");
                 autoCommandChoice.addOption("top far", "top far");
 
+                //These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
                 // SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
 
@@ -206,7 +208,6 @@ public class RobotContainer {
                                                 * 12));
 
                 led.setDefaultCommand(new LedDefaultCommand(led).ignoringDisable(true));
-
                 // armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () ->
                 // SmartDashboard.getNumber("Arm Setpoint", 0)));
 
