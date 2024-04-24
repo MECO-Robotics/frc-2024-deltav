@@ -3,12 +3,13 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
-    "new blue sniper",
     "Red keep away",
     "blue far 2",
+    "blue wingline",
     "center blue",
     "center blue sniper",
     "center red",
+    "new blue sniper",
     "top blue",
     "top red",
     "top red sniper"
