@@ -95,7 +95,7 @@ public class ArmSubsystem extends SubsystemBase {
         setpointState = profile.calculate(0.02, setpointState, goalState);
         double voltage = PID.calculate(getPosition(), setpointState.position) + FF.calculate(setpointState.position * 2 * Math.PI, setpointState.velocity);
         SmartDashboard.putNumber("voltage", voltage);
-
+        SmartDashboard.putNumber("Arm Angle", armEncoder.get());
         if (enabled){
             setVoltage(voltage);
         }

@@ -97,7 +97,7 @@ public class RobotContainer {
         private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
         public RobotContainer() {
-                SmartDashboard.putNumber("Arm Aim Angle", 0);
+                
 
                 // Commands for Pathplanner
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
@@ -119,10 +119,12 @@ public class RobotContainer {
                 // new SetPointControlCommand(armSubsystem,
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
-                                Constants.Arm.SetPointPositions.kStowPosition));
+                                Constants.Arm.SetPointPositions.kStowPosition)); 
                 NamedCommands.registerCommand("amp",
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
                 // NamedCommands.registerCommand("Sniper", aimCommand);
+                NamedCommands.registerCommand("podium", new SetPointControlCommand(armSubsystem, 
+                                Constants.Arm.SetPointPositions.kPodiumLinePosition));
 
                 // Auto selection choices
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
@@ -263,7 +265,11 @@ public class RobotContainer {
 
                 pilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
-                // coPilotCommandController.povLeft().onTrue(
+                pilotCommandController.povLeft().onTrue(
+                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kPodiumLinePosition));
+                pilotCommandController.leftBumper().onTrue(
+                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootWingLinePosition));
+                                // coPilotCommandController.povLeft().onTrue(
                 // new SetPointControlCommand(armSubsystem,
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 
