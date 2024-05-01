@@ -79,13 +79,15 @@ public class RobotContainer {
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
 
-         //Command aimCommand = new AbsoluteFieldDrive(drivebase,
-         //() -> MathUtil.applyDeadband(-pilotController.getLeftY(),
-         //OperatorConstants.LEFT_Y_DEADBAND),
-         //() -> MathUtil.applyDeadband(-pilotController.getLeftX(),
-         //OperatorConstants.LEFT_X_DEADBAND),
-         //() -> 2 * drivebase.angletoSpeaker().getRotations());
-        // new SetPointControlCommand(armSubsystem, armAimAngle));
+        //Rotation for computer vision
+         Command aimCommand = new AbsoluteFieldDrive(drivebase,         
+         () -> MathUtil.applyDeadband(-pilotController.getLeftY(),      
+         OperatorConstants.LEFT_Y_DEADBAND),
+         () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
+         OperatorConstants.LEFT_X_DEADBAND),
+         () -> 2 * drivebase.angletoSpeaker().getRotations());
+
+        // new SetPointControlCommand(armSubsystem      , armAimAngle));
         // //new ShooterCommand(shooterSubsystem,
         // Constants.Shooter.Presets.kLeftSpeaker,
         // //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
@@ -247,7 +249,7 @@ public class RobotContainer {
 
                 pilotCommandController.y().onTrue((new InstantCommand(drivebase::zeroGyro)));
 
-                // pilotCommandController.x().whileTrue(aimCommand);
+                pilotCommandController.b().whileTrue(aimCommand);
 
 
                 pilotCommandController.x()
@@ -269,9 +271,8 @@ public class RobotContainer {
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kPodiumLinePosition));
                 pilotCommandController.leftBumper().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootWingLinePosition));
-                                // coPilotCommandController.povLeft().onTrue(
-                // new SetPointControlCommand(armSubsystem,
-                // Constants.Arm.SetPointPositions.kBeamFlatPosition));
+                                
+                
                 
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
