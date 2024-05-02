@@ -23,8 +23,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.BlinkLimelightCommand;
 import frc.robot.commands.HandoffCommand;
-import frc.robot.commands.arm.ManualArmControlCommand;
+//import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.arm.SetPointControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
@@ -196,8 +197,8 @@ public class RobotContainer {
                                                 OperatorConstants.LEFT_X_DEADBAND),
                                 () -> -pilotController.getRightX(), () -> true);
 
-                ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-                                () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
+                //ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+                                //() -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
 
                 // Configure the trigger bindingss
                 configureBindings();
@@ -272,7 +273,7 @@ public class RobotContainer {
                 pilotCommandController.leftBumper().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootWingLinePosition));
                                 
-                
+   
                 
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
@@ -292,12 +293,7 @@ public class RobotContainer {
                 coPilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
 
-                coPilotCommandController.rightStick()
-                                .whileTrue(new ManualArmControlCommand(armSubsystem,
-                                                () -> coPilotCommandController.getRightY() > 0
-                                                                ? -coPilotCommandController.getRightY()
-                                                                : 0));
-
+                
                 // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
 
