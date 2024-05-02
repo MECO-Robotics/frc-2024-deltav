@@ -3,7 +3,10 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
+    "Blue center rush",
     "Red keep away",
+    "blue disrupt",
+    "blue center sniper",
     "blue far 2",
     "blue wingline",
     "center blue",

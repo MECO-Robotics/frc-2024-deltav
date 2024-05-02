@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.894478887549324,
+        "y": 2.081230077953112
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.32806848712289,
+        "y": 3.786682502942471
+      },
+      "isLocked": false,
+      "linkedName": "blue distrupt 1"
+    },
+    {
+      "anchor": {
+        "x": 8.284709527165534,
+        "y": 7.457741112665324
+      },
+      "prevControl": {
+        "x": 8.082367714031202,
+        "y": 6.590561913518194
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.06,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 50.59933933652064,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "blue disrupt",
+  "previewStartingState": {
+    "rotation": 44.42127443439231,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

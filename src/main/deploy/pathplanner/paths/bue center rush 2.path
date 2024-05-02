@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.313615500464008,
+        "y": 0.7660082925839724
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.885513742858472,
+        "y": 1.5175635985074791
+      },
+      "isLocked": false,
+      "linkedName": "blue center rush 1"
+    },
+    {
+      "anchor": {
+        "x": 2.908198492453323,
+        "y": 3.3964518633262624
+      },
+      "prevControl": {
+        "x": 4.917163637144176,
+        "y": 2.167947997867827
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.06,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -33.690067525979806,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue center rush",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
