@@ -135,7 +135,7 @@ public final class Constants {
       public static final double kPodiumLinePosition = -0.00482;   //-0.00382
 
       // public static final double kBeamFlatPosition = 0;
-
+      
     }
 
   }
@@ -178,7 +178,7 @@ public final class Constants {
 
     public static final class Presets {
       public static final int kLeftSpeaker = 5000;
-      public static final int kRightSpeaker = 4800;
+      public static final int kRightSpeaker = 3000;
 
       public static final int kidleSpeed = 1000;
 

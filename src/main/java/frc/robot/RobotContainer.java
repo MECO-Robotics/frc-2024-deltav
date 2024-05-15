@@ -93,6 +93,7 @@ public class RobotContainer {
         // Constants.Shooter.Presets.kLeftSpeaker,
         // //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
         // // equation
+        //Aiming equation = 
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -138,10 +139,8 @@ public class RobotContainer {
                 
                 // Blue aliance
                 autoCommandChoice.addOption("center blue", "center blue");
-                autoCommandChoice.addOption("center blue sniper", "center blue sniper");
-                autoCommandChoice.addOption("top blue", "top blue");
-                autoCommandChoice.addOption("far low", "far low");
                 autoCommandChoice.addOption("new sniper blue", "new sniper blue");
+                autoCommandChoice.addOption("blue disrupt", "blue disrupt");
 
                 // Red aliance
                 autoCommandChoice.addOption("center red", "center red");
@@ -273,7 +272,7 @@ public class RobotContainer {
                 pilotCommandController.leftBumper().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootWingLinePosition));
                                 
-   
+                
                 
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
