@@ -80,6 +80,8 @@ public class RobotContainer {
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
 
+        
+
         //Rotation for computer vision
          Command aimCommand = new AbsoluteFieldDrive(drivebase,         
          () -> MathUtil.applyDeadband(-pilotController.getLeftY(),      
@@ -88,6 +90,8 @@ public class RobotContainer {
          OperatorConstants.LEFT_X_DEADBAND),
          () -> 2 * drivebase.angletoSpeaker().getRotations());
 
+         
+         
         // new SetPointControlCommand(armSubsystem      , armAimAngle));
         // //new ShooterCommand(shooterSubsystem,
         // Constants.Shooter.Presets.kLeftSpeaker,
@@ -101,7 +105,9 @@ public class RobotContainer {
         private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
         public RobotContainer() {
+        
                 
+             
 
                 // Commands for Pathplanner
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
@@ -251,6 +257,7 @@ public class RobotContainer {
 
                 pilotCommandController.b().whileTrue(aimCommand);
 
+               
 
                 pilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,

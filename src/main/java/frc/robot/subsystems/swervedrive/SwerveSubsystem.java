@@ -192,11 +192,12 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("Distance to speaker", distanceToSpeaker());
-    // if (LimelightHelpers.getTV("limelight")) {
-    //   addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),
-    //       Timer.getFPGATimestamp());
-    // }
+    SmartDashboard.putNumber("Distance to speaker", distanceToSpeaker());
+    SmartDashboard.putNumber("Angle to Speaker", angletoSpeaker().getDegrees());
+    if (LimelightHelpers.getTV("limelight")) {
+      addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),
+          Timer.getFPGATimestamp());
+    }
 
   }
 
@@ -383,13 +384,12 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public boolean isRedAlliance() {
-    boolean isRed = false;
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
-      isRed = alliance.get() == DriverStation.Alliance.Red;
+      return alliance.get() == DriverStation.Alliance.Red;
     }
 
-    return isRed;
+    return false;
   }
 
   public SwerveDrivePoseEstimator getEstimator() {
@@ -400,12 +400,13 @@ public class SwerveSubsystem extends SubsystemBase {
     Translation2d dTranslation;
 
     if (isRedAlliance()) {
-      dTranslation = Constants.aprilTag.redSpeaker;
-    } else {
-      dTranslation = Constants.aprilTag.blueSpeaker;
+      return  Constants.aprilTag.redSpeaker.minus(swerveDrive.getPose().getTranslation()).getAngle();
+    } 
+    else {
+      return swerveDrive.getPose().getTranslation().minus(Constants.aprilTag.blueSpeaker).getAngle();
     }
-
-    return swerveDrive.getPose().getTranslation().minus(dTranslation).getAngle();
+//Change else back to blue speaker
+    
   }
 
   public double distanceToSpeaker() {

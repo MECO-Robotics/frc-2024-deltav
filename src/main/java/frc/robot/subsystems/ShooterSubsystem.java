@@ -38,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setFlywheelVoltage(voltage.in(Units.Volts), 0),
                     log ->
-                    // Record a frame for the shooter motor.
+                    // Record a frame for the shooter motor.i
                     log.motor("Flywheel")
                             .voltage(
                                     Units.Volts.of(
