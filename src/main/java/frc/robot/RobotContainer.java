@@ -83,12 +83,14 @@ public class RobotContainer {
         
 
         //Rotation for computer vision
-         Command aimCommand = new AbsoluteFieldDrive(drivebase,         
+        DoubleSupplier armAngleSupplier = () -> -0.0674 + 0.0148*drivebase.distanceToSpeaker() + -.00067*drivebase.distanceToSpeaker()* drivebase.distanceToSpeaker();
+         Command aimCommand = new ParallelCommandGroup(
+              new AbsoluteFieldDrive(drivebase,         
          () -> MathUtil.applyDeadband(-pilotController.getLeftY(),      
          OperatorConstants.LEFT_Y_DEADBAND),
          () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
          OperatorConstants.LEFT_X_DEADBAND),
-         () -> 2 * drivebase.angletoSpeaker().getRotations());
+         () -> 2 * drivebase.angletoSpeaker().getRotations()), new SetPointControlCommand(armSubsystem, armAngleSupplier));
 
          
          
