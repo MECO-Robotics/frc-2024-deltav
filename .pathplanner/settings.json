@@ -3,24 +3,10 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue center rush",
-    "Red keep away",
-    "blue disrupt",
-    "blue center sniper",
-    "blue far 2",
-    "blue wingline",
     "center blue",
-    "center blue sniper",
-    "center red",
-    "new blue sniper",
-    "top blue",
-    "top red",
-    "top red sniper"
+    "new blue sniper"
   ],
-  "autoFolders": [
-    "Blue",
-    "Red"
-  ],
+  "autoFolders": [],
   "defaultMaxVel": 5.06,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
