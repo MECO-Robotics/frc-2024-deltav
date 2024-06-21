@@ -12,7 +12,7 @@
         "y": 6.041348420725011
       },
       "isLocked": false,
-      "linkedName": "sniper 2"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "sniper 3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],

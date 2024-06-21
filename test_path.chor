@@ -1,0 +1,111 @@
+{
+    "version": "v0.4",
+    "robotConfiguration": {
+        "mass": 74.08797700309194,
+        "rotationalInertia": 6,
+        "motorMaxTorque": 1.087292817679558,
+        "motorMaxVelocity": 4704,
+        "gearing": 6.75,
+        "wheelbase": 0.5778496879611685,
+        "trackWidth": 0.5778496879611685,
+        "bumperLength": 0.8762995267982555,
+        "bumperWidth": 0.8762995267982555,
+        "wheelRadius": 0.050799972568014815
+    },
+    "paths": {
+        "New Path": {
+            "waypoints": [
+                {
+                    "x": 1.362012505531311,
+                    "y": 5.542853355407715,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 2.228271722793579,
+                    "y": 6.377264499664307,
+                    "heading": 0.7672185833503874,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": false,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 2.90981388092041,
+                    "y": 7.020589351654053,
+                    "heading": 0.7853981633974483,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                }
+            ],
+            "trajectory": [],
+            "trajectoryWaypoints": [],
+            "constraints": [
+                {
+                    "scope": [
+                        "first"
+                    ],
+                    "type": "StopPoint",
+                    "direction": 0
+                },
+                {
+                    "scope": [
+                        "first"
+                    ],
+                    "type": "StopPoint",
+                    "direction": 0
+                }
+            ],
+            "usesControlIntervalGuessing": true,
+            "defaultControlIntervalCount": 40,
+            "usesDefaultFieldObstacles": true,
+            "circleObstacles": [
+                {
+                    "x": 3.407658100128174,
+                    "y": 4.089168548583984,
+                    "radius": 0.3214917161359322
+                },
+                {
+                    "x": 5.59473991394043,
+                    "y": 5.395197868347168,
+                    "radius": 0.35303047271011984
+                },
+                {
+                    "x": 5.605105400085449,
+                    "y": 2.824599027633667,
+                    "radius": 0.35379008569688974
+                }
+            ],
+            "eventMarkers": [
+                {
+                    "name": "Marker",
+                    "target": 1,
+                    "trajTargetIndex": null,
+                    "targetTimestamp": null,
+                    "offset": 0,
+                    "command": {
+                        "type": "race",
+                        "data": {
+                            "commands": [
+                                {
+                                    "type": "named",
+                                    "data": {
+                                        "name": ""
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "isTrajectoryStale": true
+        }
+    },
+    "splitTrajectoriesAtStopPoints": true,
+    "usesObstacles": true
+}
