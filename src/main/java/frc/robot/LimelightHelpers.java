@@ -385,6 +385,7 @@ public class LimelightHelpers {
 
     }
 
+
     public static class RawFiducial {
         public int id = 0;
         public double txnc = 0;
