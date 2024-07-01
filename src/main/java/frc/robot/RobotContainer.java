@@ -133,10 +133,8 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
 
-                NamedCommands.registerCommand("PodiumLine", new SetPointControlCommand(
-                        armSubsystem, Constants.Arm.SetPointPositions.kPodiumLinePosition));
 
-                NamedCommands.registerCommand("WingLine", new SetPointControlCommand(armSubsystem, 
+                NamedCommands.registerCommand("Wing", new SetPointControlCommand(armSubsystem, 
                         Constants.Arm.SetPointPositions.kShootWingLinePosition));
                 NamedCommands.registerCommand("Intake",
                                 new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led),
@@ -150,8 +148,6 @@ public class RobotContainer {
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition)); 
-                NamedCommands.registerCommand("amp",
-                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
                 // NamedCommands.registerCommand("Sniper", aimCommand);
                 NamedCommands.registerCommand("podium", new SetPointControlCommand(armSubsystem, 
                                 Constants.Arm.SetPointPositions.kPodiumLinePosition));
@@ -164,18 +160,16 @@ public class RobotContainer {
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
                 
                 // Blue aliance
-                autoCommandChoice.addOption("center blue", "center blue");
-                autoCommandChoice.addOption("new sniper blue", "new sniper blue");
-                autoCommandChoice.addOption("blue disrupt", "blue disrupt");
+                
 
                 // Red aliance
-                autoCommandChoice.addOption("center red", "center red");
-                autoCommandChoice.addOption("top red sniper", "top red sniper");
-                autoCommandChoice.addOption("top far", "top far");
+                
 
                 //These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
                 // SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
+
+        
 
                 AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                 // Applies deadbands and inverts controls because joysticks
