@@ -157,6 +157,9 @@ public class RobotContainer {
                                 new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
                                 new IndexingCommand(indexingSubsystem, 0), new SetPointControlCommand(armSubsystem,
                                                 Constants.Arm.SetPointPositions.kStowPosition)));
+                
+                NamedCommands.registerCommand("eject", new SequentialCommandGroup(new ParallelRaceGroup(
+                        new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)), new IndexingCommand(indexingSubsystem, 0)));
 
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
 
@@ -179,7 +182,9 @@ public class RobotContainer {
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
 
                 // Blue aliance
-
+                autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
+                autoCommandChoice.addOption("blue 4 note sniper", "blue 4 note sniper");
+                autoCommandChoice.addOption("source side", "source side");
                 // Red aliance
 
                 // These old autos but I dont want to touch these and break auto choice thingy
