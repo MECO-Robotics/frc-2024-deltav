@@ -54,6 +54,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import frc.robot.commands.BlinkLimelightCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -64,6 +65,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
  */
 public class RobotContainer {
 
+        //private static final Command BlinkLimelightCommand = new BlinkLimelightCommand();
         // creates variable for controllerSubsystem
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -185,7 +187,8 @@ public class RobotContainer {
                 autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
                 autoCommandChoice.addOption("blue 4 note sniper", "blue 4 note sniper");
                 autoCommandChoice.addOption("source side", "source side");
-                // Red aliance
+                autoCommandChoice.addOption("amp side", "amp side");
+                // Red aliance  
 
                 // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
@@ -290,6 +293,8 @@ public class RobotContainer {
                 pilotCommandController.y().onTrue((new InstantCommand(drivebase::zeroGyro)));
 
                 pilotCommandController.b().whileTrue(aimCommand);
+        
+                //pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
 
                 pilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
