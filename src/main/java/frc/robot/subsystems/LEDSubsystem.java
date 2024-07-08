@@ -58,6 +58,7 @@ public class LEDSubsystem extends SubsystemBase {
     // Debug
     int ledLength = m_ledBuffer.getLength();
     SmartDashboard.putNumber(getName(), ledLength);
+    //SmartDashboard.putNumber(getName(), ledLength);
 
     if (status) {
 

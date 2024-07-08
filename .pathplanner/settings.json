@@ -1,21 +1,12 @@
 {
-  "robotWidth": 0.6096,
+  "robotWidth": 0.61,
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
-    "Red keep away",
-    "blue far 2",
     "center blue",
-    "center blue sniper",
-    "center red",
-    "top blue",
-    "top red",
-    "top red sniper"
+    "new blue sniper"
   ],
-  "autoFolders": [
-    "Blue",
-    "Red"
-  ],
+  "autoFolders": [],
   "defaultMaxVel": 5.06,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

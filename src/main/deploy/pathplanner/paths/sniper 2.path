@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8937455058008714,
-        "y": 4.104648209296419
+        "x": 2.892206382584367,
+        "y": 7.003397916877522
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.900674995587129,
-        "y": 4.104575976525998
+        "x": 2.953492586856834,
+        "y": 6.674799850200031
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.1304811342017054,
-        "y": 5.578852847846542
+        "x": 2.892206382584367,
+        "y": 5.5532480859697415
       },
       "prevControl": {
-        "x": 1.9253954000865752,
-        "y": 5.419869994669567
+        "x": 2.884118250925064,
+        "y": 5.651528395206417
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": -88.17217903794655,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,13 +45,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -88.93351665919758,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "center blue",
+  "folder": "new blue sniper",
   "previewStartingState": {
-    "rotation": -44.06080905426445,
+    "rotation": 45.50033287435299,
     "velocity": 0
   },
   "useDefaultConstraints": true

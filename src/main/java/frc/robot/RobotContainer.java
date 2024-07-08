@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -23,8 +25,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.BlinkLimelightCommand;
 import frc.robot.commands.HandoffCommand;
-import frc.robot.commands.arm.ManualArmControlCommand;
+//import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.arm.SetPointControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
@@ -51,6 +54,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import frc.robot.commands.BlinkLimelightCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -61,6 +65,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
  */
 public class RobotContainer {
 
+        //private static final Command BlinkLimelightCommand = new BlinkLimelightCommand();
         // creates variable for controllerSubsystem
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -79,17 +84,47 @@ public class RobotContainer {
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
 
-        // Command aimCommand = new AbsoluteFieldDrive(drivebase,
-        // () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
-        // OperatorConstants.LEFT_Y_DEADBAND),
-        // () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
-        // OperatorConstants.LEFT_X_DEADBAND),
-        // () -> 2 * drivebase.angletoSpeaker().getRotations());
-        // new SetPointControlCommand(armSubsystem, armAimAngle));
+        /*
+         * LimelightHelpers.SetRobotOrientation("limelight",
+         * m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0,
+         * 0, 0);
+         * LimelightHelpers.PoseEstimate mt2 =
+         * LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+         * if(Math.abs(m_gyro.getRate()) > 720) // if our angular velocity is greater
+         * than 720 degrees per second, ignore vision updates
+         * {
+         * doRejectUpdate = true;
+         * }
+         * if(mt2.tagCount == 0)
+         * {
+         * doRejectUpdate = true;
+         * }
+         * if(!doRejectUpdate)
+         * {
+         * m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+         * m_poseEstimator.addVisionMeasurement(
+         * mt2.pose,
+         * mt2.timestampSeconds);
+         * }
+         */
+        // Rotation for computer vision
+        DoubleSupplier armAngleSupplier = () -> -0.0674 + 0.0148 * drivebase.distanceToSpeaker()
+                        + -.00067 * drivebase.distanceToSpeaker() * drivebase.distanceToSpeaker();
+        Command aimCommand = new ParallelCommandGroup(
+                        new AbsoluteFieldDrive(drivebase,
+                                        () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
+                                                        OperatorConstants.LEFT_Y_DEADBAND),
+                                        () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
+                                                        OperatorConstants.LEFT_X_DEADBAND),
+                                        () -> 2 * drivebase.angletoSpeaker().getRotations()),
+                        new SetPointControlCommand(armSubsystem, armAngleSupplier));
+
+        // new SetPointControlCommand(armSubsystem , armAimAngle));
         // //new ShooterCommand(shooterSubsystem,
         // Constants.Shooter.Presets.kLeftSpeaker,
         // //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
         // // equation
+        // Aiming equation =
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -97,43 +132,65 @@ public class RobotContainer {
         private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
         public RobotContainer() {
-                SmartDashboard.putNumber("Arm Aim Angle", 0);
 
                 // Commands for Pathplanner
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
+                /* 
+                NamedCommands.registerCommand("Wing", new SetPointControlCommand(armSubsystem,
+                                Constants.Arm.SetPointPositions.kShootWingLinePosition));
+                */
                 NamedCommands.registerCommand("Intake",
                                 new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led),
                                                 new PrintCommand("HandOff Command running")));
+
+                NamedCommands.registerCommand("podium", new SequentialCommandGroup(
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kPodiumLinePosition),
+                                new WaitCommand(.25),
+                                new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
+                                new IndexingCommand(indexingSubsystem, 0), new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kStowPosition)));
+
+                NamedCommands.registerCommand("wing", new SequentialCommandGroup(
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kShootWingLinePosition),
+                                new WaitCommand(.25),
+                                new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
+                                new IndexingCommand(indexingSubsystem, 0), new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kStowPosition)));
+                
+                NamedCommands.registerCommand("eject", new SequentialCommandGroup(new ParallelRaceGroup(
+                        new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)), new IndexingCommand(indexingSubsystem, 0)));
+
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
+
                 NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
                 // NamedCommands.registerCommand("Arm",
                 // new SetPointControlCommand(armSubsystem,
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
-                NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem,
+                NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
-                NamedCommands.registerCommand("amp",
-                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
                 // NamedCommands.registerCommand("Sniper", aimCommand);
-
+                /* 
+                NamedCommands.registerCommand("podium", new SetPointControlCommand(armSubsystem,
+                                Constants.Arm.SetPointPositions.kPodiumLinePosition));
+                */
                 // Auto selection choices
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
                 // autoCommandChoice.addOption("7 note auto", "7 note auto");
 
-                //Anything
+                // Anything
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
-                
+
                 // Blue aliance
-                autoCommandChoice.addOption("center blue", "center blue");
-                autoCommandChoice.addOption("center blue sniper", "center blue sniper");
-                autoCommandChoice.addOption("top blue", "top blue");
-                autoCommandChoice.addOption("far low", "far low");
+                autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
+                autoCommandChoice.addOption("blue 4 note sniper", "blue 4 note sniper");
+                autoCommandChoice.addOption("source side", "source side");
+                autoCommandChoice.addOption("amp side", "amp side");
+                // Red aliance  
 
-                // Red aliance
-                autoCommandChoice.addOption("center red", "center red");
-                autoCommandChoice.addOption("top red sniper", "top red sniper");
-                autoCommandChoice.addOption("top far", "top far");
-
+                // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
                 // SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
 
@@ -182,8 +239,8 @@ public class RobotContainer {
                                                 OperatorConstants.LEFT_X_DEADBAND),
                                 () -> -pilotController.getRightX(), () -> true);
 
-                ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
-                                () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
+                // ManualArmControlCommand manualArm = new ManualArmControlCommand(armSubsystem,
+                // () -> MathUtil.applyDeadband(coPilotController.getRightY() * -12, 0.01));
 
                 // Configure the trigger bindingss
                 configureBindings();
@@ -198,7 +255,6 @@ public class RobotContainer {
                                                 * 12));
 
                 led.setDefaultCommand(new LedDefaultCommand(led).ignoringDisable(true));
-
                 // armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () ->
                 // SmartDashboard.getNumber("Arm Setpoint", 0)));
 
@@ -236,9 +292,32 @@ public class RobotContainer {
 
                 pilotCommandController.y().onTrue((new InstantCommand(drivebase::zeroGyro)));
 
-                // pilotCommandController.x().whileTrue(aimCommand);
+                pilotCommandController.b().whileTrue(aimCommand);
+        
+                //pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
 
-                
+                pilotCommandController.x()
+                                .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
+                                                Constants.Shooter.Presets.kRightSpeaker));
+                // coPilotCommandController.a().onTrue(new
+                // InstantCommand(shooterSubsystem::disable));
+                pilotCommandController.a().onTrue(new InstantCommand(shooterSubsystem::disable));
+
+                pilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
+                                Constants.Arm.SetPointPositions.kStowPosition));
+                pilotCommandController.povRight().onTrue(
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kShootFlatPosition));
+
+                pilotCommandController.povUp().onTrue(
+                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
+                pilotCommandController.povLeft().onTrue(
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kPodiumLinePosition));
+                pilotCommandController.leftBumper().onTrue(
+                                new SetPointControlCommand(armSubsystem,
+                                                Constants.Arm.SetPointPositions.kShootWingLinePosition));
+
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
                                                 Constants.Shooter.Presets.kRightSpeaker));
@@ -256,12 +335,6 @@ public class RobotContainer {
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 coPilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
-
-                coPilotCommandController.rightStick()
-                                .whileTrue(new ManualArmControlCommand(armSubsystem,
-                                                () -> coPilotCommandController.getRightY() > 0
-                                                                ? -coPilotCommandController.getRightY()
-                                                                : 0));
 
                 // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
