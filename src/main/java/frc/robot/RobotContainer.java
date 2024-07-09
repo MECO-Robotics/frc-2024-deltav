@@ -65,7 +65,9 @@ import frc.robot.commands.BlinkLimelightCommand;
  */
 public class RobotContainer {
 
-        //private static final Command BlinkLimelightCommand = new BlinkLimelightCommand();
+        private static final Command BlinkLimelightCommand = null;
+        
+        
         // creates variable for controllerSubsystem
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -258,6 +260,8 @@ public class RobotContainer {
                 // armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () ->
                 // SmartDashboard.getNumber("Arm Setpoint", 0)));
 
+        
+
         }
 
         /**
@@ -294,6 +298,8 @@ public class RobotContainer {
 
                 pilotCommandController.b().whileTrue(aimCommand);
         
+                pilotCommandController.leftTrigger().whileTrue(BlinkLimelightCommand);
+
                 //pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
 
                 pilotCommandController.x()
