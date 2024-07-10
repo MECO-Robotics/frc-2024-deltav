@@ -73,6 +73,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
     swerveDrive.setHeadingCorrection(true); // Heading correction should only be used while controlling the robot via
                                             // angle.
+    swerveDrive.swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
     SmartDashboard.putData("Limelight Position", fieldLimelight);
     setupPathPlanner();
   }
@@ -132,7 +133,6 @@ public class SwerveSubsystem extends SubsystemBase {
     return AutoBuilder.followPath(path);
   }
 
-
   /**
    * Construct the swerve drive.
    *
@@ -141,6 +141,7 @@ public class SwerveSubsystem extends SubsystemBase {
    */
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg) {
     swerveDrive = new SwerveDrive(driveCfg, controllerCfg, maximumSpeed);
+    swerveDrive.swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
   }
 
   /**
@@ -196,35 +197,33 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Distance to speaker", distanceToSpeaker());
     SmartDashboard.putNumber("Angle to Speaker", angletoSpeaker().getDegrees());
-    /* 
-    if (LimelightHelpers.getTV("limelight")) {
-      addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),
-          Timer.getFPGATimestamp());
-    }
-    */
-    //YAGSL get rotation/ rate of rotation
+    /*
+     * if (LimelightHelpers.getTV("limelight")) {
+     * addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),
+     * Timer.getFPGATimestamp());
+     * }
+     */
+    // YAGSL get rotation/ rate of rotation
     LimelightHelpers.SetRobotOrientation("limelight",
-          getPose().getRotation().getDegrees(), 0, 0, 0,
-          0, 0);
-          boolean doRejectUpdate = false;
-          LimelightHelpers.PoseEstimate mt2 =
-          LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-          //if(Math.abs(swerveDrive.getGyro().get) > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision updates
-          {
-          doRejectUpdate = true;
-          }
-          if(mt2.tagCount == 0)
-          {
-          doRejectUpdate = true;
-          }
-          if(!doRejectUpdate)
-          {
-          swerveDrive.swerveDrivePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-          swerveDrive.addVisionMeasurement(
+        getPose().getRotation().getDegrees(), 0, 0, 0,
+        0, 0);
+    boolean doRejectUpdate = false;
+    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+    if (Math.abs(swerveDrive.getRobotVelocity().omegaRadiansPerSecond) > 720) // if our angular velocity is greater than
+                                                                              // 720 degrees per second, ignore vision
+                                                                              // updates
+    {
+      doRejectUpdate = true;
+    }
+    if (mt2.tagCount == 0) {
+      doRejectUpdate = true;
+    }
+    if (!doRejectUpdate) {
+      swerveDrive.addVisionMeasurement(
           mt2.pose,
           mt2.timestampSeconds);
-          }
-         
+    }
+
   }
 
   @Override
@@ -426,14 +425,11 @@ public class SwerveSubsystem extends SubsystemBase {
     Translation2d dTranslation;
 
     if (isRedAlliance()) {
-      return  Constants.aprilTag.redSpeaker.minus(swerveDrive.getPose().getTranslation()).getAngle();
-    } 
-    else {
+      return Constants.aprilTag.redSpeaker.minus(swerveDrive.getPose().getTranslation()).getAngle();
+    } else {
       return swerveDrive.getPose().getTranslation().minus(Constants.aprilTag.blueSpeaker).getAngle();
     }
-//Change else back to blue speaker
-    
-    
+    // Change else back to blue speaker
 
   }
 
