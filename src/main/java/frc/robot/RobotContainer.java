@@ -277,6 +277,9 @@ public class RobotContainer {
          * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
          * Flight joysticks}.
          */
+
+        public boolean isArmHomed = false;
+
         private void configureBindings() {
                 // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
