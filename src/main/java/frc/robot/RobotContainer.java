@@ -345,6 +345,10 @@ public class RobotContainer {
                 // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
 
+                pilotCommandController.leftBumper().onTrue(new ParallelCommandGroup(BlinkLimelightCommand, 
+                new SetPointControlCommand(armSubsystem, armAimAngle)));
+
+
         }
 
         /**
