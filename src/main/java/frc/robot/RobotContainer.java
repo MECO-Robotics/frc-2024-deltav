@@ -301,7 +301,7 @@ public class RobotContainer {
 
                 pilotCommandController.b().whileTrue(aimCommand);
         
-                pilotCommandController.leftTrigger().whileTrue(BlinkLimelightCommand);
+              
 
                 //pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
 
@@ -348,9 +348,8 @@ public class RobotContainer {
                 // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
 
-                pilotCommandController.leftBumper().onTrue(new ParallelCommandGroup(BlinkLimelightCommand, 
-                new SetPointControlCommand(armSubsystem, armAimAngle)));
-
+               
+                
 
         }
 
