@@ -3,6 +3,7 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
+    "blue sniper",
     "center blue",
     "new blue sniper"
   ],

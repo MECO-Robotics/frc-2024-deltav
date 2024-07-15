@@ -1,0 +1,68 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.298429132069532,
+        "y": 7.183134366268733
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.4601559062273055,
+        "y": 6.70618580673781
+      },
+      "isLocked": false,
+      "linkedName": "blue sniper 1"
+    },
+    {
+      "anchor": {
+        "x": 2.15664318652581,
+        "y": 6.17142530059708
+      },
+      "prevControl": {
+        "x": 2.3032515969767156,
+        "y": 6.651234643890952
+      },
+      "nextControl": {
+        "x": 1.8386774801718624,
+        "y": 5.130810261620524
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.4140530252891494,
+        "y": 5.50658791458428
+      },
+      "prevControl": {
+        "x": 2.4140530252891494,
+        "y": 5.50658791458428
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "blue sniper 2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.06,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "blue sniper",
+  "previewStartingState": {
+    "rotation": 29.74488129694228,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

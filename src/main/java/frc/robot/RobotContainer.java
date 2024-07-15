@@ -184,12 +184,14 @@ public class RobotContainer {
 
                 // Anything
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
+                autoCommandChoice.addOption("test", "test");
 
                 // Blue aliance
                 autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
-                autoCommandChoice.addOption("blue 4 note sniper", "blue 4 note sniper");
+                autoCommandChoice.addOption("blue 4 note sniper choreo", "blue 4 note sniper choreo");
                 autoCommandChoice.addOption("source side", "source side");
                 autoCommandChoice.addOption("amp side", "amp side");
+                autoCommandChoice.addOption("blue sniper", "blue sniper");
                 // Red aliance  
 
                 // These old autos but I dont want to touch these and break auto choice thingy
@@ -290,7 +292,7 @@ public class RobotContainer {
                 // InstantCommand(drivebase::addFakeVisionReading));
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
-                pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
+                pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> 12));
                 pilotCommandController.rightBumper()
                                 .whileTrue(new SequentialCommandGroup(
                                                 new HandoffCommand(indexingSubsystem, intakeSubsystem, led,
