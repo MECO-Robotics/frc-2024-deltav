@@ -171,6 +171,9 @@ public class RobotContainer {
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
+
+                
+        
                 // NamedCommands.registerCommand("Sniper", aimCommand);
                 /* 
                 NamedCommands.registerCommand("podium", new SetPointControlCommand(armSubsystem,
