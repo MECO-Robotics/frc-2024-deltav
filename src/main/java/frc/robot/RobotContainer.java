@@ -124,16 +124,14 @@ public class RobotContainer {
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
                 
                 // Blue aliance
-                autoCommandChoice.addOption("center blue", "center blue");
-                autoCommandChoice.addOption("center blue sniper", "center blue sniper");
-                autoCommandChoice.addOption("top blue", "top blue");
-                autoCommandChoice.addOption("far low", "far low");
+                autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
+                autoCommandChoice.addOption("blue 4 note sniper choreo", "blue 4 note sniper choreo");
+                autoCommandChoice.addOption("source side", "source side");
+                autoCommandChoice.addOption("amp side", "amp side");
+                autoCommandChoice.addOption("blue sniper", "blue sniper");
+                // Red aliance  
 
-                // Red aliance
-                autoCommandChoice.addOption("center red", "center red");
-                autoCommandChoice.addOption("top red sniper", "top red sniper");
-                autoCommandChoice.addOption("top far", "top far");
-
+                // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
                 // SmartDashboard.putData("4 note(3 close) bottom auto", autoCommandChoice);
 
