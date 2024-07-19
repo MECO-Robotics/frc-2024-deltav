@@ -116,6 +116,9 @@ public class RobotContainer {
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
                 // NamedCommands.registerCommand("Sniper", aimCommand);
 
+                NamedCommands.registerCommand("podium", new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kPodiumLinePosition));
+
+
                 // Auto selection choices
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
                 // autoCommandChoice.addOption("7 note auto", "7 note auto");
@@ -128,6 +131,7 @@ public class RobotContainer {
                 autoCommandChoice.addOption("center blue sniper", "center blue sniper");
                 autoCommandChoice.addOption("top blue", "top blue");
                 autoCommandChoice.addOption("far low", "far low");
+                autoCommandChoice.addOption("blue sniper", "blue sniper");
 
                 // Red aliance
                 autoCommandChoice.addOption("center red", "center red");
@@ -238,6 +242,7 @@ public class RobotContainer {
 
                 // pilotCommandController.x().whileTrue(aimCommand);
 
+                pilotCommandController.povUp().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kPodiumLinePosition));
                 
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,

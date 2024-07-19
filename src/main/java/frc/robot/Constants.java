@@ -131,6 +131,7 @@ public final class Constants {
       public static final double kAmpPosition = 0.2587;
       public static final double kStowPosition = -0.07;
       public static final double kShootFlatPosition = 16.2 / 360.0;
+      public static final double kPodiumLinePosition = 0.015;   //-0.00482
       // public static final double kBeamFlatPosition = 0;
 
     }

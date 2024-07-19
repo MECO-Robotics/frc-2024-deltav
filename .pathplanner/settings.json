@@ -3,6 +3,7 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
+    "blue sniper",
     "Red keep away",
     "blue far 2",
     "center blue",

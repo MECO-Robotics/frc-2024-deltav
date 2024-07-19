@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.3417880920268885,
-        "y": 5.506587914579057
+        "x": 1.2027460674639663,
+        "y": 5.56439986119409
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0440565669863746,
-        "y": 6.330408153774054
+        "x": 1.9398483867390275,
+        "y": 6.185878287249532
       },
       "isLocked": false,
-      "linkedName": "1e"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.4601559062273055,
-        "y": 6.691732820085359
+        "x": 3.1538992655450104,
+        "y": 7.154228392963828
       },
       "prevControl": {
-        "x": 2.4457029195748534,
-        "y": 6.691732820085359
+        "x": 2.2867200663978795,
+        "y": 6.359314127078958
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "1f"
+      "linkedName": "blue sniper 1"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 40.914383220025115,
+    "rotation": 31.3902681041878,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "center blue sniper",
+  "folder": "blue sniper",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

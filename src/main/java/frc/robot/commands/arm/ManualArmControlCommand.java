@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ManualArmControlCommand extends Command{
-    
+    /* 
     private final ArmSubsystem arm;
     private final DoubleSupplier input;
 
@@ -25,5 +25,6 @@ public class ManualArmControlCommand extends Command{
     public boolean isFinished(){
         return false;
     }
+    */
 }
 
