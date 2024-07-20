@@ -4,10 +4,13 @@
   "holonomicMode": true,
   "pathFolders": [
     "blue sniper",
-    "center blue",
-    "new blue sniper"
+    "center blue"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Blue",
+    "Anything",
+    "Red"
+  ],
   "defaultMaxVel": 5.06,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
