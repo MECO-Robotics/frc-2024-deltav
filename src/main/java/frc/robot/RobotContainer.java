@@ -65,7 +65,9 @@ import frc.robot.commands.BlinkLimelightCommand;
  */
 public class RobotContainer {
 
-        //private static final Command BlinkLimelightCommand = new BlinkLimelightCommand();
+        private static final Command BlinkLimelightCommand = null;
+        
+        
         // creates variable for controllerSubsystem
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -185,12 +187,14 @@ public class RobotContainer {
 
                 // Anything
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
+                autoCommandChoice.addOption("test", "test");
 
                 // Blue aliance
                 autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
-                autoCommandChoice.addOption("blue 4 note sniper", "blue 4 note sniper");
+                autoCommandChoice.addOption("blue 4 note sniper choreo", "blue 4 note sniper choreo");
                 autoCommandChoice.addOption("source side", "source side");
                 autoCommandChoice.addOption("amp side", "amp side");
+                autoCommandChoice.addOption("blue sniper", "blue sniper");
                 // Red aliance  
 
                 // These old autos but I dont want to touch these and break auto choice thingy
@@ -261,6 +265,8 @@ public class RobotContainer {
                 // armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () ->
                 // SmartDashboard.getNumber("Arm Setpoint", 0)));
 
+        
+
         }
 
         /**
@@ -276,6 +282,9 @@ public class RobotContainer {
          * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
          * Flight joysticks}.
          */
+
+        public boolean isArmHomed = false;
+
         private void configureBindings() {
                 // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
@@ -286,7 +295,7 @@ public class RobotContainer {
                 // InstantCommand(drivebase::addFakeVisionReading));
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
-                pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
+                pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> 12));
                 pilotCommandController.rightBumper()
                                 .whileTrue(new SequentialCommandGroup(
                                                 new HandoffCommand(indexingSubsystem, intakeSubsystem, led,
@@ -297,6 +306,8 @@ public class RobotContainer {
 
                 pilotCommandController.b().whileTrue(aimCommand);
         
+              
+
                 //pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
 
                 pilotCommandController.x()
@@ -341,6 +352,9 @@ public class RobotContainer {
 
                 // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
                 // InstantCommand(drivebase::lock, drivebase)));
+
+               
+                
 
         }
 

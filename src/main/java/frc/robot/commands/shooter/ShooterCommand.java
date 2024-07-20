@@ -11,12 +11,13 @@ public class ShooterCommand extends Command {
 
     private final ShooterSubsystem shooter;
     private final double leftRPM, rightRPM;
-    private boolean isFinished = false;
+    private boolean isFinished = false; 
 
     public ShooterCommand(ShooterSubsystem shooterSubsystem, double leftRPM, double rightRPM) {
         shooter = shooterSubsystem;
         this.leftRPM = leftRPM;
         this.rightRPM = rightRPM;
+        
     }
 
     public void initialize() {
