@@ -123,6 +123,7 @@ public class RobotContainer {
 
         Command rotateCommand = new SetPointControlCommand(armSubsystem, armAngleSupplier);
 
+
         // new SetPointControlCommand(armSubsystem , armAimAngle));
         // //new ShooterCommand(shooterSubsystem,
         // Constants.Shooter.Presets.kLeftSpeaker,
@@ -178,6 +179,8 @@ public class RobotContainer {
                 NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
 
+               NamedCommands.registerCommand("aim", rotateCommand);
+                
                 // NamedCommands.registerCommand("Sniper", aimCommand);
                 /*
                  * NamedCommands.registerCommand("podium", new
@@ -193,12 +196,9 @@ public class RobotContainer {
                 autoCommandChoice.addOption("test", "test");
 
                 // Blue aliance
-                autoCommandChoice.addOption("blue 4 note old", "blue 4 note old");
-                autoCommandChoice.addOption("blue 4 note sniper choreo", "blue 4 note sniper choreo");
-                autoCommandChoice.addOption("source side", "source side");
-                autoCommandChoice.addOption("amp side", "amp side");
+                autoCommandChoice.addOption("blue sniper vision", "blue sniper vision");
+                autoCommandChoice.addOption("blue sniper choreo", "blue sniper choreo");
                 autoCommandChoice.addOption("blue sniper", "blue sniper");
-                // Red aliance
 
                 // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
@@ -306,6 +306,7 @@ public class RobotContainer {
                 pilotCommandController.y().onTrue((new InstantCommand(drivebase::zeroGyro)));
 
                 pilotCommandController.b().whileTrue(aimCommand);
+                
 
                 // pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
 
