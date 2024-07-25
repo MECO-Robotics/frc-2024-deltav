@@ -18,6 +18,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants;
 
+
 // Controls the Arm and Shooter motors and sensors, and contains all Arm-, Shooter-, and Climber-related commands
 public class ArmSubsystem extends SubsystemBase {
     private CANSparkMax rightArmMotorOne = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
