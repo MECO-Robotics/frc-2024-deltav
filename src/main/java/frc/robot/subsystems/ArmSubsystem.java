@@ -100,7 +100,11 @@ public class ArmSubsystem extends SubsystemBase {
         if (enabled){
             setVoltage(voltage);
         }
+
+        
+
     }
+
 
     public void enable(){
         enabled = true;
