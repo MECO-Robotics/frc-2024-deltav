@@ -18,7 +18,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.robot.Constants;
 
-
 // Controls the Arm and Shooter motors and sensors, and contains all Arm-, Shooter-, and Climber-related commands
 public class ArmSubsystem extends SubsystemBase {
     private CANSparkMax rightArmMotorOne = new CANSparkMax(Constants.Arm.rightMotorOneID, MotorType.kBrushless);
@@ -26,10 +25,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     private CANSparkMax leftArmMotorOne = new CANSparkMax(Constants.Arm.leftMotorOneID, MotorType.kBrushless);
     private CANSparkMax leftArmMotorTwo = new CANSparkMax(Constants.Arm.leftMotorTwoID, MotorType.kBrushless);
-    
+
     private DutyCycleEncoder armEncoder = new DutyCycleEncoder(Constants.Arm.armEncoderPortS);
     private Encoder armIncrementalEncoder = new Encoder(Constants.Arm.armEncoderPortA, Constants.Arm.armEncoderPortB);
-        
+
     private double initialArmPosition;
 
     private PIDController PID = new PIDController(Constants.Arm.armkP, Constants.Arm.armkI, Constants.Arm.armkD);
@@ -39,9 +38,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     private TrapezoidProfile profile = new TrapezoidProfile(Constants.Arm.kArmMotionConstraint);
 
-
     private TrapezoidProfile.State goalState, setpointState;
-
 
     public SysIdRoutine routine = new SysIdRoutine(new SysIdRoutine.Config(),
             new SysIdRoutine.Mechanism((Measure<Voltage> voltage) -> setVoltage(voltage.in(Units.Volts)), log ->
@@ -72,12 +69,12 @@ public class ArmSubsystem extends SubsystemBase {
         leftArmMotorTwo.setSmartCurrentLimit(60);
         rightArmMotorOne.setSmartCurrentLimit(60);
         rightArmMotorTwo.setSmartCurrentLimit(60);
-        
+
         armEncoder.setPositionOffset(Constants.Arm.horizontalArmOffset);
-        armIncrementalEncoder.setDistancePerPulse(1.0/Constants.Arm.armTicksPerRevolution);
+        armIncrementalEncoder.setDistancePerPulse(1.0 / Constants.Arm.armTicksPerRevolution);
         armIncrementalEncoder.setReverseDirection(true);
         initialArmPosition = armEncoder.get();
-        //goalState = new TrapezoidProfile.State(getPosition(), getVelocity());
+        // goalState = new TrapezoidProfile.State(getPosition(), getVelocity());
         setpointState = new TrapezoidProfile.State(getPosition(), getVelocity());
         setPosition(Constants.Arm.SetPointPositions.kStowPosition);
     }
@@ -85,31 +82,42 @@ public class ArmSubsystem extends SubsystemBase {
     public void setVoltage(double voltage) {
         leftArmMotorOne.setVoltage(voltage);
     }
+
     @Override
-    public void periodic(){
-        // SmartDashboard.putNumber("Arm Quadrature Encoder", armIncrementalEncoder.getDistance());
+    public void periodic() {
+        // SmartDashboard.putNumber("Arm Quadrature Encoder",
+        // armIncrementalEncoder.getDistance());
         SmartDashboard.putNumber("Duty Cycle Encoder", armEncoder.get());
 
         // if (profile.isFinished(0.2)) {
-        //     setpointState = new TrapezoidProfile.State(getPosition(), 0);
+        // setpointState = new TrapezoidProfile.State(getPosition(), 0);
         // }
+        double armEncoderValue = armEncoder.getAbsolutePosition();
         setpointState = profile.calculate(0.02, setpointState, goalState);
-        double voltage = PID.calculate(getPosition(), setpointState.position) + FF.calculate(setpointState.position * 2 * Math.PI, setpointState.velocity);
+        double voltage = PID.calculate(getPosition(), setpointState.position)
+                + FF.calculate(setpointState.position * 2 * Math.PI, setpointState.velocity);
         SmartDashboard.putNumber("voltage", voltage);
         SmartDashboard.putNumber("Arm Angle", armEncoder.get());
-        if (enabled){
+        if (enabled) {
             setVoltage(voltage);
         }
 
-        
+        Boolean isArmHomed = true;
+        if (armEncoderValue >Constants.Arm.SetPointPositions.kStowPosition) {
+            isArmHomed = false;
+        }
+        else{
+             isArmHomed = true;
+        }
+        SmartDashboard.putBoolean("Is arm Homed", isArmHomed);
 
     }
 
-
-    public void enable(){
+    public void enable() {
         enabled = true;
     }
-    public void disable(){
+
+    public void disable() {
         enabled = false;
     }
 
