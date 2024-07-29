@@ -51,6 +51,6 @@
       ]
     }
   },
-  "folder": "Anything",
+  "folder": null,
   "choreoAuto": false
 }

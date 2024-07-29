@@ -8,40 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.879292519148419,
-        "y": 6.4893910069510286
+        "x": 2.704382940071784,
+        "y": 6.60855704537885
       },
       "isLocked": false,
       "linkedName": "blue sniper 1"
     },
     {
       "anchor": {
-        "x": 2.15664318652581,
-        "y": 6.17142530059708
+        "x": 1.2211290254423093,
+        "y": 5.565873600441298
       },
       "prevControl": {
-        "x": 2.3032515969767156,
-        "y": 6.651234643890952
-      },
-      "nextControl": {
-        "x": 1.8386774801718624,
-        "y": 5.130810261620524
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.717565744990645,
-        "y": 5.289793114797497
-      },
-      "prevControl": {
-        "x": 2.717565744990645,
-        "y": 5.289793114797497
+        "x": 3.2183818213790283,
+        "y": 6.035815434779349
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "blue sniper 2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -59,9 +43,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "blue sniper",
+  "folder": "blue",
   "previewStartingState": {
-    "rotation": 29.74488129694228,
+    "rotation": 16.981907622859328,
     "velocity": 0
   },
   "useDefaultConstraints": true
