@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.717565744990645,
-        "y": 6.966339566481951
+        "x": 1.2027460674639663,
+        "y": 5.4921349279318274
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.704382940071784,
-        "y": 6.60855704537885
+        "x": 1.9976603333488359,
+        "y": 4.7261266353518625
       },
       "isLocked": false,
-      "linkedName": "blue sniper 1"
+      "linkedName": "blue 3"
     },
     {
       "anchor": {
-        "x": 1.2211290254423093,
-        "y": 5.565873600441298
+        "x": 3.096087318935201,
+        "y": 3.757776529637567
       },
       "prevControl": {
-        "x": 3.2183818213790283,
-        "y": 6.035815434779349
+        "x": 2.734762652623897,
+        "y": 4.176913142558679
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "blue 1"
+      "linkedName": "blue 4"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -34.380344723844864,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "blue",
   "previewStartingState": {
-    "rotation": 16.981907622859328,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

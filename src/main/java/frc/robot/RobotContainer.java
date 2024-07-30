@@ -153,9 +153,10 @@ public class RobotContainer {
                 NamedCommands.registerCommand("podium", new SequentialCommandGroup(
                                 new SetPointControlCommand(armSubsystem,
                                                 Constants.Arm.SetPointPositions.kPodiumLinePosition),
-                                new WaitCommand(.25),
+                                new WaitCommand(2),
                                 new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
-                                new IndexingCommand(indexingSubsystem, 0), new SetPointControlCommand(armSubsystem,
+                                new IndexingCommand(indexingSubsystem, 0), new WaitCommand(2),
+                                new SetPointControlCommand(armSubsystem,
                                                 Constants.Arm.SetPointPositions.kStowPosition)));
 
                 NamedCommands.registerCommand("wing", new SequentialCommandGroup(
