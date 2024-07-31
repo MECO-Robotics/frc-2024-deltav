@@ -92,7 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
         // if (profile.isFinished(0.2)) {
         // setpointState = new TrapezoidProfile.State(getPosition(), 0);
         // }
-        double armEncoderValue = armEncoder.getAbsolutePosition();
+        
         setpointState = profile.calculate(0.02, setpointState, goalState);
         double voltage = PID.calculate(getPosition(), setpointState.position)
                 + FF.calculate(setpointState.position * 2 * Math.PI, setpointState.velocity);
@@ -102,14 +102,7 @@ public class ArmSubsystem extends SubsystemBase {
             setVoltage(voltage);
         }
 
-        Boolean isArmHomed = true;
-        if (armEncoderValue >Constants.Arm.SetPointPositions.kStowPosition) {
-            isArmHomed = false;
-        }
-        else{
-             isArmHomed = true;
-        }
-        SmartDashboard.putBoolean("Is arm Homed", isArmHomed);
+        
 
     }
 

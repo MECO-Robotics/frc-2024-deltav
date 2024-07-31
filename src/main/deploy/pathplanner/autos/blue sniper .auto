@@ -75,16 +75,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "podium"
-                }
-              }
-            ]
+            "name": "podium"
           }
         },
         {
@@ -107,16 +100,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "podium"
-                }
-              }
-            ]
+            "name": "podium"
           }
         },
         {
@@ -139,16 +125,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "podium"
-                }
-              }
-            ]
+            "name": "podium"
           }
         }
       ]

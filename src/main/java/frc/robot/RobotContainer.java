@@ -155,7 +155,8 @@ public class RobotContainer {
                                                 Constants.Arm.SetPointPositions.kPodiumLinePosition),
                                 new WaitCommand(2),
                                 new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
-                                new IndexingCommand(indexingSubsystem, 0), new WaitCommand(2),
+                                new IndexingCommand(indexingSubsystem, 0), 
+                                new WaitCommand(2),
                                 new SetPointControlCommand(armSubsystem,
                                                 Constants.Arm.SetPointPositions.kStowPosition)));
 
@@ -200,7 +201,7 @@ public class RobotContainer {
                 autoCommandChoice.addOption("blue sniper vision", "blue sniper vision");
                 autoCommandChoice.addOption("blue sniper choreo", "blue sniper choreo");
                 autoCommandChoice.addOption("blue sniper", "blue sniper");
-                autoCommandChoice.addOption("blue", "blue");
+                autoCommandChoice.addOption("orlando auto", "orlando auto");
                 
 
                 // These old autos but I dont want to touch these and break auto choice thingy

@@ -204,11 +204,12 @@ public class SwerveSubsystem extends SubsystemBase {
      * }
      */
     // YAGSL get rotation/ rate of rotation
+    /* 
     LimelightHelpers.SetRobotOrientation("limelight",
         getPose().getRotation().getDegrees(), 0, 0, 0,
         0, 0);
     boolean doRejectUpdate = false;
-    LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+    //LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
     if (Math.abs(swerveDrive.getRobotVelocity().omegaRadiansPerSecond) > 720) // if our angular velocity is greater than
                                                                               // 720 degrees per second, ignore vision
                                                                               // updates
@@ -223,7 +224,7 @@ public class SwerveSubsystem extends SubsystemBase {
           mt2.pose,
           mt2.timestampSeconds);
     }
-
+    */
   }
 
   @Override
