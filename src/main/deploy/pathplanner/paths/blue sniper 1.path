@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.717565744990645,
-        "y": 6.966339566481951
+        "x": 3.6002095617786947,
+        "y": 6.7994709155786826
       },
       "prevControl": {
-        "x": 3.414053025289149,
-        "y": 6.850715673262333
+        "x": 3.2966968420771985,
+        "y": 6.683847022359065
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "blue sniper",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

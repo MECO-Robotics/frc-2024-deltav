@@ -201,8 +201,8 @@ public class RobotContainer {
                 autoCommandChoice.addOption("blue sniper vision", "blue sniper vision");
                 autoCommandChoice.addOption("blue sniper choreo", "blue sniper choreo");
                 autoCommandChoice.addOption("blue sniper", "blue sniper");
-                autoCommandChoice.addOption("orlando auto", "orlando auto");
-                
+                autoCommandChoice.addOption("4 note", "4 note");
+                        
 
                 // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.717565744990645,
-        "y": 5.289793114797497
+        "x": 3.4140530252891494,
+        "y": 5.578852847846542
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6191387594042794,
-        "y": 5.015186368400907
+        "x": 2.3156260397027837,
+        "y": 5.304246101449952
       },
       "isLocked": false,
       "linkedName": "blue sniper 2"
@@ -59,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "blue sniper",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
