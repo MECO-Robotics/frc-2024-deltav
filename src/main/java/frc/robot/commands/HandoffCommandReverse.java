@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.commands.BlinkLimelightCommand;
 
 
-public class HandoffCommand extends Command {
+public class HandoffCommandReverse extends Command {
     private final IndexingSubsystem indexer;
     private final IntakeSubsystem intake;
     private final LEDSubsystem led;
@@ -24,7 +24,7 @@ public class HandoffCommand extends Command {
     private boolean reversing = false;
 
     public 
-    HandoffCommand(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn, LEDSubsystem ledPassedIn, XboxController pilot,
+    HandoffCommandReverse(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn, LEDSubsystem ledPassedIn, XboxController pilot,
             XboxController copilot) {
         indexer = indexerPassedIn;
         intake = intakePassedIn;
@@ -34,7 +34,7 @@ public class HandoffCommand extends Command {
         addRequirements(indexer, intake, led);
     }
 
-    public HandoffCommand(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn, LEDSubsystem ledPassedIn) {
+    public HandoffCommandReverse(IndexingSubsystem indexerPassedIn, IntakeSubsystem intakePassedIn, LEDSubsystem ledPassedIn) {
         this(indexerPassedIn, intakePassedIn, ledPassedIn, null, null);
     }
 
@@ -65,7 +65,7 @@ public class HandoffCommand extends Command {
             
         } else {
             indexer.setIndexingVoltage(6);
-            intake.setIntakeVoltage(12);
+            intake.setIntakeVoltage(-12);
             SmartDashboard.putBoolean("Is Handoff Command Intaking?", true);
            
         }

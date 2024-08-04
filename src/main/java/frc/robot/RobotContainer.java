@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -17,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -25,9 +23,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.BlinkLimelightCommand;
 import frc.robot.commands.HandoffCommand;
-//import frc.robot.commands.arm.ManualArmControlCommand;
+import frc.robot.commands.HandoffCommandReverse;
+import frc.robot.commands.arm.ManualArmControlCommand;
 import frc.robot.commands.arm.SetPointControlCommand;
 import frc.robot.commands.indexer.IndexingCommand;
 import frc.robot.commands.intake.NoAutomationIntakieCommand;
@@ -54,8 +52,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import frc.robot.commands.BlinkLimelightCommand;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very
@@ -65,8 +61,6 @@ import frc.robot.commands.BlinkLimelightCommand;
  * trigger mappings) should be declared here.
  */
 public class RobotContainer {
-
-        private static final Command BlinkLimelightCommand = null;
 
         // creates variable for controllerSubsystem
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -86,49 +80,17 @@ public class RobotContainer {
         XboxController coPilotController = new XboxController(1);
         CommandXboxController coPilotCommandController = new CommandXboxController(1);
 
-        /*
-         * LimelightHelpers.SetRobotOrientation("limelight",
-         * m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0,
-         * 0, 0);
-         * LimelightHelpers.PoseEstimate mt2 =
-         * LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-         * if(Math.abs(m_gyro.getRate()) > 720) // if our angular velocity is greater
-         * than 720 degrees per second, ignore vision updates
-         * {
-         * doRejectUpdate = true;
-         * }
-         * if(mt2.tagCount == 0)
-         * {
-         * doRejectUpdate = true;
-         * }
-         * if(!doRejectUpdate)
-         * {
-         * m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-         * m_poseEstimator.addVisionMeasurement(
-         * mt2.pose,
-         * mt2.timestampSeconds);
-         * }
-         */
-        // Rotation for computer vision
-        DoubleSupplier armAngleSupplier = () -> -0.0674 + 0.0148 * drivebase.distanceToSpeaker()
-                        + -.00067 * drivebase.distanceToSpeaker() * drivebase.distanceToSpeaker();
-        Command aimCommand = new ParallelCommandGroup(
-                        new AbsoluteFieldDrive(drivebase,
-                                        () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
-                                                        OperatorConstants.LEFT_Y_DEADBAND),
-                                        () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
-                                                        OperatorConstants.LEFT_X_DEADBAND),
-                                        () -> 2 * drivebase.angletoSpeaker().getRotations()),
-                        new SetPointControlCommand(armSubsystem, armAngleSupplier));
-
-        Command rotateCommand = new SetPointControlCommand(armSubsystem, armAngleSupplier);
-
-        // new SetPointControlCommand(armSubsystem , armAimAngle));
+        // Command aimCommand = new AbsoluteFieldDrive(drivebase,
+        // () -> MathUtil.applyDeadband(-pilotController.getLeftY(),
+        // OperatorConstants.LEFT_Y_DEADBAND),
+        // () -> MathUtil.applyDeadband(-pilotController.getLeftX(),
+        // OperatorConstants.LEFT_X_DEADBAND),
+        // () -> 2 * drivebase.angletoSpeaker().getRotations());
+        // new SetPointControlCommand(armSubsystem, armAimAngle));
         // //new ShooterCommand(shooterSubsystem,
         // Constants.Shooter.Presets.kLeftSpeaker,
         // //Constants.Shooter.Presets.kRightSpeaker)); // TODO create aiming
         // // equation
-        // Aiming equation =
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -136,71 +98,41 @@ public class RobotContainer {
         private final SendableChooser<String> autoCommandChoice = new SendableChooser<String>();
 
         public RobotContainer() {
+                SmartDashboard.putNumber("Arm Aim Angle", 0);
 
                 // Commands for Pathplanner
                 NamedCommands.registerCommand("Shoot", new ShooterCommand(shooterSubsystem,
                                 Constants.Shooter.Presets.kLeftSpeaker, Constants.Shooter.Presets.kRightSpeaker));
-                /*
-                 * NamedCommands.registerCommand("Wing", new
-                 * SetPointControlCommand(armSubsystem,
-                 * Constants.Arm.SetPointPositions.kShootWingLinePosition));
-                 */
                 NamedCommands.registerCommand("Intake",
                                 new ParallelCommandGroup(new HandoffCommand(indexingSubsystem, intakeSubsystem, led),
                                                 new PrintCommand("HandOff Command running")));
-
-                NamedCommands.registerCommand("podium", new SequentialCommandGroup(
-                                new SetPointControlCommand(armSubsystem,
-                                                Constants.Arm.SetPointPositions.kPodiumLinePosition),
-                                new WaitCommand(2),
-                                new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
-                                new IndexingCommand(indexingSubsystem, 0),
-                                new WaitCommand(2),
-                                new SetPointControlCommand(armSubsystem,
-                                                Constants.Arm.SetPointPositions.kStowPosition)));
-
-                NamedCommands.registerCommand("wing", new SequentialCommandGroup(
-                                new SetPointControlCommand(armSubsystem,
-                                                Constants.Arm.SetPointPositions.kShootWingLinePosition),
-                                new WaitCommand(.25),
-                                new ParallelRaceGroup(new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
-                                new IndexingCommand(indexingSubsystem, 0), new SetPointControlCommand(armSubsystem,
-                                                Constants.Arm.SetPointPositions.kStowPosition)));
-
-                NamedCommands.registerCommand("eject", new SequentialCommandGroup(new ParallelRaceGroup(
-                                new IndexingCommand(indexingSubsystem, 12), new WaitCommand(.25)),
-                                new IndexingCommand(indexingSubsystem, 0)));
-
                 NamedCommands.registerCommand("RunIndexer", new IndexingCommand(indexingSubsystem, 12));
-
                 NamedCommands.registerCommand("StopIndexer", new IndexingCommand(indexingSubsystem, 0));
                 // NamedCommands.registerCommand("Arm",
                 // new SetPointControlCommand(armSubsystem,
                 // Constants.Arm.SetPointPositions.kBeamFlatPosition));
-                NamedCommands.registerCommand("Stow", new SetPointControlCommand(armSubsystem,
+                NamedCommands.registerCommand("Down", new SetPointControlCommand(armSubsystem,
                                 Constants.Arm.SetPointPositions.kStowPosition));
-
-                NamedCommands.registerCommand("aim", rotateCommand);
-
+                NamedCommands.registerCommand("amp",
+                                new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
                 // NamedCommands.registerCommand("Sniper", aimCommand);
-                /*
-                 * NamedCommands.registerCommand("podium", new
-                 * SetPointControlCommand(armSubsystem,
-                 * Constants.Arm.SetPointPositions.kPodiumLinePosition));
-                 */
+                NamedCommands.registerCommand("eject",
+                                new SequentialCommandGroup(new IndexingCommand(indexingSubsystem, 12),
+                                                new WaitCommand(.5), new IndexingCommand(indexingSubsystem, 0)));
+
                 // Auto selection choices
                 SmartDashboard.putData("PathPlannerAuto", autoCommandChoice);
                 // autoCommandChoice.addOption("7 note auto", "7 note auto");
 
                 // Anything
                 autoCommandChoice.addOption("Shoot in place", "ShootInPlaceAuto");
-                autoCommandChoice.addOption("test", "test");
 
                 // Blue aliance
-                autoCommandChoice.addOption("blue sniper vision", "blue sniper vision");
-                autoCommandChoice.addOption("blue sniper choreo", "blue sniper choreo");
-                autoCommandChoice.addOption("blue sniper", "blue sniper");
                 autoCommandChoice.addOption("4 note", "4 note");
+                autoCommandChoice.addOption("blue sniper", "blue sniper");
+                // Red aliance
+                autoCommandChoice.addOption("red note", "red note");
+                
 
                 // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
@@ -266,7 +198,9 @@ public class RobotContainer {
                                 () -> (pilotController.getLeftTriggerAxis() + coPilotController.getLeftTriggerAxis())
                                                 * 12));
 
+               
                 led.setDefaultCommand(new LedDefaultCommand(led).ignoringDisable(true));
+
                 // armSubsystem.setDefaultCommand(new SetPointControlCommand(armSubsystem, () ->
                 // SmartDashboard.getNumber("Arm Setpoint", 0)));
 
@@ -285,9 +219,6 @@ public class RobotContainer {
          * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
          * Flight joysticks}.
          */
-
-        public boolean isArmHomed = false;
-
         private void configureBindings() {
                 // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
@@ -298,42 +229,27 @@ public class RobotContainer {
                 // InstantCommand(drivebase::addFakeVisionReading));
 
                 // pilotAButton.onTrue(new StartIntakingCommand(armSubsystem, intakeSubsystem));
+                pilotCommandController.b().whileTrue(new NoAutomationIntakieCommand(intakeSubsystem, () -> -12));
                 pilotCommandController.rightBumper()
+                                .whileTrue(
+                                        new ParallelCommandGroup(new ShooterCommand(shooterSubsystem, -2000, -2000), new IndexingCommand(indexingSubsystem, ()->-6)));
+                                        // new SequentialCommandGroup(
+                                        //         new HandoffCommand
+                                        //         (indexingSubsystem, intakeSubsystem, led,
+                                        //                         pilotController, coPilotController),
+                                        //         new FlashOnceCommand(led, Color.kGreen))
+                pilotCommandController.leftBumper()
                                 .whileTrue(new SequentialCommandGroup(
-                                                new HandoffCommand(indexingSubsystem, intakeSubsystem, led,
+                                                new HandoffCommandReverse
+                                                (indexingSubsystem, intakeSubsystem, led,
                                                                 pilotController, coPilotController),
                                                 new FlashOnceCommand(led, Color.kGreen)));
 
+                
+
                 pilotCommandController.y().onTrue((new InstantCommand(drivebase::zeroGyro)));
 
-                pilotCommandController.b().whileTrue(aimCommand);
-
-                // pilotCommandController.rightTrigger().whileTrue(BlinkLimelightCommand);
-
-                // pilotCommandController.x()
-                // .whileTrue(new ShooterCommand(shooterSubsystem,
-                // Constants.Shooter.Presets.kLeftSpeaker,
-                // Constants.Shooter.Presets.kRightSpeaker));
-                // coPilotCommandController.a().onTrue(new
-                // InstantCommand(shooterSubsystem::disable));
-                // pilotCommandController.a().onTrue(new
-                // InstantCommand(shooterSubsystem::disable));
-
-                pilotCommandController.povDown().onTrue(new SetPointControlCommand(armSubsystem,
-                                Constants.Arm.SetPointPositions.kStowPosition));
-                // pilotCommandController.povRight().onTrue(
-                // new SetPointControlCommand(armSubsystem,
-                // Constants.Arm.SetPointPositions.kShootFlatPosition));
-
-                // pilotCommandController.povUp().onTrue(
-                // new SetPointControlCommand(armSubsystem,
-                // Constants.Arm.SetPointPositions.kAmpPosition));
-                pilotCommandController.povLeft().onTrue(
-                                new SetPointControlCommand(armSubsystem,
-                                                Constants.Arm.SetPointPositions.kPodiumLinePosition));
-                // pilotCommandController.leftBumper().onTrue(
-                // new SetPointControlCommand(armSubsystem,
-                // Constants.Arm.SetPointPositions.kShootWingLinePosition));
+                // pilotCommandController.x().whileTrue(aimCommand);
 
                 coPilotCommandController.x()
                                 .whileTrue(new ShooterCommand(shooterSubsystem, Constants.Shooter.Presets.kLeftSpeaker,
@@ -347,14 +263,22 @@ public class RobotContainer {
                 coPilotCommandController.povRight().onTrue(
                                 new SetPointControlCommand(armSubsystem,
                                                 Constants.Arm.SetPointPositions.kShootFlatPosition));
-                coPilotCommandController.povLeft().onTrue(
-                                new SetPointControlCommand(armSubsystem,
-                                                Constants.Arm.SetPointPositions.kShootWingLinePosition));
+                // coPilotCommandController.povLeft().onTrue(
+                // new SetPointControlCommand(armSubsystem,
+                // Constants.Arm.SetPointPositions.kBeamFlatPosition));
                 coPilotCommandController.povUp().onTrue(
                                 new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kAmpPosition));
 
-                // new JoystickButton(pilot, 3).whileTrue(new RepeatCommand(new
-                // InstantCommand(drivebase::lock, drivebase)));
+                coPilotCommandController.povRight().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kHumanPosition));
+                coPilotCommandController.povLeft().onTrue(new SetPointControlCommand(armSubsystem, Constants.Arm.SetPointPositions.kShootFlatPosition));
+                // This is for climbing -> may create teh stalling arm issue
+                // Need to test this further in the pit once we get there
+
+                coPilotCommandController.rightStick()
+                                .whileTrue(new ManualArmControlCommand(armSubsystem,
+                                                () -> coPilotCommandController.getRightY() > 0
+                                                                ? -coPilotCommandController.getRightY()
+                                                                : 0));
 
         }
 

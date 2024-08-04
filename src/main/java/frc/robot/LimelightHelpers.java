@@ -1,5 +1,5 @@
 //LimelightHelpers v1.4.0 (March 21, 2024)
-
+/* 
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -433,9 +433,9 @@ public class LimelightHelpers {
 
     private static ObjectMapper mapper;
 
-    /**
+    
      * Print JSON Parse time to the console in milliseconds
-     */
+     
     static boolean profileJSON = false;
 
     static final String sanitizeName(String name) {
@@ -618,12 +618,12 @@ public class LimelightHelpers {
         return getLimelightNTString(limelightName, "json");
     }
 
-    /**
+    
      * Switch to getBotPose
      * 
      * @param limelightName
      * @return
-     */
+     
     @Deprecated
     public static double[] getBotpose(String limelightName) {
         return getLimelightNTDoubleArray(limelightName, "botpose");
@@ -634,18 +634,18 @@ public class LimelightHelpers {
      * 
      * @param limelightName
      * @return
-     */
+     
     @Deprecated
     public static double[] getBotpose_wpiRed(String limelightName) {
         return getLimelightNTDoubleArray(limelightName, "botpose_wpired");
     }
 
-    /**
+    
      * Switch to getBotPose_wpiBlue
      * 
      * @param limelightName
      * @return
-     */
+     
     @Deprecated
     public static double[] getBotpose_wpiBlue(String limelightName) {
         return getLimelightNTDoubleArray(limelightName, "botpose_wpiblue");
@@ -740,31 +740,31 @@ public class LimelightHelpers {
      * 
      * @param limelightName
      * @return
-     */
+     
     public static Pose2d getBotPose2d_wpiBlue(String limelightName) {
 
         double[] result = getBotPose_wpiBlue(limelightName);
         return toPose2D(result);
     }
 
-    /**
+    
      * Gets the Pose2d and timestamp for use with WPILib pose estimator (addVisionMeasurement) when you are on the BLUE
      * alliance
      * 
      * @param limelightName
      * @return
-     */
+     
     public static PoseEstimate getBotPoseEstimate_wpiBlue(String limelightName) {
         return getBotPoseEstimate(limelightName, "botpose_wpiblue");
     }
 
-    /**
+    
      * Gets the Pose2d for easy use with Odometry vision pose estimator
      * (addVisionMeasurement)
      * 
      * @param limelightName
      * @return
-     */
+     
     public static Pose2d getBotPose2d_wpiRed(String limelightName) {
 
         double[] result = getBotPose_wpiRed(limelightName);
@@ -772,23 +772,23 @@ public class LimelightHelpers {
 
     }
 
-    /**
+    
      * Gets the Pose2d and timestamp for use with WPILib pose estimator (addVisionMeasurement) when you are on the RED
      * alliance
      * @param limelightName
      * @return
-     */
+    
     public static PoseEstimate getBotPoseEstimate_wpiRed(String limelightName) {
         return getBotPoseEstimate(limelightName, "botpose_wpired");
     }
 
-    /**
+    
      * Gets the Pose2d for easy use with Odometry vision pose estimator
      * (addVisionMeasurement)
      * 
      * @param limelightName
      * @return
-     */
+     
     public static Pose2d getBotPose2d(String limelightName) {
 
         double[] result = getBotPose(limelightName);
@@ -812,10 +812,10 @@ public class LimelightHelpers {
         setLimelightNTDouble(limelightName, "priorityid", ID);
     }
 
-    /**
+    
      * The LEDs will be controlled by Limelight pipeline settings, and not by robot
      * code.
-     */
+     
     public static void setLEDMode_PipelineControl(String limelightName) {
         setLimelightNTDouble(limelightName, "ledMode", 0);
     }
@@ -852,10 +852,10 @@ public class LimelightHelpers {
     }
 
 
-    /**
+    
      * Sets the crop window. The crop window in the UI must be completely open for
      * dynamic cropping to work.
-     */
+     
     public static void setCropWindow(String limelightName, double cropXMin, double cropXMax, double cropYMin, double cropYMax) {
         double[] entries = new double[4];
         entries[0] = cropXMin;
@@ -890,9 +890,9 @@ public class LimelightHelpers {
     /////
     /////
 
-    /**
+    
      * Asynchronously take snapshot.
-     */
+     
     public static CompletableFuture<Boolean> takeSnapshot(String tableName, String snapshotName) {
         return CompletableFuture.supplyAsync(() -> {
             return SYNCH_TAKESNAPSHOT(tableName, snapshotName);
@@ -920,9 +920,9 @@ public class LimelightHelpers {
         return false;
     }
 
-    /**
+    
      * Parses Limelight's JSON results dump into a LimelightResults Object
-     */
+     
     public static LimelightResults getLatestResults(String limelightName) {
 
         long start = System.nanoTime();
@@ -946,4 +946,6 @@ public class LimelightHelpers {
 
         return results;
     }
+    
 }
+*/

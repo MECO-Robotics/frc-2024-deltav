@@ -32,9 +32,10 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.setVoltage(-6);
 
     }
-
+    
     public void setIntakeVoltage(double voltage) {
         // start wheels at kIntakingSpeed
+        intakeMotor.setInverted(Constants.Intake.intakeMotorCANIDInverted);
         intakeMotor.setVoltage(voltage);
     }
 

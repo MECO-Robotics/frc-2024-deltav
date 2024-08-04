@@ -3,9 +3,11 @@
   "robotLength": 0.61,
   "holonomicMode": true,
   "pathFolders": [
+    "amp side blue",
     "blue",
     "blue sniper",
-    "center blue"
+    "center blue",
+    "red"
   ],
   "autoFolders": [
     "New Folder"

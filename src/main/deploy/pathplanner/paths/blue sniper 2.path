@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6002095617786947,
-        "y": 6.7994709155786826
+        "x": 2.879292519148419,
+        "y": 7.009698526439307
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7619363359364684,
-        "y": 6.32252235604776
+        "x": 2.0410192933061926,
+        "y": 6.532749966908384
       },
       "isLocked": false,
       "linkedName": "blue sniper 1"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 3.3946100092557976,
-        "y": 5.272159953980016
+        "x": 2.908198492453323,
+        "y": 5.578852847846542
       },
       "prevControl": {
-        "x": 2.3946100092557976,
-        "y": 5.272159953980016
+        "x": 1.908198492453323,
+        "y": 5.578852847846542
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "blue sniper",
   "previewStartingState": {
     "rotation": 29.74488129694228,
     "velocity": 0
