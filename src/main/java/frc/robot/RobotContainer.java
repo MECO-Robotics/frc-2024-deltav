@@ -133,6 +133,7 @@ public class RobotContainer {
                 // Red aliance
                 autoCommandChoice.addOption("red note", "red note");
                 
+                //mason sutpp
 
                 // These old autos but I dont want to touch these and break auto choice thingy
                 // SmartDashboard.putData("4 note(3 close) middle auto", autoCommandChoice);
