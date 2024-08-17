@@ -280,6 +280,8 @@ public class RobotContainer {
                                                                 ? -coPilotCommandController.getRightY()
                                                                 : 0));
 
+        
+                pilotCommandController.leftBumper().onTrue(new HandoffCommand(indexingSubsystem, intakeSubsystem, led));
         }
 
         /**
@@ -298,7 +300,7 @@ public class RobotContainer {
                 }
 
                 return null;
-
+              
                 // return new PathPlannerAuto("arm move");
         }
 
