@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.288914032373519,
+        "y": 5.774493730805644
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.9380700579582975,
+        "y": 6.390190962200107
+      },
+      "isLocked": false,
+      "linkedName": "6 note 4"
+    },
+    {
+      "anchor": {
+        "x": 1.2363821091278546,
+        "y": 5.578590066271041
+      },
+      "prevControl": {
+        "x": 4.333525757960607,
+        "y": 6.02636987092156
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.06,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Blue 6 note",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
