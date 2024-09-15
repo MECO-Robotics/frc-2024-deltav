@@ -223,7 +223,7 @@ public final class Constants {
     public static final double maxRPM = 7000;
     public static final double maxAcc = 1500;
 
-    // BeamBreak sensor DIO port for shooter
+    // BeamBreak sensor analog port for shooter
     public static final int kBeamBreakPort = 0;
 
     // Even more goofy variables
