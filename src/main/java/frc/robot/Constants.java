@@ -165,7 +165,7 @@ public final class Constants {
     public static final double kIntakingSpeed = 0;
     public static final double kHandoffSpeed = 0; // (slower than intaking?)
 
-    // BeamBreak sensor DIO port for shooter
+    // BeamBreak sensor analog port for shooter
     public static final int kBeamBreakSensorPort = 0;
 
   }
