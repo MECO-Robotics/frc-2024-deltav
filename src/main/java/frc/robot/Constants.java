@@ -6,10 +6,18 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.CAN;
@@ -242,5 +250,34 @@ public final class Constants {
 
   }
 
+/*
+   * ------------------------------------------------------- *\
+   * | VISION |
+   * \* -------------------------------------------------------
+   */
+
+   public static final class NoteAlignConstants {
+    public static final double kP = 0.02;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static final double kTolerance = 1;
+  }
+  
+  public static class Vision {
+    public static final String kRearCameraName = "rearCamera";
+    // Cam mounted facing forward, half a meter forward of center, half a meter up from center. = new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0)
+    public static final Transform3d kRearRobotToCam =
+      new Transform3d(new Translation3d(0.2286, 0.0, 0.4953), new Rotation3d(0, 0.314159, Math.PI));//(0, 0.350, 3.142));
+
+    // The layout of the AprilTags on the field
+    public static final AprilTagFieldLayout kTagLayout =
+      AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+
+    // The standard deviations of our vision estimated poses, which affect correction rate
+    // (Fake values. Experiment and determine estimation noise on an actual robot.)
+    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+  }
 
 }
